@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D4493C89-8ADA-4DFE-999B-1164CED3C3C7}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>IPCameraIndoorControlLibrary</RootNamespace>
+    <AssemblyName>IPCameraIndoorControlLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\IPCameraProject\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NAudio, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.9.0\lib\net35\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="reachframework" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UtilityPack, Version=1.0.8.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UtilityPack.1.0.8.1\lib\net45\UtilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\Base\globalParameter.cs" />
+    <Compile Include="Common\Dut\IPCamera.cs" />
+    <Compile Include="Common\Excute\exCheckFirmwareVersion.cs" />
+    <Compile Include="Common\Excute\exCheckMac.cs" />
+    <Compile Include="Common\Excute\exCheckUID.cs" />
+    <Compile Include="Common\Excute\exTestAudio.cs" />
+    <Compile Include="Common\Excute\exTestButton.cs" />
+    <Compile Include="Common\Excute\exTestEthernet.cs" />
+    <Compile Include="Common\Excute\exTestImageSensor.cs" />
+    <Compile Include="Common\Excute\exTestIRLed.cs" />
+    <Compile Include="Common\Excute\exTestLightSensor.cs" />
+    <Compile Include="Common\Excute\exTestNightVision.cs" />
+    <Compile Include="Common\Excute\exTestRGBLed.cs" />
+    <Compile Include="Common\Excute\exTestSDCard.cs" />
+    <Compile Include="Common\Excute\exTestUSB.cs" />
+    <Compile Include="Common\Excute\exTestWiFi.cs" />
+    <Compile Include="Common\Excute\exWriteHardwareVersion.cs" />
+    <Compile Include="Common\Excute\exWriteSerialNumber.cs" />
+    <Compile Include="Common\IO\Speaker.cs" />
+    <Compile Include="Common\Protocol\IProtocol.cs" />
+    <Compile Include="Common\Protocol\Network.cs" />
+    <Compile Include="Common\Protocol\Rs232.cs" />
+    <Compile Include="Common\Protocol\Telnet.cs" />
+    <Compile Include="Common\UI\ucAudio.xaml.cs">
+      <DependentUpon>ucAudio.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\UI\ucButton.xaml.cs">
+      <DependentUpon>ucButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\UI\ucIRLed.xaml.cs">
+      <DependentUpon>ucIRLed.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\UI\ucLightSensorDarkMode.xaml.cs">
+      <DependentUpon>ucLightSensorDarkMode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\UI\ucLightSensorLightMode.xaml.cs">
+      <DependentUpon>ucLightSensorLightMode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\UI\ucRGBLedGreen.xaml.cs">
+      <DependentUpon>ucRGBLedGreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\UI\ucRGBLedRed.xaml.cs">
+      <DependentUpon>ucRGBLedRed.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\UI\ucTabLogTelnet.xaml.cs">
+      <DependentUpon>ucTabLogTelnet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\UI\ucTabLogUart.xaml.cs">
+      <DependentUpon>ucTabLogUart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Station\TestFunctionAsm\Function\Custom\SettingInformation.cs" />
+    <Compile Include="Station\TestFunctionAsm\Function\Custom\TestingInformation.cs" />
+    <Compile Include="Station\TestFunctionAsm\Function\stationVariable.cs" />
+    <Compile Include="Station\TestFunctionAsm\UI\ucAbout.xaml.cs">
+      <DependentUpon>ucAbout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionAsm\UI\ucHelp.xaml.cs">
+      <DependentUpon>ucHelp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionAsm\UI\ucLog.xaml.cs">
+      <DependentUpon>ucLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionAsm\UI\ucManual.xaml.cs">
+      <DependentUpon>ucManual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionAsm\UI\ucRunAll.xaml.cs">
+      <DependentUpon>ucRunAll.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionAsm\UI\ucSetting.xaml.cs">
+      <DependentUpon>ucSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionPcbaLayer2\Function\stationVariable.cs" />
+    <Compile Include="Station\TestFunctionPcbaLayer2\Function\Custom\SettingInformation.cs" />
+    <Compile Include="Station\TestFunctionPcbaLayer2\Function\Custom\TestingInformation.cs" />
+    <Compile Include="Station\TestFunctionPcbaLayer2\UI\ucAbout.xaml.cs">
+      <DependentUpon>ucAbout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionPcbaLayer2\UI\ucHelp.xaml.cs">
+      <DependentUpon>ucHelp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionPcbaLayer2\UI\ucLog.xaml.cs">
+      <DependentUpon>ucLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionPcbaLayer2\UI\ucManual.xaml.cs">
+      <DependentUpon>ucManual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionPcbaLayer2\UI\ucRunAll.xaml.cs">
+      <DependentUpon>ucRunAll.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionPcbaLayer2\UI\ucSetting.xaml.cs">
+      <DependentUpon>ucSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionPcbaLayer3\Function\Custom\SettingInformation.cs" />
+    <Compile Include="Station\TestFunctionPcbaLayer3\Function\Custom\TestingInformation.cs" />
+    <Compile Include="Station\TestFunctionPcbaLayer3\Function\stationVariable.cs" />
+    <Compile Include="Station\TestFunctionPcbaLayer3\UI\ucAbout.xaml.cs">
+      <DependentUpon>ucAbout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionPcbaLayer3\UI\ucHelp.xaml.cs">
+      <DependentUpon>ucHelp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionPcbaLayer3\UI\ucLog.xaml.cs">
+      <DependentUpon>ucLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionPcbaLayer3\UI\ucManual.xaml.cs">
+      <DependentUpon>ucManual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionPcbaLayer3\UI\ucRunAll.xaml.cs">
+      <DependentUpon>ucRunAll.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\TestFunctionPcbaLayer3\UI\ucSetting.xaml.cs">
+      <DependentUpon>ucSetting.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Station\CalibNightVision\" />
+    <Folder Include="Station\PrintLabelUID\" />
+    <Folder Include="Station\UploadFirmwareBasic\" />
+    <Folder Include="Station\UploadFirmwareBusiness\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Common\UI\ucAudio.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UI\ucButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UI\ucIRLed.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UI\ucLightSensorDarkMode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UI\ucLightSensorLightMode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UI\ucRGBLedGreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UI\ucRGBLedRed.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UI\ucTabLogTelnet.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UI\ucTabLogUart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionAsm\UI\ucAbout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionAsm\UI\ucHelp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionAsm\UI\ucLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionAsm\UI\ucManual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionAsm\UI\ucRunAll.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionAsm\UI\ucSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionPcbaLayer2\UI\ucAbout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionPcbaLayer2\UI\ucHelp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionPcbaLayer2\UI\ucLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionPcbaLayer2\UI\ucManual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionPcbaLayer2\UI\ucRunAll.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionPcbaLayer2\UI\ucSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionPcbaLayer3\UI\ucAbout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionPcbaLayer3\UI\ucHelp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionPcbaLayer3\UI\ucLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionPcbaLayer3\UI\ucManual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionPcbaLayer3\UI\ucRunAll.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\TestFunctionPcbaLayer3\UI\ucSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

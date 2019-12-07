@@ -1,0 +1,237 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+
+namespace IPCameraIndoorControlLibrary.Common.Dut {
+
+    public class IPCamera<T> where T : class, new() {
+
+        Protocol.IProtocol camera;
+        string telnet_user = "root";
+        string telnet_pass = "";
+
+        //telnet
+        public IPCamera(T t,string ip, string _telnet_user, string _telnet_pass) {
+            camera = new Protocol.Telnet<T>(t, ip, 23);
+            telnet_user = _telnet_user;
+            telnet_pass = _telnet_pass;
+        }
+        
+        //uart
+        public IPCamera(T t, string port_name, int baud_rate, int data_bit) {
+            camera = new Protocol.Rs232<T>(t, port_name, baud_rate, data_bit);
+        }
+
+        //
+        public bool IsConnected() {
+            return camera.IsConnected();
+        }
+
+        //
+        public bool Close() {
+            return camera.Close();
+        }
+
+        //login to camera
+        public bool Login() {
+            try {
+                if (camera.IsConnected() == false) {
+                    camera.Open();
+                    if (camera.IsConnected() == false) return false;
+                }
+
+                if (camera is Protocol.Telnet<T>) {
+                    string data = camera.Query("\n");
+
+                    if (data.Contains("~ #")) return true;
+                    else if (data.Contains("login:")) {
+                        string s = camera.Query(telnet_user);
+                        return s.Contains("~ #");
+                    }
+                    else return false;
+                }
+                else return camera.Query("\n").Contains("~ #");
+            }
+            catch { return false; }
+        }
+
+        //get mac ethernet
+        public string getMacEthernet() {
+            try {
+                string data = camera.Query("cat /sys/class/net/eth0/address");
+                string mac_ethernet = data.Replace("cat /sys/class/net/eth0/address", "")
+                                          .Replace("~ #", "")
+                                          .Replace("\r", "")
+                                          .Replace("\n", "")
+                                          .Replace(":", "")
+                                          .ToUpper()
+                                          .Trim();
+                return mac_ethernet;
+            } catch { return null; }
+        }
+
+        //get mac wlan
+        public string getMacWlan() {
+            try {
+                string data = camera.Query("ifconfig | grep wlan0");
+                string mac_wlan = data.Split(new string[] { "HWaddr" }, StringSplitOptions.None)[1]
+                                      .Replace("~ #", "")
+                                      .Replace("\r", "")
+                                      .Replace("\n", "")
+                                      .Replace(":", "")
+                                      .ToUpper()
+                                      .Trim();
+                return mac_wlan;
+            } catch { return null; }
+        }
+
+        //get wlan interface
+        public string getWlanInterface() {
+            return camera.Query("ifconfig | grep wlan0");
+        }
+
+        //get image sensor interface
+        public string getImageSensorInterface() {
+            return camera.Query("ls /dev/video*");
+        }
+
+        //capture log
+        public string captureLog() {
+            return camera.Read();
+        }
+
+        //mount sd card
+        public string mountSdCard() {
+            return camera.Query("mount");
+        }
+
+        //get ethernet state
+        public string getEthernetState() {
+            return camera.Query("cat /sys/devices/platform/rts3901-r8168/net/eth0/operstate");
+        }
+
+        //init control rgb led
+        public bool initRGBLedControl() {
+            //kill last control
+            camera.WriteLine("killall controlprocess");
+            //request control
+            camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm1/request");
+            camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm2/request");
+            //set period
+            camera.WriteLine("echo 1000000 > /sys/devices/platform/pwm_platform/settings/pwm1/period_ns");
+            camera.WriteLine("echo 1000000 > /sys/devices/platform/pwm_platform/settings/pwm2/period_ns");
+            return true;
+        }
+
+        //turn rgb led red on
+        public bool turnRGBLedRedOn() {
+            camera.WriteLine("echo 0 > /sys/devices/platform/pwm_platform/settings/pwm1/duty_ns");
+            Thread.Sleep(50);
+            camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm1/enable");
+            Thread.Sleep(50);
+            return true;
+        }
+
+        //turn rgb led red off
+        public bool turnRGBLedRedOff() {
+            camera.WriteLine("echo 1000000 > /sys/devices/platform/pwm_platform/settings/pwm1/duty_ns");
+            Thread.Sleep(50);
+            camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm1/enable");
+            Thread.Sleep(50);
+            return true;
+        }
+
+        //turn rgb led green on
+        public bool turnRGBLedGreenOn() {
+            camera.WriteLine("echo 0 > /sys/devices/platform/pwm_platform/settings/pwm2/duty_ns");
+            Thread.Sleep(50);
+            camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm2/enable");
+            Thread.Sleep(50);
+            return true;
+        }
+
+        //turn rgb led green off
+        public bool turnRGBLedGreenOff() {
+            camera.WriteLine("echo 1000000 > /sys/devices/platform/pwm_platform/settings/pwm2/duty_ns");
+            Thread.Sleep(50);
+            camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm2/enable");
+            Thread.Sleep(50);
+            return true;
+        }
+
+        //get light sensor adc value
+        public int getLightSensorValue() {
+            string data = camera.Query("cat /sys/devices/platform/rts_saradc.0/in0_input");
+            data = data.Replace("cat /sys/devices/platform/rts_saradc.0/in0_input", "")
+                       .Replace("~ #", "")
+                       .Replace("\n", "")
+                       .Replace("\r", "")
+                       .Trim();
+
+            int adc_value;
+            bool r = int.TryParse(data, out adc_value);
+            return r ? adc_value : -1;
+        }
+
+        //capture audio from mic to file
+        public bool captureAudio() {
+            try {
+                camera.WriteLine("killall lark");
+                camera.WriteLine("amixer -c 1 sset Master playback 127 capture 87");
+                camera.WriteLine("arecord -D hw:1,1 /tmp/audio_record.wav &");
+            }
+            catch { return false; }
+            return true;
+        }
+
+        //stop capture audio
+        public bool stopCaptureOrPlayBack() {
+            try {
+                camera.WriteCtrlBreak();
+                Thread.Sleep(50);
+                camera.WriteLine("killall lark");
+                Thread.Sleep(50);
+                camera.WriteLine("killall lark");
+                Thread.Sleep(50);
+                camera.WriteLine("killall lark");
+                Thread.Sleep(50);
+                camera.WriteLine("killall arecord");
+                Thread.Sleep(50);
+            } catch { return false; }
+            return true;
+        }
+
+        //play audio file to speaker
+        public bool playBackAudio() {
+            try {
+                camera.WriteLine("killall lark");
+                camera.WriteLine("aplay  -D hw:1,1 /tmp/audio_record.wav");
+            } catch { return false; }
+            return true;
+        }
+        
+        //turn ir led on
+        public bool turnIRLedOn() {
+            camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm3/request");
+            Thread.Sleep(50);
+            camera.WriteLine("echo 1000000 > /sys/devices/platform/pwm_platform/settings/pwm3/period_ns");
+            Thread.Sleep(50);
+            camera.WriteLine("echo 1000000 > /sys/devices/platform/pwm_platform/settings/pwm3/duty_ns");
+            Thread.Sleep(50);
+            camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm3/enable");
+            Thread.Sleep(50);
+            return true;
+        }
+
+        //turn ir led off
+        public bool turnIRLedOff() {
+            camera.WriteLine("echo 0 > /sys/devices/platform/pwm_platform/settings/pwm3/duty_ns");
+            Thread.Sleep(50);
+            camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm3/enable");
+            Thread.Sleep(50);
+            return true;
+        }
+    }
+}

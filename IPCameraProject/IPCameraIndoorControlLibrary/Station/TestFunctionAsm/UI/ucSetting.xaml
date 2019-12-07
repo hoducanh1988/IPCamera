@@ -1,0 +1,255 @@
+﻿<UserControl x:Class="IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI.ucSetting"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="1000" d:DesignWidth="1000" Background="#ffffff">
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+
+        <!--content-->
+        <ScrollViewer>
+
+            <ScrollViewer.Resources>
+                <!--label titlte-->
+                <Style x:Key="label_style" TargetType="Label">
+                    <Setter Property="FontSize" Value="13"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="BorderBrush" Value="#777777"/>
+                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                    <Setter Property="Margin" Value="0,15,0,0"/>
+                    <Setter Property="Foreground" Value="#FF039BE5"/>
+
+                </Style>
+
+                <!--label content-->
+                <Style TargetType="Label">
+                    <Setter Property="FontSize" Value="13"/>
+                    <Setter Property="Margin" Value="0,0,0,0"/>
+                    <Setter Property="Width" Value="250"/>
+                    <Setter Property="BorderBrush" Value="#777777"/>
+                    <Setter Property="BorderThickness" Value="1,0,1,1"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="Padding" Value="5,3,0,0"/>
+                    <Setter Property="Height" Value="25"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                </Style>
+
+                <!--textbox-->
+                <Style TargetType="TextBox">
+                    <Setter Property="FontSize" Value="13"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="BorderBrush" Value="#777777"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                    <Setter Property="Height" Value="25"/>
+                    <Setter Property="Margin" Value="250,0,0,0"/>
+                    <Setter Property="Padding" Value="5,0,0,0"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                    <Setter Property="Foreground" Value="Blue"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Background" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="Background" Value="#e1f2b8"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+
+                <!--combobox-->
+                <Style TargetType="ComboBox">
+                    <Setter Property="FontSize" Value="13"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="BorderBrush" Value="#777777"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                    <Setter Property="Height" Value="25"/>
+                    <Setter Property="Margin" Value="250,0,0,0"/>
+                    <Setter Property="Padding" Value="5,0,0,0"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                    <Setter Property="Foreground" Value="Blue"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="IsEditable" Value="True"/>
+                    <EventSetter Event="PreviewMouseWheel" Handler="ComboBox_PreviewMouseWheel"/>
+                </Style>
+
+                <!--button-->
+                <Style x:Key="button_style" TargetType="Button">
+                    <Setter Property="Content" Value="..."/>
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="Width" Value="20"/>
+                    <Setter Property="BorderThickness" Value="1,0,1,1"/>
+                    <EventSetter Event="Click" Handler="Button_Click"/>
+                </Style>
+
+                <!--Border-->
+                <Style TargetType="Border">
+                    <Setter Property="Margin" Value="250,0,0,0"/>
+                    <Setter Property="BorderBrush" Value="#777777"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                </Style>
+
+                <!--CheckBox-->
+                <Style TargetType="CheckBox">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="FontSize" Value="13"/>
+                    <Setter Property="Margin" Value="0,0,0,0"/>
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked}" Value="True">
+                            <Setter Property="Foreground" Value="Blue"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="Opacity" Value="1"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked}" Value="False">
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="FontWeight" Value="Normal"/>
+                            <Setter Property="Opacity" Value="0.7"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+
+            </ScrollViewer.Resources>
+
+            <StackPanel Margin="15,0,15,5" Width="700" HorizontalAlignment="Left">
+
+
+                <!--CÀI ĐẶT CHO SẢN PHẨM IP CAMERA-->
+                <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT CHO SẢN PHẨM IP CAMERA"/>
+                <Grid>
+                    <Label Content="Địa chỉ IP"/>
+                    <TextBox Text="{Binding Path=cameraIP, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Telnet user"/>
+                    <TextBox Text="{Binding Path=cameraTelnetUser, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                <Grid IsEnabled="False">
+                    <Label Content="Telnet password"/>
+                    <TextBox Text="{Binding Path=cameraTelnetPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                <Grid IsEnabled="False">
+                    <Label Content="Rtsp Link"/>
+                    <TextBox Text="{Binding Path=cameraRtspLink, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+
+                
+                <!--CÀI ĐẶT CHO WIFI ROUTER-->
+                <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT CHO WIFI ROUTER"/>
+                <Grid>
+                    <Label Content="Tên SSID 2.4G"/>
+                    <TextBox Text="{Binding Path=wifiSSID2G, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Tên SSID 5G"/>
+                    <TextBox Text="{Binding Path=wifiSSID5G, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                
+                
+                <!--CÀI ĐẶT TIÊU CHUẨN-->
+                <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT TIÊU CHUẨN PHÁN ĐỊNH SẢN PHẨM"/>
+                <Grid>
+                    <Label Content="Firmware basic version"/>
+                    <TextBox Text="{Binding Path=firmwareVersion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Hardware version"/>
+                    <TextBox Text="{Binding Path=hardwareVersion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                <Grid>
+                    <Label Content="VNPT mac header"/>
+                    <TextBox Text="{Binding Path=vnptMacHeader, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                <Grid>
+                    <Label Content="VNPT uid header"/>
+                    <TextBox Text="{Binding Path=vnptUidHeader, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                <Grid>
+                    <Label Content="VNPT product number"/>
+                    <TextBox Text="{Binding Path=vnptProductNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                
+                <!--CÀI ĐẶT CHẾ ĐỘ TEST-->
+                <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT CHẾ ĐỘ TEST"/>
+                <Grid>
+                    <Label Content="Kết thúc test sản phẩm khi gặp lỗi"/>
+                    <ComboBox x:Name="cbb_failandstop"
+                              Text="{Binding Path=FailAndStop, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Số lần retry"/>
+                    <ComboBox x:Name="cbb_retrytime"
+                              Text="{Binding Path=RetryTime, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+
+
+                <!--CÀI ĐẶT BÀI TEST-->
+                <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT BÀI TEST"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Height="290" Grid.Column="0" Content="Lựa chọn bài test"/>
+
+                    <Border Grid.Column="1" Margin="0">
+                        <StackPanel>
+                            <CheckBox Margin="10,5,0,0" Content="Kiểm tra địa chỉ mac"
+                                      IsChecked="{Binding Path=IsCheckMacEthernet, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="10,5,0,0" Content="Kiểm tra build time firmware"
+                                      IsChecked="{Binding Path=IsCheckFirmwareBuildTime, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="10,5,0,0" Content="Kiểm tra mã UID"
+                                      IsChecked="{Binding Path=IsCheckUID, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="10,5,0,0" Content="Ghi version hardware"
+                                      IsChecked="{Binding Path=IsWriteHardwareVersion, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="10,5,0,0" Content="Ghi serial number"
+                                      IsChecked="{Binding Path=IsWriteSerialNumber, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="10,5,0,0" Content="Kiểm tra khối giao tiếp wifi"
+                                      IsChecked="{Binding Path=IsCheckWifi, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="10,5,0,0" Content="Kiểm tra khối giao tiếp sd card"
+                                      IsChecked="{Binding Path=IsCheckSdCard, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="10,5,0,0" Content="Kiểm tra cảm biến ảnh"
+                                      IsChecked="{Binding Path=IsCheckImageSensor, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="10,5,0,0" Content="Kiểm tra chế độ night vision"
+                                      IsChecked="{Binding Path=IsCheckNightVision, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="10,5,0,0" Content="Kiểm tra khối audio"
+                                      IsChecked="{Binding Path=IsCheckAudio, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="10,5,0,0" Content="Kiểm tra IR LED"
+                                      IsChecked="{Binding Path=IsCheckIrLed, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="10,5,0,0" Content="Kiểm tra RGB LED"
+                                      IsChecked="{Binding Path=IsCheckRgbLed, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="10,5,0,0" Content="Kiểm tra nút nhấn"
+                                      IsChecked="{Binding Path=IsCheckButton, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <TextBlock Margin="0,0,0,20"/>
+            </StackPanel>
+
+
+        </ScrollViewer>
+
+        <!--Legend-->
+        <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="#777777">
+            <TextBlock FontSize="13" x:Name="tbGuide" Foreground="Red" FontWeight="Normal" FontStyle="Normal" Padding="15,5,0,0" Background="Transparent" TextWrapping="Wrap" TextBlock.LineHeight="1" Text=""/>
+        </Border>
+
+        <!--button-->
+        <Grid Grid.Row="2">
+            <Button Click="Button_Click" Tag="save_setting" FontSize="18" Background="#C0C0C0" BorderThickness="0,0,0,0" FontWeight="Bold" Content="LƯU CÀI ĐẶT"/>
+        </Grid>
+
+    </Grid>
+
+
+</UserControl>

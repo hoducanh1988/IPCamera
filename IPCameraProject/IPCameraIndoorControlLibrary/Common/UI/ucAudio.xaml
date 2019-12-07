@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="IPCameraIndoorControlLibrary.Common.UI.ucAudio"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IPCameraIndoorControlLibrary.Common.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="#ffffff">
+
+    <UserControl.Resources>
+        <Style TargetType="RadioButton">
+            <Setter Property="Margin" Value="0,10,0,0"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <EventSetter  Event="Checked" Handler="RadioButton_Checked"/>
+            <EventSetter Event="Unchecked" Handler="RadioButton_Unchecked"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <StackPanel Margin="20">
+        <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Content="Xác nhận trạng thái khối audio của sản phẩm:"/>
+
+        <StackPanel Margin="30,20,0,0">
+            <RadioButton x:Name="rb_pass" Content="Camera phát ra tiếng bíp to và rõ ràng."/>
+            <RadioButton x:Name="rb_fail_1" Content="Camera phát ra tiếng bíp nhỏ hoặc bị rè."/>
+            <RadioButton x:Name="rb_fail_2" Content="Camera không phát ra tiếng bíp."/>
+        </StackPanel>
+
+        <WrapPanel Margin="30,20,0,0" >
+            <Button Tag="confirm" FontSize="18" Width="120" Height="45" FontWeight="SemiBold" HorizontalAlignment="Left" Content="Xác Nhận"
+                Click="Button_Click"/>
+            <Button Tag="playback" Opacity="0.75" Margin="30,0,0,0" FontSize="18" Width="120" Height="45" FontWeight="SemiBold" HorizontalAlignment="Left" Content="Phát Lại"
+                Click="Button_Click"/>
+        </WrapPanel>
+        
+
+    </StackPanel>
+    
+
+</UserControl>

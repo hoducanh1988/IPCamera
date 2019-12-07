@@ -1,0 +1,54 @@
+﻿<Window x:Class="IPCameraProject.StationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IPCameraProject"
+        mc:Ignorable="d"
+        Title="IP CAMERA" Height="330" Width="650" WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
+
+    <Window.Resources>
+        <Style TargetType="Label" x:Key="Label_Title">
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="IsEditable" Value="True"/>
+            <Setter Property="Padding" Value="15,0,0,0"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="17"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Margin" Value="0,0,20,0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Red"/>
+
+        </Style>
+        
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,25,20,0"/>
+            <EventSetter Event="Click" Handler="Button_Click"/>
+        </Style>
+    </Window.Resources>
+    
+    <Border Margin="10,10,10,10" CornerRadius="0,20,0,20" BorderBrush="#777777" BorderThickness="1,1,1,1">
+        <StackPanel Margin="20,10,10,10">
+           
+            <Label FontSize="25" Margin="-20,-10,0,10" Content="Lựa chọn loại sản phẩm và trạm test:"/>
+            <Label Style="{StaticResource Label_Title}" Content="Tên sản phẩm:"/>
+            <ComboBox x:Name="cbb_product" Text="{Binding Path=ProductName, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Style="{StaticResource Label_Title}" Content="Tên trạm test:"/>
+            <ComboBox x:Name="cbb_station" Text="{Binding Path=StationName, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Button Tag="agree" HorizontalAlignment="Right" Content="Đồng Ý"/>
+            
+        </StackPanel>
+    </Border>
+    
+</Window>
