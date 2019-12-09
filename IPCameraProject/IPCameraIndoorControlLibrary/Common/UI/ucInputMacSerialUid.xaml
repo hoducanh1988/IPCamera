@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="IPCameraIndoorControlLibrary.Common.UI.ucInputMacSerialUid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IPCameraIndoorControlLibrary.Common.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="#ffffff">
+
+    <UserControl.Resources>
+        <Style TargetType="Label" x:Key="label_title">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Margin" Value="0,20,0,0"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderBrush" Value="#777777"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Padding" Value="10,0,0,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <EventSetter Event="KeyDown" Handler="TextBox_KeyDown"/>
+            <EventSetter Event="TextChanged" Handler="TextBox_TextChanged"/>
+
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="#e1f2b8"/>
+                </Trigger>
+                <Trigger Property="IsFocused" Value="False">
+                    <Setter Property="Background" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <StackPanel Margin="20,0,20,20">
+        <Label BorderBrush="#777777" BorderThickness="0,0,0,0" FontSize="25" FontWeight="SemiBold" Content="Nhập thông tin sản phẩm:"/>
+
+        <StackPanel Margin="30,10,0,0">
+            <StackPanel x:Name="sp_mac">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsCheckMacEthernet}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsCheckMacEthernet}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <Label Style="{StaticResource label_title}" Content="Nhập địa chỉ mac address:"/>
+                <TextBox x:Name="tb_mac" Text="{Binding Path=macFromBarcode, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <StackPanel x:Name="sp_serial">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsWriteSerialNumber}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsWriteSerialNumber}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <Label Style="{StaticResource label_title}" Content="Nhập số serial number:"/>
+                <TextBox x:Name="tb_serial" Text="{Binding Path=serialFromBarcode, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <StackPanel x:Name="sp_uid">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsCheckUID}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsCheckUID}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <Label Style="{StaticResource label_title}" Content="Nhập mã QR code - UID:"/>
+                <TextBox x:Name="tb_uid" Text="{Binding Path=uidFromBarcode, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <Label Style="{StaticResource label_title}" Content="Message:"/>
+            <TextBlock x:Name="tb_message" TextWrapping="Wrap" FontSize="15" FontWeight="SemiBold" Foreground="Red" Text=""/>
+        </StackPanel>
+       
+
+    </StackPanel>
+    
+
+</UserControl>

@@ -12,7 +12,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="350"/>
+            <ColumnDefinition Width="370"/>
         </Grid.ColumnDefinitions>
 
         <!--Content-->
@@ -129,7 +129,7 @@
                     </Label>
                     <WrapPanel>
                         <Label FontSize="15" Content="Mac Ethernet: "/>
-                        <Label FontSize="15" FontWeight="Bold" Content="{Binding Path=macEthernet, UpdateSourceTrigger=PropertyChanged}">
+                        <Label FontSize="15" FontWeight="Bold" Content="{Binding Path=macFromBarcode, UpdateSourceTrigger=PropertyChanged}">
                             <Label.Style>
                                 <Style TargetType="Label">
                                     <Setter Property="Foreground" Value="Red"/>

@@ -24,12 +24,12 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
             camera = new Protocol.Rs232<T>(t, port_name, baud_rate, data_bit);
         }
 
-        //
+        //check connection status
         public bool IsConnected() {
             return camera.IsConnected();
         }
 
-        //
+        //close connect camere
         public bool Close() {
             return camera.Close();
         }
@@ -84,6 +84,122 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
                                       .ToUpper()
                                       .Trim();
                 return mac_wlan;
+            } catch { return null; }
+        }
+
+        //get uid code -chua test
+        public string getUidCode() {
+            try {
+                string data = camera.Query("cat /usr/conf/uuid.txt");
+                string uid_code = data.Replace("cat /usr/conf/uuid.txt", "")
+                                      .Replace("~ #", "")
+                                      .Replace("\r", "")
+                                      .Replace("\n", "")
+                                      .Replace(":", "")
+                                      .ToUpper()
+                                      .Trim();
+
+                return uid_code;
+            } catch { return null; }
+        }
+
+        //get serial number
+        public string getSerialNumber() {
+            try {
+                string data = camera.Query("cat /usr/conf/serial.txt");
+                string serial_number = data.Replace("cat /usr/conf/serial.txt", "")
+                                           .Replace("~ #", "")
+                                           .Replace("\r", "")
+                                           .Replace("\n", "")
+                                           .Replace(":", "")
+                                           .ToUpper()
+                                           .Trim();
+
+                return serial_number;
+            }
+            catch { return null; }
+        }
+
+        //set serial number
+        public bool setSerialNumber(string serial_number) {
+            try {
+                string data = camera.Query(string.Format("echo [{0}] > /usr/conf/serial.txt", serial_number));
+                return data.Contains("~ #");
+            } catch { return false; }
+        }
+
+        //get firmware build time
+        public string getFirmwareBuildTime() {
+            try {
+                string data = camera.Query("cat /etc/version");
+                string fw_buildtime = data;
+                return fw_buildtime;
+            }
+            catch { return null; }
+        }
+
+        //get firmware version
+        public string getFirmwareVersion() {
+            try {
+                string data = camera.Query("cat /etc/version");
+                string fw_version = data;
+                return fw_version;
+            }
+            catch { return null; }
+        }
+
+        //get hardware version
+        public string getHardwareVersion() {
+            try {
+                string data = camera.Query("cat /usr/conf/hwversion.txt");
+                string hw_version = data.Replace("cat /usr/conf/hwversion.txt", "")
+                                        .Replace("~ #", "")
+                                        .Replace("\r", "")
+                                        .Replace("\n", "")
+                                        .Replace(":", "")
+                                        .ToUpper()
+                                        .Trim();
+                return hw_version;
+            }
+            catch { return null; }
+        }
+
+        //set hardware version
+        public bool setHardwareVersion(string hardware_version) {
+            try {
+                string data = camera.Query(string.Format("echo [{0}] > /usr/conf/hwversion.txt", hardware_version));
+                return data.Contains("~ #");
+            }
+            catch { return false; }
+        }
+
+        //get sdk version
+        public string getSDKVersion() {
+            try {
+                string data = camera.Query("cat /etc/version");
+                string sdk_version = data;
+                return sdk_version;
+            }
+            catch { return null; }
+        }
+
+        //get manufacture
+        public string getManufacture() {
+            try {
+                string data = camera.Query("cat /etc/version");
+                string menufacture = data;
+                return menufacture;
+            }
+            catch { return null; }
+        }
+
+        //serialize all wifi ssid
+        public string serializeWifiSSID(int delay_sec) {
+            try {
+                camera.WriteLine("iwlist wlan0 scan | grep ESSID | awk -F \":\" '{print$2}'");
+                Thread.Sleep(delay_sec * 1000);
+                string data = camera.Read();
+                return data;
             } catch { return null; }
         }
 
@@ -233,5 +349,11 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
             Thread.Sleep(50);
             return true;
         }
+
+        //switch camera to mode
+        public bool switchCameraMode(bool isNightVision) {
+            return isNightVision ? camera.WriteLine("nightvision on") : camera.WriteLine("nightvision off");
+        }
+        
     }
 }

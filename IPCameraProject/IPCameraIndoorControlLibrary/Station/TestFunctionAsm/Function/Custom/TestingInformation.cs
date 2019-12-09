@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
 
@@ -27,15 +28,16 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
 
             buttonContent = "START";
             TotalResult = "-";
-            macEthernet = "";
-            serialNumber = "";
-            uidCode = "";
+            macFromBarcode = "";
+            serialFromBarcode = "";
+            uidFromBarcode = "";
 
             macResult = "-";
             firmwareResult = "-";
             uidResult = "-";
             hardwareResult = "-";
             serialResult = "-";
+            wifiResult = "-";
             sdCardResult = "-";
             imageSensorResult = "-";
             nightVisionResult = "-";
@@ -43,7 +45,6 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
             irLedResult = "-";
             audioResult = "-";
             buttonResult = "-";
-            wifiResult = "-";
 
             logSystem = "";
             logTelnet = "";
@@ -65,28 +66,28 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
 
         #region property
 
-        string _mac_ethernet;
-        public string macEthernet {
-            get { return _mac_ethernet; }
+        string _mac_from_barcode;
+        public string macFromBarcode {
+            get { return _mac_from_barcode; }
             set {
-                _mac_ethernet = value;
-                OnPropertyChanged(nameof(macEthernet));
+                _mac_from_barcode = value;
+                OnPropertyChanged(nameof(macFromBarcode));
             }
         }
-        string _uid_code;
-        public string uidCode {
-            get { return _uid_code; }
+        string _uid_from_barcode;
+        public string uidFromBarcode {
+            get { return _uid_from_barcode; }
             set {
-                _uid_code = value;
-                OnPropertyChanged(nameof(uidCode));
+                _uid_from_barcode = value;
+                OnPropertyChanged(nameof(uidFromBarcode));
             }
         }
-        string _serial_number;
-        public string serialNumber {
-            get { return _serial_number; }
+        string _serial_from_barcode;
+        public string serialFromBarcode {
+            get { return _serial_from_barcode; }
             set {
-                _serial_number = value;
-                OnPropertyChanged(nameof(serialNumber));
+                _serial_from_barcode = value;
+                OnPropertyChanged(nameof(serialFromBarcode));
             }
         }
         string _total_result;
@@ -97,7 +98,6 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
                 OnPropertyChanged(nameof(TotalResult));
             }
         }
-
         string _mac_result;
         public string macResult {
             get { return _mac_result; }
@@ -228,7 +228,7 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
         }
 
         #endregion
-        
+
         #region enable/disable test item
 
         bool _is_check_mac_ethernet; //check mac ethernet

@@ -25,13 +25,15 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
             //wifi router
             wifiSSID2G = "IPCAM-TEST-2G";
             wifiSSID5G = "IPCAM-TEST-5G";
+            delaySerializeSSID = 10;
 
             //standard value
-            firmwareVersion = "";
+            firmwareBuildTime = "";
             hardwareVersion = "1";
             vnptMacHeader = "A06518:A4F4C2:D49AA0";
             vnptUidHeader = "VNTIPC";
             vnptProductNumber = "120";
+            toleranceRGBNightVision = 0;
 
             //test mode
             FailAndStop = "Yes";
@@ -110,17 +112,24 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
                 OnPropertyChanged(nameof(wifiSSID5G));
             }
         }
-
+        int _delay_serialize_ssid;
+        public int delaySerializeSSID {
+            get { return _delay_serialize_ssid; }
+            set {
+                _delay_serialize_ssid = value;
+                OnPropertyChanged(nameof(delaySerializeSSID));
+            }
+        }
         #endregion
 
         #region standard
 
-        string _firmware_version;
-        public string firmwareVersion {
-            get { return _firmware_version; }
+        string _firmware_build_time;
+        public string firmwareBuildTime {
+            get { return _firmware_build_time; }
             set {
-                _firmware_version = value;
-                OnPropertyChanged(nameof(firmwareVersion));
+                _firmware_build_time = value;
+                OnPropertyChanged(nameof(firmwareBuildTime));
             }
         }
         string _hardware_version;
@@ -155,7 +164,15 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
                 OnPropertyChanged(nameof(vnptProductNumber));
             }
         }
-        
+        int _tolerance_rgb_night_vision;
+        public int toleranceRGBNightVision {
+            get { return _tolerance_rgb_night_vision; }
+            set {
+                _tolerance_rgb_night_vision = value;
+                OnPropertyChanged(nameof(toleranceRGBNightVision));
+            }
+        }
+
 
         #endregion
 

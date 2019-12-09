@@ -145,6 +145,11 @@
                 <!--CÀI ĐẶT CHO WIFI ROUTER-->
                 <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT CHO WIFI ROUTER"/>
                 <Grid>
+                    <Label Content="Thời gian chờ liệt kê wifi ssid (giây)"/>
+                    <ComboBox x:Name="cbb_delayserializessid"
+                              Text="{Binding Path=delaySerializeSSID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                <Grid>
                     <Label Content="Tên SSID 2.4G"/>
                     <TextBox Text="{Binding Path=wifiSSID2G, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </Grid>
@@ -157,8 +162,8 @@
                 <!--CÀI ĐẶT TIÊU CHUẨN-->
                 <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT TIÊU CHUẨN PHÁN ĐỊNH SẢN PHẨM"/>
                 <Grid>
-                    <Label Content="Firmware basic version"/>
-                    <TextBox Text="{Binding Path=firmwareVersion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <Label Content="Firmware basic build time"/>
+                    <TextBox Text="{Binding Path=firmwareBuildTime, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </Grid>
                 <Grid>
                     <Label Content="Hardware version"/>
@@ -175,6 +180,10 @@
                 <Grid>
                     <Label Content="VNPT product number"/>
                     <TextBox Text="{Binding Path=vnptProductNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Giới hạn độ lệch R,G,B night vision"/>
+                    <TextBox Text="{Binding Path=toleranceRGBNightVision, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </Grid>
                 
                 <!--CÀI ĐẶT CHẾ ĐỘ TEST-->
@@ -204,6 +213,7 @@
                     <Border Grid.Column="1" Margin="0">
                         <StackPanel>
                             <CheckBox Margin="10,5,0,0" Content="Kiểm tra địa chỉ mac"
+                                      IsEnabled="False"
                                       IsChecked="{Binding Path=IsCheckMacEthernet, UpdateSourceTrigger=PropertyChanged}"/>
                             <CheckBox Margin="10,5,0,0" Content="Kiểm tra build time firmware"
                                       IsChecked="{Binding Path=IsCheckFirmwareBuildTime, UpdateSourceTrigger=PropertyChanged}"/>

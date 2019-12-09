@@ -13,6 +13,8 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,12 +35,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Emgu.CV.UI, Version=3.4.1.2976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EMGU.CV.3.4.1.2976\lib\net35\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.World, Version=3.4.1.2976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EMGU.CV.3.4.1.2976\lib\net35\Emgu.CV.World.dll</HintPath>
+    </Reference>
     <Reference Include="NAudio, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.1.9.0\lib\net35\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="reachframework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,18 +59,23 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="UtilityPack, Version=1.0.8.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UtilityPack.1.0.8.1\lib\net45\UtilityPack.dll</HintPath>
+      <HintPath>..\packages\UtilityPack.1.0.8.2\lib\net45\UtilityPack.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="ZedGraph, Version=5.1.7.430, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZedGraph.5.1.7\lib\net35-Client\ZedGraph.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Base\globalParameter.cs" />
+    <Compile Include="Common\Base\globalUtility.cs" />
     <Compile Include="Common\Dut\IPCamera.cs" />
-    <Compile Include="Common\Excute\exCheckFirmwareVersion.cs" />
-    <Compile Include="Common\Excute\exCheckMac.cs" />
-    <Compile Include="Common\Excute\exCheckUID.cs" />
+    <Compile Include="Common\Excute\exTestFirmwareBuildTime.cs" />
+    <Compile Include="Common\Excute\exTestMacEthernet.cs" />
+    <Compile Include="Common\Excute\exTestUID.cs" />
+    <Compile Include="Common\Excute\exInputMacSerialUid.cs" />
     <Compile Include="Common\Excute\exTestAudio.cs" />
     <Compile Include="Common\Excute\exTestButton.cs" />
     <Compile Include="Common\Excute\exTestEthernet.cs" />
@@ -85,6 +100,12 @@
     <Compile Include="Common\UI\ucButton.xaml.cs">
       <DependentUpon>ucButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\UI\ucImageSensor.xaml.cs">
+      <DependentUpon>ucImageSensor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\UI\ucInputMacSerialUid.xaml.cs">
+      <DependentUpon>ucInputMacSerialUid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\UI\ucIRLed.xaml.cs">
       <DependentUpon>ucIRLed.xaml</DependentUpon>
     </Compile>
@@ -93,6 +114,9 @@
     </Compile>
     <Compile Include="Common\UI\ucLightSensorLightMode.xaml.cs">
       <DependentUpon>ucLightSensorLightMode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\UI\ucNightVision.xaml.cs">
+      <DependentUpon>ucNightVision.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\UI\ucRGBLedGreen.xaml.cs">
       <DependentUpon>ucRGBLedGreen.xaml</DependentUpon>
@@ -186,6 +210,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -207,6 +232,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Common\UI\ucImageSensor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UI\ucInputMacSerialUid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Common\UI\ucIRLed.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -216,6 +249,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\UI\ucLightSensorLightMode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UI\ucNightVision.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -308,5 +345,15 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="License-LGPL.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\EMGU.CV.3.4.1.2976\build\EMGU.CV.targets" Condition="Exists('..\packages\EMGU.CV.3.4.1.2976\build\EMGU.CV.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EMGU.CV.3.4.1.2976\build\EMGU.CV.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EMGU.CV.3.4.1.2976\build\EMGU.CV.targets'))" />
+  </Target>
 </Project>

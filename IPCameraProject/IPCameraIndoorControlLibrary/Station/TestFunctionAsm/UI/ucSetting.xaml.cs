@@ -33,6 +33,7 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
             this.DataContext = Function.stationVariable.mySetting;
 
             //add combobox itemsource
+            cbb_delayserializessid.ItemsSource = globalParameter.list_number;
             cbb_retrytime.ItemsSource = globalParameter.list_number;
             cbb_failandstop.ItemsSource = new List<string>() { "Yes", "No" };
         }

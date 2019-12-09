@@ -26,8 +26,7 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
     public partial class ucRunAll : UserControl {
 
         Common.UI.ucTabLogTelnet uc_tablog = new Common.UI.ucTabLogTelnet();
-
-
+        
         public ucRunAll() {
             //init control
             InitializeComponent();
@@ -53,6 +52,7 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
 
             switch (b_content) {
                 case "START": {
+
                         Thread t = new Thread(new ThreadStart(() => {
                             Stopwatch st = new Stopwatch();
                             uc_tablog.isScroll = true;
@@ -86,23 +86,55 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
                 stationVariable.myTesting.Ready();
                 stationVariable.myTesting.Checking();
 
+                //input barcode reader
+                r = _item_input_barcode();
+                if (!r) { ret = false; goto NG; }
+
                 //login to camera
                 r = _item_test_login(ref camera_indoor);
-                if (!r) {
-                    ret = false;
-                    goto NG;
-                }
-                else _item_get_mac_ethernet(camera_indoor);
+                if (!r) { ret = false; goto NG; }
 
                 //check mac
+                r = _item_test_mac_ethernet(camera_indoor);
+                if (!r) {
+                    ret = false;
+                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
+                }
 
                 //check build time firmware
+                r = _item_test_firmware_buildtime(camera_indoor);
+                if (!r) {
+                    ret = false;
+                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
+                }
 
                 //check uid
+                r = _item_test_uid(camera_indoor);
+                if (!r) {
+                    ret = false;
+                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
+                }
 
                 //write hardware version
+                r = _item_write_hardwareversion(camera_indoor);
+                if (!r) {
+                    ret = false;
+                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
+                }
 
                 //write serial number
+                r = _item_write_serialnumber(camera_indoor);
+                if (!r) {
+                    ret = false;
+                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
+                }
+
+                //test wifi
+                r = _item_test_wifi(camera_indoor);
+                if (!r) {
+                    ret = false;
+                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
+                }
 
                 //test sd card
                 r = _item_test_sdcard(camera_indoor);
@@ -114,6 +146,11 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
                 //test image sensor
 
                 //test night vision
+                r = _item_test_nightvision(camera_indoor);
+                if (!r) {
+                    ret = false;
+                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
+                }
 
                 //audio
                 r = _item_test_audio(camera_indoor);
@@ -143,7 +180,7 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
                 //    goto NG;
                 //}
 
-                //test wifi
+               
 
 
                 if (ret) goto OK;
@@ -167,6 +204,33 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
             }
         }
 
+
+        //input barcode
+        private bool _item_input_barcode() {
+            if (stationVariable.myTesting.IsCheckMacEthernet == false &&
+                stationVariable.myTesting.IsWriteSerialNumber == false &&
+                stationVariable.myTesting.IsCheckUID == false) {
+                return true;
+            }
+
+            bool r = false;
+
+            stationVariable.myTesting.logSystem += "\n+++++++++++++++++++++++++++++++++++++++\n";
+            stationVariable.myTesting.logSystem += "NHẬP THÔNG TIN TRÊN TEM SẢN PHẨM\n";
+            var ex_input_barcode = new Common.Excute.exInputMacSerialUid<TestingInformation, SettingInformation>(stationVariable.myTesting, stationVariable.mySetting);
+            stationVariable.myTesting.logSystem += string.Format("...\n");
+            r = ex_input_barcode.excuteTelnet(grid_debug);
+            stationVariable.myTesting.logSystem += string.Format("\n...\n");
+
+            //add tab log
+            Dispatcher.Invoke(new Action(() => {
+                this.grid_debug.Children.Clear();
+                this.grid_debug.Children.Add(uc_tablog);
+            }));
+
+            return r;
+        }
+
         //login
         private bool _item_test_login(ref Common.Dut.IPCamera<TestingInformation> camera_indoor) {
             bool r = false;
@@ -180,25 +244,100 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
             return r;
         }
 
-        //get mac ethernet
-        private bool _item_get_mac_ethernet(Common.Dut.IPCamera<TestingInformation> camera_indoor) {
+        //check mac
+        private bool _item_test_mac_ethernet(Common.Dut.IPCamera<TestingInformation> camera_indoor) {
+            if (!stationVariable.myTesting.IsCheckMacEthernet) return true;
+            bool r = false;
             stationVariable.myTesting.logSystem += "\n+++++++++++++++++++++++++++++++++++++++\n";
-            stationVariable.myTesting.logSystem += "ĐỌC ĐỊA CHỈ MAC ETHERNET\n";
-            stationVariable.myTesting.macEthernet = camera_indoor.getMacEthernet();
-            stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", stationVariable.myTesting.macEthernet);
-            return true;
+            stationVariable.myTesting.logSystem += "KIỂM TRA TRÙNG KHỚP ĐỊA CHỈ MAC TRÊN TEM VÀ MAC GHI TRONG CAMERA\n";
+            var ex_test_mac = new Common.Excute.exTestMacEthernet<TestingInformation>(camera_indoor, stationVariable.myTesting, int.Parse(stationVariable.mySetting.RetryTime));
+            stationVariable.myTesting.logSystem += string.Format("...Giá trị mac trên tem: \"{0}\"\n", ex_test_mac.std_value);
+            stationVariable.myTesting.logSystem += string.Format("...Giá trị mac ghi trong camera:\n");
+            stationVariable.myTesting.logSystem += string.Format("...\n");
+            r = ex_test_mac.excuteTelnet();
+            stationVariable.myTesting.logSystem += string.Format("\n...\n");
+            stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", r ? "Passed" : "Failed");
+            return r;
         }
 
-        //check mac
-
         //check firmware build time
+        private bool _item_test_firmware_buildtime(Common.Dut.IPCamera<TestingInformation> camera_indoor) {
+            if (!stationVariable.myTesting.IsCheckFirmwareBuildTime) return true;
+            bool r = false;
+            stationVariable.myTesting.logSystem += "\n+++++++++++++++++++++++++++++++++++++++\n";
+            stationVariable.myTesting.logSystem += "KIỂM TRA FIRMWARE BASIC BUILD TIME\n";
+            var ex_test_fw = new Common.Excute.exTestFirmwareBuildTime<TestingInformation, SettingInformation>(camera_indoor, stationVariable.myTesting, stationVariable.mySetting, int.Parse(stationVariable.mySetting.RetryTime));
+            stationVariable.myTesting.logSystem += string.Format("...Giá trị setting: \"{0}\"\n", ex_test_fw.std_value);
+            stationVariable.myTesting.logSystem += string.Format("...Giá trị thực tế trong camera:\n");
+            stationVariable.myTesting.logSystem += string.Format("...\n");
+            r = ex_test_fw.excuteTelnet();
+            stationVariable.myTesting.logSystem += string.Format("\n...\n");
+            stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", r ? "Passed" : "Failed");
+            return r;
+        }
 
         //check uid
+        private bool _item_test_uid(Common.Dut.IPCamera<TestingInformation> camera_indoor) {
+            if (!stationVariable.myTesting.IsCheckUID) return true;
+            bool r = false;
+            stationVariable.myTesting.logSystem += "\n+++++++++++++++++++++++++++++++++++++++\n";
+            stationVariable.myTesting.logSystem += "KIỂM TRA TRÙNG KHỚP MÃ UID TRÊN TEM VÀ MÃ UID TRONG CAMERA\n";
+            var ex_test_uid = new Common.Excute.exTestUID<TestingInformation>(camera_indoor, stationVariable.myTesting, int.Parse(stationVariable.mySetting.RetryTime));
+            stationVariable.myTesting.logSystem += string.Format("...Giá trị uid trên tem: \"{0}\"\n", ex_test_uid.std_value);
+            stationVariable.myTesting.logSystem += string.Format("...Giá trị uid thực tế trong camera:\n");
+            stationVariable.myTesting.logSystem += string.Format("...\n");
+            r = ex_test_uid.excuteTelnet();
+            stationVariable.myTesting.logSystem += string.Format("\n...\n");
+            stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", r ? "Passed" : "Failed");
+            return r;
+        }
 
         //write hardware version
+        private bool _item_write_hardwareversion(Common.Dut.IPCamera<TestingInformation> camera_indoor) {
+            if (!stationVariable.myTesting.IsWriteHardwareVersion) return true;
+            bool r = false;
+            stationVariable.myTesting.logSystem += "\n+++++++++++++++++++++++++++++++++++++++\n";
+            stationVariable.myTesting.logSystem += "GHI HARDWARE VERSION CHO CAMERA\n";
+            var ex_write_hw = new Common.Excute.exWriteHardwareVersion<TestingInformation, SettingInformation>(camera_indoor, stationVariable.myTesting, stationVariable.mySetting, int.Parse(stationVariable.mySetting.RetryTime));
+            stationVariable.myTesting.logSystem += string.Format("...Giá trị setting: \"{0}\"\n", ex_write_hw.std_value);
+            stationVariable.myTesting.logSystem += string.Format("...\n");
+            r = ex_write_hw.excuteTelnet();
+            stationVariable.myTesting.logSystem += string.Format("\n...\n");
+            stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", r ? "Passed" : "Failed");
+            return r;
+        }
 
         //write serial number
-      
+        private bool _item_write_serialnumber(Common.Dut.IPCamera<TestingInformation> camera_indoor) {
+            if (!stationVariable.myTesting.IsWriteSerialNumber) return true;
+            bool r = false;
+            stationVariable.myTesting.logSystem += "\n+++++++++++++++++++++++++++++++++++++++\n";
+            stationVariable.myTesting.logSystem += "GHI SERIAL NUMBER CHO CAMERA\n";
+            var ex_write_sn = new Common.Excute.exWriteSerialNumber<TestingInformation>(camera_indoor, stationVariable.myTesting, int.Parse(stationVariable.mySetting.RetryTime));
+            stationVariable.myTesting.logSystem += string.Format("...Giá trị nhập từ tem: \"{0}\"\n", ex_write_sn.std_value);
+            stationVariable.myTesting.logSystem += string.Format("...\n");
+            r = ex_write_sn.excuteTelnet();
+            stationVariable.myTesting.logSystem += string.Format("\n...\n");
+            stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", r ? "Passed" : "Failed");
+            return r;
+        }
+
+        //test wifi
+        private bool _item_test_wifi(Common.Dut.IPCamera<TestingInformation> camera_indoor) {
+            if (!stationVariable.myTesting.IsCheckWifi) return true;
+            bool r = false;
+            stationVariable.myTesting.logSystem += "\n+++++++++++++++++++++++++++++++++++++++\n";
+            stationVariable.myTesting.logSystem += "KIỂM TRA KHỐI GIAO TIẾP WIFI\n";
+            var ex_test_wifi = new Common.Excute.exTestWiFi<TestingInformation, SettingInformation>(camera_indoor, stationVariable.myTesting, stationVariable.mySetting, int.Parse(stationVariable.mySetting.RetryTime));
+            stationVariable.myTesting.logSystem += string.Format("...Giá trị tiêu chuẩn: camera liệt kê được ssid 2G \"{0}\" và ssid 5G \"{1}\"\n", stationVariable.mySetting.wifiSSID2G, stationVariable.mySetting.wifiSSID5G);
+            stationVariable.myTesting.logSystem += string.Format("...Thực tế:\n");
+            stationVariable.myTesting.logSystem += string.Format("...\n");
+            r = ex_test_wifi.excuteTelnet();
+            stationVariable.myTesting.logSystem += string.Format("\n...\n");
+            stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", r ? "Passed" : "Failed");
+            return r;
+        }
+
         //test sd card
         private bool _item_test_sdcard(Common.Dut.IPCamera<TestingInformation> camera_indoor) {
             if (!stationVariable.myTesting.IsCheckSdCard) return true;
@@ -214,10 +353,32 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
             stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", r ? "Passed" : "Failed");
             return r;
         }
-
+        
         //test image sensor
 
         //test night vision
+        private bool _item_test_nightvision(Common.Dut.IPCamera<TestingInformation> camera_indoor) {
+            if (!stationVariable.myTesting.IsCheckNightVision) return true;
+            bool r = false;
+
+            stationVariable.myTesting.logSystem += "\n+++++++++++++++++++++++++++++++++++++++\n";
+            stationVariable.myTesting.logSystem += "KIỂM TRA CHẾ ĐỘ NIGHT VISION\n";
+            var ex_test_nightvision = new Common.Excute.exTestNightVision<TestingInformation, SettingInformation>(camera_indoor, stationVariable.myTesting, stationVariable.mySetting);
+            stationVariable.myTesting.logSystem += string.Format("...Tiêu chuẩn: \"{0}\"\n", string.Format("Độ lệch R,G,B tại 3 điểm p1=[10,10], p2=[width/2, height/2] và p3=[width-10, height-10] phải nhỏ hơn hoặc bằng {0}.", stationVariable.mySetting.toleranceRGBNightVision));
+            stationVariable.myTesting.logSystem += string.Format("...Thực tế:\n");
+            stationVariable.myTesting.logSystem += string.Format("...\n");
+            r = ex_test_nightvision.excuteTelnet(grid_debug);
+            stationVariable.myTesting.logSystem += string.Format("\n...\n");
+            stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", r ? "Passed" : "Failed");
+
+            //add tab log
+            Dispatcher.Invoke(new Action(() => {
+                this.grid_debug.Children.Clear();
+                this.grid_debug.Children.Add(uc_tablog);
+            }));
+
+            return r;
+        }
 
         //test audio
         private bool _item_test_audio(Common.Dut.IPCamera<TestingInformation> camera_indoor) {
@@ -313,8 +474,6 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
 
         //    return r;
         //}
-
-        //test wifi
 
         #endregion
 

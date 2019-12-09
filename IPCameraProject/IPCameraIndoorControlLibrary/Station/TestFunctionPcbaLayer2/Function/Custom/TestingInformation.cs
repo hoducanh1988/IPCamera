@@ -29,7 +29,7 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer2.Function.C
             TotalResult = "-";
             macWlan = "";
 
-            WifiResult = "-";
+            wifiResult = "-";
             sdCardResult = "-";
             ethernetResult = "-";
             rgbLedResult = "-";
@@ -72,11 +72,11 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer2.Function.C
             }
         }
         string _wifi_result;
-        public string WifiResult {
+        public string wifiResult {
             get { return _wifi_result; }
             set {
                 _wifi_result = value;
-                OnPropertyChanged(nameof(WifiResult));
+                OnPropertyChanged(nameof(wifiResult));
             }
         }
         string _sd_card_result;
