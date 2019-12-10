@@ -295,8 +295,11 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         public bool captureAudio() {
             try {
                 camera.WriteLine("killall lark");
+                Thread.Sleep(50);
                 camera.WriteLine("amixer -c 1 sset Master playback 127 capture 87");
+                Thread.Sleep(50);
                 camera.WriteLine("arecord -D hw:1,1 /tmp/audio_record.wav &");
+                Thread.Sleep(50);
             }
             catch { return false; }
             return true;
@@ -322,8 +325,8 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         //play audio file to speaker
         public bool playBackAudio() {
             try {
-                camera.WriteLine("killall lark");
                 camera.WriteLine("aplay  -D hw:1,1 /tmp/audio_record.wav");
+                Thread.Sleep(50);
             } catch { return false; }
             return true;
         }

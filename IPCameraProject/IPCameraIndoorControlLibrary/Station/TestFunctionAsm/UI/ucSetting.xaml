@@ -182,10 +182,24 @@
                     <TextBox Text="{Binding Path=vnptProductNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </Grid>
                 <Grid>
-                    <Label Content="Giới hạn độ lệch R,G,B night vision"/>
+                    <Label Content="Thiết lập vùng kiểm tra độ nét hình ảnh"/>
+                    <TextBox Text="{Binding Path=areaTestChart, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <Button Tag="set_area_test_chart" Width="30" BorderThickness="1,0,1,1" HorizontalAlignment="Right" Content="..."/>
+                </Grid>
+                <Grid>
+                    <Label Content="Giá trị tiêu chuẩn độ nét hình ảnh"/>
+                    <TextBox Text="{Binding Path=sharpnessStandard, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <Button Tag="set_sharpness_standard_value" Width="30" BorderThickness="1,0,1,1" HorizontalAlignment="Right" Content="..."/>
+                </Grid>
+                <Grid>
+                    <Label Content="Giá trị sai số độ nét hình ảnh"/>
+                    <TextBox Text="{Binding Path=toleranceSharpness, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Giới hạn độ lệch giá trị R,G,B night vision"/>
                     <TextBox Text="{Binding Path=toleranceRGBNightVision, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </Grid>
-                
+
                 <!--CÀI ĐẶT CHẾ ĐỘ TEST-->
                 <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT CHẾ ĐỘ TEST"/>
                 <Grid>

@@ -33,6 +33,10 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
             vnptMacHeader = "A06518:A4F4C2:D49AA0";
             vnptUidHeader = "VNTIPC";
             vnptProductNumber = "120";
+            areaTestChart = "0,0,400,300"; //left,top,width,height
+            sharpnessStandard = 9;
+            toleranceSharpness = 0.5;
+
             toleranceRGBNightVision = 0;
 
             //test mode
@@ -164,6 +168,30 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
                 OnPropertyChanged(nameof(vnptProductNumber));
             }
         }
+        string _area_test_chart;
+        public string areaTestChart {
+            get { return _area_test_chart; }
+            set {
+                _area_test_chart = value;
+                OnPropertyChanged(nameof(areaTestChart));
+            }
+        }
+        double _tolerance_sharpness;
+        public double toleranceSharpness {
+            get { return _tolerance_sharpness; }
+            set {
+                _tolerance_sharpness = value;
+                OnPropertyChanged(nameof(toleranceSharpness));
+            }
+        }
+        double _sharpness_standard;
+        public double sharpnessStandard {
+            get { return _sharpness_standard; }
+            set {
+                _sharpness_standard = value;
+                OnPropertyChanged(nameof(sharpnessStandard));
+            }
+        }
         int _tolerance_rgb_night_vision;
         public int toleranceRGBNightVision {
             get { return _tolerance_rgb_night_vision; }
@@ -172,8 +200,7 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
                 OnPropertyChanged(nameof(toleranceRGBNightVision));
             }
         }
-
-
+       
         #endregion
 
         #region test mode

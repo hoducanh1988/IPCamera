@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Media;
 using Color = System.Drawing.Color;
+using System.IO;
 
 namespace IPCameraIndoorControlLibrary.Common.Base {
 
@@ -29,20 +30,21 @@ namespace IPCameraIndoorControlLibrary.Common.Base {
         }
 
 
-        //public static bool isGrayScale(Bitmap img, ref string message) {
-        //    bool result = true;
-        //    for (Int32 h = 0; h < img.Height; h++)
-        //        for (Int32 w = 0; w < img.Width; w++) {
-        //            Color color = img.GetPixel(w, h);
-        //            message = string.Format("R={0}, G={1}, B={2}, A={3}", color.R, color.G, color.B, color.A);
+        public static BitmapImage Bitmap2BitmapImage(Bitmap bitmap) {
+            using (var memory = new MemoryStream()) {
+                bitmap.Save(memory, ImageFormat.Png);
+                memory.Position = 0;
 
-        //            if ((color.R != color.G || color.G != color.B || color.R != color.B) && color.A != 0) {
-        //                result = false;
-        //                break;
-        //            }
-        //        }
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = memory;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
 
-        //    return result;
-        //}
+                return bitmapImage;
+            }
+        }
+
     }
 }

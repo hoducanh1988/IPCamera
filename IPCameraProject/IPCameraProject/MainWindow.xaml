@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IPCameraProject"
         mc:Ignorable="d"
-        Title="Build time 2019/12/03 16:20  -  Bản quyền VNPT Technology 2019"  Height="600" Width="1100" WindowStartupLocation="CenterScreen">
+        Title="Build time 2019/12/03 16:20  -  Bản quyền VNPT Technology 2019"  Height="600" Width="1100" WindowStartupLocation="CenterScreen"
+        >
 
     <Grid Margin="10,5,5,0">
         <Grid.RowDefinitions>

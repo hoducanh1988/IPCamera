@@ -6,8 +6,30 @@
              xmlns:local="clr-namespace:IPCameraIndoorControlLibrary.Common.UI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="#ffffff">
-    
+
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <WrapPanel Grid.Row="0">
+            <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Content="Xác nhận trạng thái và độ nét cảm biến ảnh:"/>
+            <Label x:Name="lbl_TimeOut" BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Foreground="Red" Content="10"/>
+            <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Foreground="Red" Content="(sec)"/>
+        </WrapPanel>
+
+        <Grid Grid.Row="1">
+            <Image Source="{Binding imageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill" />
+            <Border Margin="0,0,5,5" Width="200" Height="200"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                    BorderBrush="#777777" BorderThickness="1,1,1,1"
+                    Opacity="0.5">
+                <Image Source="{Binding imageCrop, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
+            </Border>
             
+        </Grid>
+        
     </Grid>
+    
 </UserControl>

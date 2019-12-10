@@ -144,6 +144,11 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
                 }
 
                 //test image sensor
+                r = _item_test_imagesensor(camera_indoor);
+                if (!r) {
+                    ret = false;
+                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
+                }
 
                 //test night vision
                 r = _item_test_nightvision(camera_indoor);
@@ -179,9 +184,6 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
                 //    ret = false;
                 //    goto NG;
                 //}
-
-               
-
 
                 if (ret) goto OK;
                 else goto NG;
@@ -353,8 +355,31 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
             stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", r ? "Passed" : "Failed");
             return r;
         }
-        
+
         //test image sensor
+        private bool _item_test_imagesensor(Common.Dut.IPCamera<TestingInformation> camera_indoor) {
+            if (!stationVariable.myTesting.IsCheckImageSensor) return true;
+            bool r = false;
+
+            stationVariable.myTesting.logSystem += "\n+++++++++++++++++++++++++++++++++++++++\n";
+            stationVariable.myTesting.logSystem += "KIỂM TRA CẢM BIẾN ẢNH\n";
+            var ex_test_imagesensor = new Common.Excute.exTestImageSensor<TestingInformation, SettingInformation>(camera_indoor, stationVariable.myTesting, stationVariable.mySetting, int.Parse(stationVariable.mySetting.RetryTime));
+            stationVariable.myTesting.logSystem += string.Format("...Tiêu chuẩn: \"{0}\"\n", string.Format("Giá trị độ nét cảm biến ảnh >= {0}.", 
+                                                                                             stationVariable.mySetting.sharpnessStandard - stationVariable.mySetting.toleranceSharpness));
+            stationVariable.myTesting.logSystem += string.Format("...Thực tế:\n");
+            stationVariable.myTesting.logSystem += string.Format("...\n");
+            r = ex_test_imagesensor.excuteTelnet(grid_debug);
+            stationVariable.myTesting.logSystem += string.Format("\n...\n");
+            stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", r ? "Passed" : "Failed");
+
+            //add tab log
+            Dispatcher.Invoke(new Action(() => {
+                this.grid_debug.Children.Clear();
+                this.grid_debug.Children.Add(uc_tablog);
+            }));
+
+            return r;
+        }
 
         //test night vision
         private bool _item_test_nightvision(Common.Dut.IPCamera<TestingInformation> camera_indoor) {

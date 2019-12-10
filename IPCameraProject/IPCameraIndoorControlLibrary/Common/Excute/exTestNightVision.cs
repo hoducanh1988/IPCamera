@@ -44,12 +44,16 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
 
                 //chuyen camera sang mode night vision
                 camera.switchCameraMode(true);
-                Application.Current.Dispatcher.Invoke(new Action(() => { uc_nightvision = new UI.ucNightVision(30, rgb_diffvalue, rtsp_link); }));
+                Application.Current.Dispatcher.Invoke(new Action(() => { uc_nightvision = new UI.ucNightVision(13, rgb_diffvalue, rtsp_link); }));
                 Thread.Sleep(3000);
 
                 Application.Current.Dispatcher.Invoke(new Action(() => {
                     grid_container.Children.Clear();
                     grid_container.Children.Add(uc_nightvision);
+
+                    uc_nightvision.nightInfo.imageWidth = grid_container.ActualWidth;
+                    uc_nightvision.nightInfo.imageHeight = grid_container.ActualHeight - 50;
+
                 }));
                 Thread.Sleep(1000);
 
@@ -57,7 +61,10 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
                 ret = uc_nightvision.nightResult != -1 || uc_nightvision.timeOut == 0;
                 if (!ret) { Thread.Sleep(100); goto RE; }
                 if (uc_nightvision.nightResult != 0) ret = false;
-  
+
+                //close stream
+                uc_nightvision.Dispose();
+
                 //chuyen camera ve mode normal
                 camera.switchCameraMode(false);
                 Thread.Sleep(1000);

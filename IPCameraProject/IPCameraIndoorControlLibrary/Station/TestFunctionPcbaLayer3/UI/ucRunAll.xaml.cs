@@ -247,7 +247,7 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.UI {
             bool r = false;
             stationVariable.myTesting.logSystem += "\n+++++++++++++++++++++++++++++++++++++++\n";
             stationVariable.myTesting.logSystem += "KIỂM TRA CẢM BIẾN ẢNH\n";
-            var ex_test_imagesensor = new Common.Excute.exTestImageSensor<TestingInformation>(camera_indoor, stationVariable.myTesting, int.Parse(stationVariable.mySetting.RetryTime));
+            var ex_test_imagesensor = new Common.Excute.exTestImageSensor<TestingInformation, SettingInformation>(camera_indoor, stationVariable.myTesting, stationVariable.mySetting, int.Parse(stationVariable.mySetting.RetryTime));
             stationVariable.myTesting.logSystem += string.Format("...Tiêu chuẩn: \"{0}\"\n", ex_test_imagesensor.std_value);
             stationVariable.myTesting.logSystem += string.Format("...Thực tế:\n");
             stationVariable.myTesting.logSystem += string.Format("...\n");
