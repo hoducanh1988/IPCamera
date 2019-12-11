@@ -21,7 +21,7 @@
 
     <StackPanel Margin="20">
         <WrapPanel>
-            <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Content="Xác nhận trạng thái LED IR của sản phẩm:"/>
+            <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Content="Xác nhận trạng thái IR LED của sản phẩm:"/>
             <Label x:Name="lbl_TimeOut" BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Foreground="Red" Content="30"/>
             <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Foreground="Red" Content="(sec)"/>
         </WrapPanel>
@@ -32,11 +32,11 @@
         </WrapPanel>
 
         <WrapPanel Margin="30,0,0,0">
-            <Label Margin="20,0,0,0" FontSize="15" FontWeight="Bold" Foreground="Red" Content="LED IR đang sáng màu đỏ"/>
-            <Label Margin="60,0,0,0" FontSize="15" FontWeight="Bold" Content="LED IR đang không sáng"/>
+            <Label Margin="20,0,0,0" FontSize="15" FontWeight="Bold" Foreground="Red" Content="IR LED đang sáng màu đỏ"/>
+            <Label Margin="60,0,0,0" FontSize="15" FontWeight="Bold" Content="IR LED đang không sáng"/>
         </WrapPanel>
 
-        <Label Margin="0,40,0,0" FontSize="17" Background="Yellow" Foreground="Red" FontWeight="Normal" Content="Click chuột vào biểu tượng LED tương ứng với trạng thái thực tế trên sản phẩm."/>
+        <TextBlock TextWrapping="Wrap" Margin="0,40,0,0" FontSize="17" Background="Yellow" Foreground="Red" FontWeight="Normal" Text="Click chuột vào biểu tượng tương ứng với trạng thái sáng tắt thực tế của IR LED trên sản phẩm."/>
 
     </StackPanel>
     

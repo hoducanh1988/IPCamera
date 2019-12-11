@@ -35,10 +35,7 @@ namespace IPCameraIndoorControlLibrary.Common.UI {
 
             public NightVisionInfo() {
                 imageSource = null;
-                imageWidth = 650;
-                imageHeight = 435;
             }
-
 
             ImageSource _image_source;
             public ImageSource imageSource {
@@ -46,22 +43,6 @@ namespace IPCameraIndoorControlLibrary.Common.UI {
                 set {
                     _image_source = value;
                     OnPropertyChanged("imageSource");
-                }
-            }
-            double _image_width;
-            public double imageWidth {
-                get { return _image_width; }
-                set {
-                    _image_width = value;
-                    OnPropertyChanged("imageWidth");
-                }
-            }
-            double _image_height;
-            public double imageHeight {
-                get { return _image_height; }
-                set {
-                    _image_height = value;
-                    OnPropertyChanged("imageHeight");
                 }
             }
         }
@@ -96,61 +77,63 @@ namespace IPCameraIndoorControlLibrary.Common.UI {
 
             //stream video from camera
             Thread thrd_livestream = new Thread(new ThreadStart(() => {
-                capture = new VideoCapture(rtsp_link);
-                if (capture.IsOpened) {
-                    while (timeOut > 0 && nightResult != 0) {
-                        if (timeOut == 0) break;
-                        if (nightResult == 0) break;
+                try {
+                    capture = new VideoCapture(rtsp_link);
+                    if (capture.IsOpened) {
+                        while (timeOut > 0 && nightResult != 0) {
+                            if (timeOut == 0) break;
+                            if (nightResult == 0) break;
 
-                        Mat m = new Mat();
-                        if (capture != null) capture.Read(m);
+                            Mat m = new Mat();
+                            if (capture != null) capture.Read(m);
 
-                        if (!m.IsEmpty) {
-                            Image<Bgr, Byte> img = m.ToImage<Bgr, Byte>();
-                            int text_left = 200;
-                            int text_top = 100;
+                            if (!m.IsEmpty) {
+                                Image<Bgr, Byte> img = m.ToImage<Bgr, Byte>();
+                                int text_left = 200;
+                                int text_top = 100;
 
-                            int rs = img.Rows;
-                            int cs = img.Cols;
+                                int rs = img.Rows;
+                                int cs = img.Cols;
 
-                            Bgr p1 = img[10, 10];
-                            Bgr p2 = img[rs / 2, cs / 2];
-                            Bgr p3 = img[rs - 10, cs - 10];
+                                Bgr p1 = img[10, 10];
+                                Bgr p2 = img[rs / 2, cs / 2];
+                                Bgr p3 = img[rs - 10, cs - 10];
 
-                            bool ret1 = Math.Abs(p1.Red - p1.Green) <= diffValue && Math.Abs(p1.Green - p1.Blue) <= diffValue && Math.Abs(p1.Blue - p1.Red) <= diffValue;
-                            bool ret2 = Math.Abs(p2.Red - p2.Green) <= diffValue && Math.Abs(p2.Green - p2.Blue) <= diffValue && Math.Abs(p2.Blue - p2.Red) <= diffValue;
-                            bool ret3 = Math.Abs(p3.Red - p3.Green) <= diffValue && Math.Abs(p3.Green - p3.Blue) <= diffValue && Math.Abs(p3.Blue - p3.Red) <= diffValue;
+                                bool ret1 = Math.Abs(p1.Red - p1.Green) <= diffValue && Math.Abs(p1.Green - p1.Blue) <= diffValue && Math.Abs(p1.Blue - p1.Red) <= diffValue;
+                                bool ret2 = Math.Abs(p2.Red - p2.Green) <= diffValue && Math.Abs(p2.Green - p2.Blue) <= diffValue && Math.Abs(p2.Blue - p2.Red) <= diffValue;
+                                bool ret3 = Math.Abs(p3.Red - p3.Green) <= diffValue && Math.Abs(p3.Green - p3.Blue) <= diffValue && Math.Abs(p3.Blue - p3.Red) <= diffValue;
 
-                            string str1 = string.Format("Point1: R-G={0} G-B={1} B-R={2}", Math.Abs(p1.Red - p1.Green), Math.Abs(p1.Green - p1.Blue), Math.Abs(p1.Blue - p1.Red));
-                            string str2 = string.Format("Point2: R-G={0} G-B={1} B-R={2}", Math.Abs(p2.Red - p2.Green), Math.Abs(p2.Green - p2.Blue), Math.Abs(p2.Blue - p2.Red));
-                            string str3 = string.Format("Point3: R-G={0} G-B={1} B-R={2}", Math.Abs(p3.Red - p3.Green), Math.Abs(p3.Green - p3.Blue), Math.Abs(p3.Blue - p3.Red));
+                                string str1 = string.Format("Point1: R-G={0} G-B={1} B-R={2}", Math.Abs(p1.Red - p1.Green), Math.Abs(p1.Green - p1.Blue), Math.Abs(p1.Blue - p1.Red));
+                                string str2 = string.Format("Point2: R-G={0} G-B={1} B-R={2}", Math.Abs(p2.Red - p2.Green), Math.Abs(p2.Green - p2.Blue), Math.Abs(p2.Blue - p2.Red));
+                                string str3 = string.Format("Point3: R-G={0} G-B={1} B-R={2}", Math.Abs(p3.Red - p3.Green), Math.Abs(p3.Green - p3.Blue), Math.Abs(p3.Blue - p3.Red));
 
 
-                            CvInvoke.PutText(m, str1, new System.Drawing.Point(text_left, text_top), Emgu.CV.CvEnum.FontFace.HersheySimplex, 1.5, ret1 ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255), 3);
-                            CvInvoke.PutText(m, str2, new System.Drawing.Point(text_left, text_top + 70), Emgu.CV.CvEnum.FontFace.HersheySimplex, 1.5, ret2 ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255), 3);
-                            CvInvoke.PutText(m, str3, new System.Drawing.Point(text_left, text_top + 140), Emgu.CV.CvEnum.FontFace.HersheySimplex, 1.5, ret3 ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255), 3);
+                                CvInvoke.PutText(m, str1, new System.Drawing.Point(text_left, text_top), Emgu.CV.CvEnum.FontFace.HersheySimplex, 1.5, ret1 ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255), 3);
+                                CvInvoke.PutText(m, str2, new System.Drawing.Point(text_left, text_top + 70), Emgu.CV.CvEnum.FontFace.HersheySimplex, 1.5, ret2 ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255), 3);
+                                CvInvoke.PutText(m, str3, new System.Drawing.Point(text_left, text_top + 140), Emgu.CV.CvEnum.FontFace.HersheySimplex, 1.5, ret3 ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255), 3);
 
-                            bool ret = ret1 && ret2 && ret3;
-                            string strR = string.Format("{0}", ret ? "Passed" : "Failed");
-                            CvInvoke.PutText(m, strR, new System.Drawing.Point(text_left, text_top + 500), Emgu.CV.CvEnum.FontFace.HersheySimplex, 6, ret ? new MCvScalar(0, 255, 0) : new MCvScalar(3, 182, 255), 10);
+                                bool ret = ret1 && ret2 && ret3;
+                                string strR = string.Format("{0}", ret ? "Passed" : "Failed");
+                                CvInvoke.PutText(m, strR, new System.Drawing.Point(text_left, text_top + 500), Emgu.CV.CvEnum.FontFace.HersheySimplex, 6, ret ? new MCvScalar(0, 255, 0) : new MCvScalar(3, 182, 255), 10);
 
-                            nightMessage = string.Format("{0}\n{1}\n{2}\n{3}\n", str1, str2, str3, strR);
+                                nightMessage = string.Format("{0}\n{1}\n{2}\n{3}\n", str1, str2, str3, strR);
 
-                            var bi = globalUtility.ToBitmapSource(m.Bitmap);
-                            bi.Freeze();
-                            nightInfo.imageSource = bi;
+                                var bi = globalUtility.ToBitmapSource(m.Bitmap);
+                                bi.Freeze();
+                                nightInfo.imageSource = bi;
 
-                            if (ret) count++;
-                            if (count >= 30) {
-                                nightResult = 0;
-                                break;
+                                if (ret) count++;
+                                if (count >= 30) {
+                                    nightResult = 0;
+                                    break;
+                                }
                             }
+
+                            Thread.Sleep(10);
                         }
-                        
-                        Thread.Sleep(10);
+                        if (capture != null) capture.Dispose();
                     }
-                    if (capture != null) capture.Dispose();
-                }
+                } catch { }
             }));
             thrd_livestream.IsBackground = true;
             thrd_livestream.Start();

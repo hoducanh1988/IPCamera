@@ -21,7 +21,7 @@ namespace IPCameraIndoorControlLibrary.Common.Base {
 
             //list number
             list_number = new List<string>();
-            for (int i = 1; i < 100; i++) { list_number.Add(i.ToString()); }
+            for (int i = 0; i < 100; i++) { list_number.Add(i.ToString()); }
         }
 
     }

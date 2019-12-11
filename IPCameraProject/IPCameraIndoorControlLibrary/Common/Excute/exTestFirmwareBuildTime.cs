@@ -33,12 +33,13 @@ namespace IPCameraIndoorControlLibrary.Common.Excute
             bool ret = false;
             var prop_firmwareresult = testingInfo.GetType().GetProperty("firmwareResult");
             prop_firmwareresult.SetValue(testingInfo, "Waiting...");
+
+            //get logsytem
+            var prop_logsystem = testingInfo.GetType().GetProperty("logSystem");
+            string log_value = (string)prop_logsystem.GetValue(testingInfo);
+
             try {
                 if (!camera.IsConnected()) goto END;
-                //get logsytem
-                var prop_logsystem = testingInfo.GetType().GetProperty("logSystem");
-                string log_value = (string)prop_logsystem.GetValue(testingInfo);
-
                 int count = 0;
                 RE:
                 count++;
@@ -46,14 +47,16 @@ namespace IPCameraIndoorControlLibrary.Common.Excute
                 log_value += data;
                 prop_logsystem.SetValue(testingInfo, log_value);
 
-                bool r = data.ToUpper().Contains(std_value.ToUpper());
-                if (!r) {
+                if (data != null) ret = data.ToUpper().Contains(std_value.ToUpper());
+                if (!ret) {
                     if (count < retry_time) goto RE;
                 }
-
-                ret = r;
             }
-            catch { goto END; }
+            catch (Exception ex) {
+                log_value += ex.ToString();
+                prop_logsystem.SetValue(testingInfo, log_value);
+                goto END; 
+            }
 
             END:
             prop_firmwareresult.SetValue(testingInfo, ret ? "Passed" : "Failed");

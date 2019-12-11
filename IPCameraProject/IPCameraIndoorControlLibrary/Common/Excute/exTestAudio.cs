@@ -53,7 +53,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
                 //stop record
                 log_value += "...thiết lập camera dừng thu âm.\n";
                 prop_logsystem.SetValue(testingInfo, log_value);
-                camera.stopCaptureOrPlayBack();
+                camera.stopCaptureAudio();
 
                 //play sound
                 log_value += "...thiết lập camera phát file âm thanh vừa thu ra loa.\n";
@@ -85,7 +85,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
                 //stop play back
                 log_value += "...thiết lập camera dừng phát âm thanh.\n";
                 prop_logsystem.SetValue(testingInfo, log_value);
-                camera.stopCaptureOrPlayBack();
+                camera.stopPlayBack();
 
                 goto END;
 
@@ -103,10 +103,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
 
         //Kiem tra sd card qua cong telnet
         public bool excuteTelnet(Grid grid_container) {
-            try {
-                return excuteUart(grid_container);
-            }
-            catch { return false; }
+            return excuteUart(grid_container);
         }
 
     }

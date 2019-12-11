@@ -178,12 +178,12 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
                     if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
                 }
 
-                ////test button
-                //r = _item_test_button(camera_indoor);
-                //if (!r) {
-                //    ret = false;
-                //    goto NG;
-                //}
+                //test button
+                r = _item_test_button(camera_indoor);
+                if (!r) {
+                    ret = false;
+                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
+                }
 
                 if (ret) goto OK;
                 else goto NG;
@@ -476,29 +476,29 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
             return r;
         }
 
-        ////test button
-        //private bool _item_test_button(Common.Dut.IPCamera<TestingInformation> camera_indoor) {
-        //    if (!stationVariable.myTesting.IsCheckButton) return true;
-        //    bool r = false;
+        //test button
+        private bool _item_test_button(Common.Dut.IPCamera<TestingInformation> camera_indoor) {
+            if (!stationVariable.myTesting.IsCheckButton) return true;
+            bool r = false;
 
-        //    stationVariable.myTesting.logSystem += "\n+++++++++++++++++++++++++++++++++++++++\n";
-        //    stationVariable.myTesting.logSystem += "KIỂM TRA NÚT NHẤN\n";
-        //    var ex_test_button = new Common.Excute.exTestButton<TestingInformation>(camera_indoor, stationVariable.myTesting);
-        //    stationVariable.myTesting.logSystem += string.Format("...Tiêu chuẩn: \"{0}\"\n", ex_test_button.std_value);
-        //    stationVariable.myTesting.logSystem += string.Format("...Thực tế:\n");
-        //    stationVariable.myTesting.logSystem += string.Format("...\n");
-        //    r = ex_test_button.excuteUart(grid_debug);
-        //    stationVariable.myTesting.logSystem += string.Format("\n...\n");
-        //    stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", r ? "Passed" : "Failed");
+            stationVariable.myTesting.logSystem += "\n+++++++++++++++++++++++++++++++++++++++\n";
+            stationVariable.myTesting.logSystem += "KIỂM TRA NÚT NHẤN\n";
+            var ex_test_button = new Common.Excute.exTestButton<TestingInformation>(camera_indoor, stationVariable.myTesting);
+            stationVariable.myTesting.logSystem += string.Format("...Tiêu chuẩn: \"{0}\"\n", ex_test_button.std_value);
+            stationVariable.myTesting.logSystem += string.Format("...Thực tế:\n");
+            stationVariable.myTesting.logSystem += string.Format("...\n");
+            r = ex_test_button.excuteTelnet(grid_debug);
+            stationVariable.myTesting.logSystem += string.Format("\n...\n");
+            stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", r ? "Passed" : "Failed");
 
-        //    //add tab log
-        //    Dispatcher.Invoke(new Action(() => {
-        //        this.grid_debug.Children.Clear();
-        //        this.grid_debug.Children.Add(uc_tablog);
-        //    }));
+            //add tab log
+            Dispatcher.Invoke(new Action(() => {
+                this.grid_debug.Children.Clear();
+                this.grid_debug.Children.Add(uc_tablog);
+            }));
 
-        //    return r;
-        //}
+            return r;
+        }
 
         #endregion
 

@@ -51,9 +51,6 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
                     grid_container.Children.Clear();
                     grid_container.Children.Add(uc_nightvision);
 
-                    uc_nightvision.nightInfo.imageWidth = grid_container.ActualWidth;
-                    uc_nightvision.nightInfo.imageHeight = grid_container.ActualHeight - 50;
-
                 }));
                 Thread.Sleep(1000);
 

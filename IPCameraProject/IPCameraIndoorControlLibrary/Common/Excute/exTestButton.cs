@@ -45,7 +45,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
                 log_value += data;
                 prop_logsystem.SetValue(testingInfo, log_value);
 
-                ret = data.ToUpper().Contains(std_value.ToUpper());
+                if (data != null) ret = data.ToUpper().Contains(std_value.ToUpper());
                 if (!ret) {
                     if (uc_button.timeOut > 0) {
                         Thread.Sleep(500);
@@ -67,13 +67,9 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
         }
 
         //Kiem tra sd card qua cong telnet
-        public bool excuteTelnet() {
-            try {
-
-
-                return true;
-            }
-            catch { return false; }
+        public bool excuteTelnet(Grid grid_container) {
+            camera.initCaptureLogFromButton();
+            return excuteUart(grid_container);
         }
 
     }

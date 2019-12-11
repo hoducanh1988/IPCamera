@@ -90,13 +90,8 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
 
         //Kiem tra rgb led qua cong telnet
         public bool excuteTelnet(Grid grid_container) {
-            try {
-                return excuteUart(grid_container);
-            }
-            catch { return false; }
+            return excuteUart(grid_container);
         }
-
-
 
     }
 }

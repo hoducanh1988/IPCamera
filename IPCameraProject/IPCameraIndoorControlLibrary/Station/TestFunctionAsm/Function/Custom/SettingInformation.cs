@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
 
@@ -34,6 +35,7 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
             vnptUidHeader = "VNTIPC";
             vnptProductNumber = "120";
             areaTestChart = "0,0,400,300"; //left,top,width,height
+            areaRectangle = "0,0,400,300"; //left,top,width,height
             sharpnessStandard = 9;
             toleranceSharpness = 0.5;
 
@@ -58,7 +60,6 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
             IsCheckButton = true;
             IsCheckWifi = true;
         }
-
 
         #region ip camera
 
@@ -174,6 +175,14 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
             set {
                 _area_test_chart = value;
                 OnPropertyChanged(nameof(areaTestChart));
+            }
+        }
+        string _area_rectangle;
+        public string areaRectangle {
+            get { return _area_rectangle; }
+            set {
+                _area_rectangle = value;
+                OnPropertyChanged(nameof(areaRectangle));
             }
         }
         double _tolerance_sharpness;

@@ -22,8 +22,8 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
         }
 
         //kiem tra ir led qua cong UART
-        public bool excuteUart(Grid grid_container) {
-            throw new Exception();
+        public bool excuteUart() {
+            return false;
         }
 
         //Kiem tra ir led qua cong telnet

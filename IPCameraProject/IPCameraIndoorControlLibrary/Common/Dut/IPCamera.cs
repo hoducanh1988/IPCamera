@@ -4,51 +4,66 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace IPCameraIndoorControlLibrary.Common.Dut {
+namespace IPCameraIndoorControlLibrary.Common.Dut
+{
 
-    public class IPCamera<T> where T : class, new() {
+    public class IPCamera<T> where T : class, new()
+    {
 
         Protocol.IProtocol camera;
         string telnet_user = "root";
         string telnet_pass = "";
 
         //telnet
-        public IPCamera(T t,string ip, string _telnet_user, string _telnet_pass) {
+        public IPCamera(T t, string ip, string _telnet_user, string _telnet_pass)
+        {
             camera = new Protocol.Telnet<T>(t, ip, 23);
             telnet_user = _telnet_user;
             telnet_pass = _telnet_pass;
         }
-        
+
         //uart
-        public IPCamera(T t, string port_name, int baud_rate, int data_bit) {
+        public IPCamera(T t, string port_name, int baud_rate, int data_bit)
+        {
             camera = new Protocol.Rs232<T>(t, port_name, baud_rate, data_bit);
         }
 
         //check connection status
-        public bool IsConnected() {
+        public bool IsConnected()
+        {
             return camera.IsConnected();
         }
 
         //close connect camere
-        public bool Close() {
+        public bool Close()
+        {
             return camera.Close();
         }
 
         //login to camera
-        public bool Login() {
-            try {
-                if (camera.IsConnected() == false) {
+        public bool Login()
+        {
+            try
+            {
+                if (camera.IsConnected() == false)
+                {
                     camera.Open();
                     if (camera.IsConnected() == false) return false;
                 }
 
-                if (camera is Protocol.Telnet<T>) {
+                if (camera is Protocol.Telnet<T>)
+                {
                     string data = camera.Query("\n");
 
                     if (data.Contains("~ #")) return true;
-                    else if (data.Contains("login:")) {
+                    else if (data.Contains("login:"))
+                    {
                         string s = camera.Query(telnet_user);
-                        return s.Contains("~ #");
+                        if (s.Contains("~ #")) return true;
+                        else if (s.ToLower().Contains("password:")) {
+                            return camera.Query(telnet_pass).Contains("~ #");
+                        }
+                        else return false;
                     }
                     else return false;
                 }
@@ -58,8 +73,10 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //get mac ethernet
-        public string getMacEthernet() {
-            try {
+        public string getMacEthernet()
+        {
+            try
+            {
                 string data = camera.Query("cat /sys/class/net/eth0/address");
                 string mac_ethernet = data.Replace("cat /sys/class/net/eth0/address", "")
                                           .Replace("~ #", "")
@@ -69,12 +86,15 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
                                           .ToUpper()
                                           .Trim();
                 return mac_ethernet;
-            } catch { return null; }
+            }
+            catch { return null; }
         }
 
         //get mac wlan
-        public string getMacWlan() {
-            try {
+        public string getMacWlan()
+        {
+            try
+            {
                 string data = camera.Query("ifconfig | grep wlan0");
                 string mac_wlan = data.Split(new string[] { "HWaddr" }, StringSplitOptions.None)[1]
                                       .Replace("~ #", "")
@@ -84,12 +104,15 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
                                       .ToUpper()
                                       .Trim();
                 return mac_wlan;
-            } catch { return null; }
+            }
+            catch { return null; }
         }
 
         //get uid code -chua test
-        public string getUidCode() {
-            try {
+        public string getUidCode()
+        {
+            try
+            {
                 string data = camera.Query("cat /usr/conf/uuid.txt");
                 string uid_code = data.Replace("cat /usr/conf/uuid.txt", "")
                                       .Replace("~ #", "")
@@ -100,12 +123,15 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
                                       .Trim();
 
                 return uid_code;
-            } catch { return null; }
+            }
+            catch { return null; }
         }
 
         //get serial number
-        public string getSerialNumber() {
-            try {
+        public string getSerialNumber()
+        {
+            try
+            {
                 string data = camera.Query("cat /usr/conf/serial.txt");
                 string serial_number = data.Replace("cat /usr/conf/serial.txt", "")
                                            .Replace("~ #", "")
@@ -121,16 +147,21 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //set serial number
-        public bool setSerialNumber(string serial_number) {
-            try {
+        public bool setSerialNumber(string serial_number)
+        {
+            try
+            {
                 string data = camera.Query(string.Format("echo [{0}] > /usr/conf/serial.txt", serial_number));
                 return data.Contains("~ #");
-            } catch { return false; }
+            }
+            catch { return false; }
         }
 
         //get firmware build time
-        public string getFirmwareBuildTime() {
-            try {
+        public string getFirmwareBuildTime()
+        {
+            try
+            {
                 string data = camera.Query("cat /etc/version");
                 string fw_buildtime = data;
                 return fw_buildtime;
@@ -139,8 +170,10 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //get firmware version
-        public string getFirmwareVersion() {
-            try {
+        public string getFirmwareVersion()
+        {
+            try
+            {
                 string data = camera.Query("cat /etc/version");
                 string fw_version = data;
                 return fw_version;
@@ -149,8 +182,10 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //get hardware version
-        public string getHardwareVersion() {
-            try {
+        public string getHardwareVersion()
+        {
+            try
+            {
                 string data = camera.Query("cat /usr/conf/hwversion.txt");
                 string hw_version = data.Replace("cat /usr/conf/hwversion.txt", "")
                                         .Replace("~ #", "")
@@ -165,8 +200,10 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //set hardware version
-        public bool setHardwareVersion(string hardware_version) {
-            try {
+        public bool setHardwareVersion(string hardware_version)
+        {
+            try
+            {
                 string data = camera.Query(string.Format("echo [{0}] > /usr/conf/hwversion.txt", hardware_version));
                 return data.Contains("~ #");
             }
@@ -174,8 +211,10 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //get sdk version
-        public string getSDKVersion() {
-            try {
+        public string getSDKVersion()
+        {
+            try
+            {
                 string data = camera.Query("cat /etc/version");
                 string sdk_version = data;
                 return sdk_version;
@@ -184,8 +223,10 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //get manufacture
-        public string getManufacture() {
-            try {
+        public string getManufacture()
+        {
+            try
+            {
                 string data = camera.Query("cat /etc/version");
                 string menufacture = data;
                 return menufacture;
@@ -194,42 +235,51 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //serialize all wifi ssid
-        public string serializeWifiSSID(int delay_sec) {
-            try {
+        public string serializeWifiSSID(int delay_sec)
+        {
+            try
+            {
                 camera.WriteLine("iwlist wlan0 scan | grep ESSID | awk -F \":\" '{print$2}'");
                 Thread.Sleep(delay_sec * 1000);
                 string data = camera.Read();
                 return data;
-            } catch { return null; }
+            }
+            catch { return null; }
         }
 
         //get wlan interface
-        public string getWlanInterface() {
+        public string getWlanInterface()
+        {
             return camera.Query("ifconfig | grep wlan0");
         }
 
         //get image sensor interface
-        public string getImageSensorInterface() {
+        public string getImageSensorInterface()
+        {
             return camera.Query("ls /dev/video*");
         }
 
         //capture log
-        public string captureLog() {
+        public string captureLog()
+        {
             return camera.Read();
         }
 
         //mount sd card
-        public string mountSdCard() {
+        public string mountSdCard()
+        {
             return camera.Query("mount");
         }
 
         //get ethernet state
-        public string getEthernetState() {
+        public string getEthernetState()
+        {
             return camera.Query("cat /sys/devices/platform/rts3901-r8168/net/eth0/operstate");
         }
 
         //init control rgb led
-        public bool initRGBLedControl() {
+        public bool initRGBLedControl()
+        {
             //kill last control
             camera.WriteLine("killall controlprocess");
             //request control
@@ -242,7 +292,8 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //turn rgb led red on
-        public bool turnRGBLedRedOn() {
+        public bool turnRGBLedRedOn()
+        {
             camera.WriteLine("echo 0 > /sys/devices/platform/pwm_platform/settings/pwm1/duty_ns");
             Thread.Sleep(50);
             camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm1/enable");
@@ -251,7 +302,8 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //turn rgb led red off
-        public bool turnRGBLedRedOff() {
+        public bool turnRGBLedRedOff()
+        {
             camera.WriteLine("echo 1000000 > /sys/devices/platform/pwm_platform/settings/pwm1/duty_ns");
             Thread.Sleep(50);
             camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm1/enable");
@@ -260,7 +312,8 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //turn rgb led green on
-        public bool turnRGBLedGreenOn() {
+        public bool turnRGBLedGreenOn()
+        {
             camera.WriteLine("echo 0 > /sys/devices/platform/pwm_platform/settings/pwm2/duty_ns");
             Thread.Sleep(50);
             camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm2/enable");
@@ -269,7 +322,8 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //turn rgb led green off
-        public bool turnRGBLedGreenOff() {
+        public bool turnRGBLedGreenOff()
+        {
             camera.WriteLine("echo 1000000 > /sys/devices/platform/pwm_platform/settings/pwm2/duty_ns");
             Thread.Sleep(50);
             camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm2/enable");
@@ -278,7 +332,8 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //get light sensor adc value
-        public int getLightSensorValue() {
+        public int getLightSensorValue()
+        {
             string data = camera.Query("cat /sys/devices/platform/rts_saradc.0/in0_input");
             data = data.Replace("cat /sys/devices/platform/rts_saradc.0/in0_input", "")
                        .Replace("~ #", "")
@@ -292,8 +347,10 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //capture audio from mic to file
-        public bool captureAudio() {
-            try {
+        public bool captureAudio()
+        {
+            try
+            {
                 camera.WriteLine("killall lark");
                 Thread.Sleep(50);
                 camera.WriteLine("amixer -c 1 sset Master playback 127 capture 87");
@@ -305,34 +362,54 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
             return true;
         }
 
-        //stop capture audio
-        public bool stopCaptureOrPlayBack() {
+        //stop capture
+        public bool stopCaptureAudio() {
             try {
-                camera.WriteCtrlBreak();
-                Thread.Sleep(50);
-                camera.WriteLine("killall lark");
-                Thread.Sleep(50);
-                camera.WriteLine("killall lark");
-                Thread.Sleep(50);
-                camera.WriteLine("killall lark");
-                Thread.Sleep(50);
                 camera.WriteLine("killall arecord");
-                Thread.Sleep(50);
+                Thread.Sleep(100);
             } catch { return false; }
             return true;
         }
 
-        //play audio file to speaker
-        public bool playBackAudio() {
-            try {
-                camera.WriteLine("aplay  -D hw:1,1 /tmp/audio_record.wav");
+        //stop capture audio
+        public bool stopPlayBack()
+        {
+            try
+            {
+                camera.WriteCtrlBreak();
+                Thread.Sleep(100);
+                camera.WriteLine("killall lark");
                 Thread.Sleep(50);
-            } catch { return false; }
+                camera.WriteLine("killall peacock");
+                Thread.Sleep(50);
+                camera.WriteLine("killall rtspd");
+                Thread.Sleep(50);
+                camera.WriteLine("peacock -p profile1 -v 24 &");
+                Thread.Sleep(100);
+                camera.WriteLine("lark -c /usr/conf/peacock.json -v 24 &");
+                Thread.Sleep(100);
+                camera.WriteLine("rtspd -c /usr/conf/peacock.json -v 32 &");
+                Thread.Sleep(100);
+            }
+            catch { return false; }
             return true;
         }
-        
+
+        //play audio file to speaker
+        public bool playBackAudio()
+        {
+            try
+            {
+                camera.WriteLine("aplay  -D hw:1,1 /tmp/audio_record.wav");
+                Thread.Sleep(50);
+            }
+            catch { return false; }
+            return true;
+        }
+
         //turn ir led on
-        public bool turnIRLedOn() {
+        public bool turnIRLedOn()
+        {
             camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm3/request");
             Thread.Sleep(50);
             camera.WriteLine("echo 1000000 > /sys/devices/platform/pwm_platform/settings/pwm3/period_ns");
@@ -345,7 +422,8 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //turn ir led off
-        public bool turnIRLedOff() {
+        public bool turnIRLedOff()
+        {
             camera.WriteLine("echo 0 > /sys/devices/platform/pwm_platform/settings/pwm3/duty_ns");
             Thread.Sleep(50);
             camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm3/enable");
@@ -354,9 +432,19 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
         }
 
         //switch camera to mode
-        public bool switchCameraMode(bool isNightVision) {
+        public bool switchCameraMode(bool isNightVision)
+        {
             return isNightVision ? camera.WriteLine("nightvision on") : camera.WriteLine("nightvision off");
         }
-        
+
+        //init capture log from button pressed
+        public bool initCaptureLogFromButton()
+        {
+            camera.WriteLine("userwps");
+            Thread.Sleep(50);
+            return true;
+        }
+
+
     }
 }

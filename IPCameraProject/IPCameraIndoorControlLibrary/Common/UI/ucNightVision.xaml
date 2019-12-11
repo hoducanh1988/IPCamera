@@ -18,9 +18,9 @@
             <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Foreground="Red" Content="(sec)"/>
         </WrapPanel>
 
-        <Canvas Grid.Row="1">
-            <Image Width="{Binding Path=imageWidth, UpdateSourceTrigger=PropertyChanged}" Height="{Binding Path=imageHeight, UpdateSourceTrigger=PropertyChanged}" Source="{Binding imageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill" />
-        </Canvas>
+        <Grid Grid.Row="1">
+            <Image Source="{Binding imageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill" />
+        </Grid>
 
     </Grid>
 </UserControl>

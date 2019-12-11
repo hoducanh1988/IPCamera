@@ -92,76 +92,73 @@ namespace IPCameraIndoorControlLibrary.Common.UI {
             //live stream
             //stream video from camera
             Thread thrd_livestream = new Thread(new ThreadStart(() => {
-                capture = new VideoCapture(rtsp_link);
-                if (capture.IsOpened) {
-                    while (timeOut > 0 && imageResult != 0) {
-                        if (timeOut == 0) break;
-                        if (imageResult == 0) break;
+                try {
+                    capture = new VideoCapture(rtsp_link);
+                    if (capture.IsOpened) {
+                        while (timeOut > 0 && imageResult != 0) {
+                            if (timeOut == 0) break;
+                            if (imageResult == 0) break;
 
-                        Mat m = new Mat();
-                        if (capture != null) capture.Read(m);
+                            Mat m = new Mat();
+                            if (capture != null) capture.Read(m);
 
-                        if (!m.IsEmpty) {
-                            Image<Bgr, Byte> img = m.ToImage<Bgr, Byte>();
-                            int iw = img.Width;
-                            int ih = img.Height;
+                            if (!m.IsEmpty) {
+                                Image<Bgr, Byte> img = m.ToImage<Bgr, Byte>();
+                                int iw = img.Width;
+                                int ih = img.Height;
 
-                            //init rectangle
-                            //int rect_width = 400;
-                            //int rect_height = 300;
-                            //int rect_left = iw / 2 - rect_width / 2;
-                            //int rect_top = ih / 2 - rect_height / 2;
+                                string[] buffer = area_testchart.Split(',');
+                                int rect_left = (int)double.Parse(buffer[0]);
+                                int rect_top = (int)double.Parse(buffer[1]);
+                                int rect_width = (int)double.Parse(buffer[2]);
+                                int rect_height = (int)double.Parse(buffer[3]);
 
-                            string[] buffer = area_testchart.Split(',');
-                            int rect_left = int.Parse(buffer[0]);
-                            int rect_top = int.Parse(buffer[1]);
-                            int rect_width = int.Parse(buffer[2]);
-                            int rect_height = int.Parse(buffer[3]);
+                                var rect = new System.Drawing.Rectangle(rect_left, rect_top, rect_width, rect_height);
 
-                            var rect = new System.Drawing.Rectangle(rect_left, rect_top, rect_width, rect_height);
+                                //show rectangle
+                                CvInvoke.Rectangle(m, rect, new MCvScalar(0, 0, 255), 3, LineType.AntiAlias);
 
-                            //show rectangle
-                            CvInvoke.Rectangle(m, rect, new MCvScalar(0, 0, 255), 3, LineType.AntiAlias);
+                                //crop image by rectangle
+                                Image<Gray, byte> image_crop = globalUtility.CropFromImage(img, rect);
 
-                            //crop image by rectangle
-                            Image<Gray, byte> image_crop = CropFromImage(img, rect);
+                                //calculate sharpness
+                                int s = globalUtility.getSharpnessValueFromImage(image_crop);
+                                int pixel = image_crop.Width * image_crop.Height;
+                                double scale = s / (pixel * 1.0);
+                                double ll_value = std_sharpness - std_tolerance;
+                                bool r = scale >= ll_value;
+                                if (r) count++;
 
-                            //calculate sharpness
-                            int s = getSharpnessValueFromImage(image_crop);
-                            int pixel = image_crop.Width * image_crop.Height;
-                            double scale = s / (pixel * 1.0);
-                            double ll_value = std_sharpness - std_tolerance;
-                            bool r = scale >= ll_value;
-                            if (r) count++;
+                                //put text scale
+                                CvInvoke.PutText(m, scale.ToString(), new System.Drawing.Point(rect_left, rect_top - 20), FontFace.HersheySimplex, 2, new MCvScalar(0, 255, 0), 2, LineType.AntiAlias);
 
-                            //put text scale
-                            CvInvoke.PutText(m, scale.ToString(), new System.Drawing.Point(rect_left, rect_top - 20), FontFace.HersheySimplex, 2, new MCvScalar(0, 255, 0), 2, LineType.AntiAlias);
+                                //put text result
+                                CvInvoke.PutText(m, r ? "Passed" : "Failed", new System.Drawing.Point(rect_left - 100, rect_top + rect_height + 150), FontFace.HersheySimplex, 6, r ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255), 10);
 
-                            //put text result
-                            CvInvoke.PutText(m, r ? "Passed" : "Failed" , new System.Drawing.Point(rect_left, rect_top + rect_height + 150), FontFace.HersheySimplex, 4, r ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255), 4, LineType.AntiAlias);
+                                imageMessage = string.Format("Độ nét hình ảnh của camera: {0}\n{1}\n", scale, r ? "Passed" : "Failed");
 
-                            imageMessage = string.Format("Độ nét hình ảnh của camera: {0}\n{1}\n", scale, r ? "Passed" : "Failed");
+                                //show image
+                                var bi = globalUtility.ToBitmapSource(m.Bitmap);
+                                bi.Freeze();
+                                imageInfo.imageSource = bi;
 
-                            //show image
-                            var bi = globalUtility.ToBitmapSource(m.Bitmap);
-                            bi.Freeze();
-                            imageInfo.imageSource = bi;
+                                //show crop
+                                var ci = globalUtility.Bitmap2BitmapImage(image_crop.Bitmap);
+                                ci.Freeze();
+                                imageInfo.imageCrop = ci;
+                            }
 
-                            //show crop
-                            var ci = globalUtility.Bitmap2BitmapImage(image_crop.Bitmap);
-                            ci.Freeze();
-                            imageInfo.imageCrop = ci;
+                            Thread.Sleep(10);
+
+                            if (count >= 30) {
+                                imageResult = 0;
+                                break;
+                            }
                         }
-                        
-                        Thread.Sleep(10);
-
-                        if (count >= 30) {
-                            imageResult = 0;
-                            break;
-                        }
+                        if (capture != null) capture.Dispose();
                     }
-                    if (capture != null) capture.Dispose();
                 }
+                catch { }
             }));
             thrd_livestream.IsBackground = true;
             thrd_livestream.Start();
@@ -175,80 +172,6 @@ namespace IPCameraIndoorControlLibrary.Common.UI {
             if (capture != null) capture.Dispose();
         }
 
-        #region support function
-
-        private Image<Gray, byte> CropFromImage(Image<Bgr, Byte> imageInput, System.Drawing.Rectangle rect) {
-            try {
-                Image<Bgr, byte> _imageRef = null;
-                imageInput.ROI = rect;
-                _imageRef = imageInput.CopyBlank();
-                imageInput.CopyTo(_imageRef);
-                imageInput.ROI = System.Drawing.Rectangle.Empty;
-
-                Image<Gray, byte> _imgGray = new Image<Gray, byte>(_imageRef.Width, _imageRef.Height);
-                ConvertImageFromBgrToGray(_imageRef, ref _imgGray);
-
-                return _imgGray;
-            }
-            catch {
-                return null;
-            }
-        }
-
-        //private Image<Bgr, byte> CropFromImage(Image<Bgr, Byte> imageInput, System.Drawing.Rectangle rect) {
-        //    try {
-        //        Image<Bgr, byte> _imageRef = null;
-        //        imageInput.ROI = rect;
-        //        _imageRef = imageInput.CopyBlank();
-        //        imageInput.CopyTo(_imageRef);
-        //        imageInput.ROI = System.Drawing.Rectangle.Empty;
-
-        //        return _imageRef;
-        //    }
-        //    catch {
-        //        return null;
-        //    }
-        //}
-
-        private bool ConvertImageFromBgrToGray(Image<Bgr, byte> imageIn, ref Image<Gray, byte> imageOut) {
-            if (imageIn == null) return false;
-
-            try {
-                /*Change color space from BGR to Gray ---------------*/
-                Image<Gray, byte> imgGray = new Image<Gray, byte>(imageIn.Width, imageIn.Height, new Gray(0));
-                CvInvoke.CvtColor(imageIn, imgGray, ColorConversion.Rgb2Gray);
-
-                /*Apply threshold to convert to binary image -------*/
-                Image<Gray, byte> img_binary = new Image<Gray, byte>(imageIn.Width, imageIn.Height);
-                CvInvoke.Threshold(imgGray, img_binary, 0, 255, ThresholdType.Binary | ThresholdType.Otsu);
-
-                imageOut = img_binary;
-                return true;
-            }
-            catch {
-                return false;
-            }
-        }
-
-        private byte _px(Image<Gray, byte> img, int x, int y) {
-            return img.Data[y, x, 0];
-        }
-
-        private int getSharpnessValueFromImage(Image<Gray, byte> image) {
-            int height = image.Height;
-            int width = image.Width;
-
-            int sum = 0;
-            for (int x = 0; x < width - 1; x++) {
-                for (int y = 0; y < height; y++) {
-                    sum += Math.Abs(_px(image, x, y) - _px(image, x + 1, y));
-                }
-            }
-
-            return sum;
-        }
-
-        #endregion
 
     }
 }

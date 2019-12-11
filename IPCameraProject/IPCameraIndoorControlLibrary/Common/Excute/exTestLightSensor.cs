@@ -107,12 +107,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
 
         //Kiem tra light sensor qua cong telnet
         public bool excuteTelnet() {
-            try {
-
-
-                return true;
-            }
-            catch { return false; }
+            return false;
         }
 
 
