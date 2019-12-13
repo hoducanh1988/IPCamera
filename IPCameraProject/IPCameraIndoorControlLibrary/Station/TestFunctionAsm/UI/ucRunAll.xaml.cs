@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -76,6 +77,23 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
 
         #region test asm
 
+        List<string> listTestItem_ASM = new List<string>() {
+            "_item_test_mac_ethernet", //check mac ethernet
+            "_item_test_firmware_buildtime", //check firmware build time
+            "_item_test_uid", //check uid
+            "_item_write_hardwareversion", //check hardware version
+            "_item_write_serialnumber", //check serial number
+            "_item_test_wifi", //check wifi
+            "_item_test_sdcard", //check sd card
+            "_item_test_imagesensor", //check image sensor
+            "_item_test_nightvision", //check night vision 
+            "_item_test_audio", //check audio
+            "_item_test_irled", //check ir led
+            "_item_test_rgbled", //check rgb led
+            "_item_test_button" //check button
+        };
+
+
         private bool _test_allitem_asm() {
             try {
                 bool r = false;
@@ -94,108 +112,33 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
                 r = _item_test_login(ref camera_indoor);
                 if (!r) { ret = false; goto NG; }
 
-                //check mac
-                r = _item_test_mac_ethernet(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
+                //test all item
+                foreach (var testItem in listTestItem_ASM) {
+                    MethodInfo method = this.GetType().GetMethod(testItem, BindingFlags.NonPublic | BindingFlags.Instance);
+                    if (method == null) { continue; }
 
-                //check build time firmware
-                r = _item_test_firmware_buildtime(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //check uid
-                r = _item_test_uid(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //write hardware version
-                r = _item_write_hardwareversion(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //write serial number
-                r = _item_write_serialnumber(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //test wifi
-                r = _item_test_wifi(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //test sd card
-                r = _item_test_sdcard(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //test image sensor
-                r = _item_test_imagesensor(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //test night vision
-                r = _item_test_nightvision(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //audio
-                r = _item_test_audio(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //test ir led
-                r = _item_test_irled(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //test rgb led
-                r = _item_test_rgbled(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //test button
-                r = _item_test_button(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
+                    var func = (Func<Common.Dut.IPCamera<TestingInformation>, bool>)method.CreateDelegate(typeof(Func<Common.Dut.IPCamera<TestingInformation>, bool>), this);
+                    r = func(camera_indoor);
+                    if (!r) {
+                        ret = false;
+                        if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
+                    }
                 }
 
                 if (ret) goto OK;
                 else goto NG;
 
+                //xu ly khi Pass
                 OK:
                 stationVariable.myTesting.Pass();
                 goto END;
 
+                //xu ly khi fail
                 NG:
                 stationVariable.myTesting.Fail();
                 goto END;
 
+                //xu ly khi ket thuc
                 END:
                 if (camera_indoor != null && camera_indoor.IsConnected() == true) camera_indoor.Close();
                 //save log

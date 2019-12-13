@@ -91,7 +91,6 @@
     <Compile Include="Common\Excute\exWriteSerialNumber.cs" />
     <Compile Include="Common\IO\Speaker.cs" />
     <Compile Include="Common\Protocol\IProtocol.cs" />
-    <Compile Include="Common\Protocol\Network.cs" />
     <Compile Include="Common\Protocol\Rs232.cs" />
     <Compile Include="Common\Protocol\Telnet.cs" />
     <Compile Include="Common\UI\ucAudio.xaml.cs">
@@ -142,6 +141,27 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Station\CalibNightVision\Function\Custom\SettingInformation.cs" />
+    <Compile Include="Station\CalibNightVision\Function\Custom\TestingInformation.cs" />
+    <Compile Include="Station\CalibNightVision\Function\stationVariable.cs" />
+    <Compile Include="Station\CalibNightVision\UI\ucAbout.xaml.cs">
+      <DependentUpon>ucAbout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\CalibNightVision\UI\ucHelp.xaml.cs">
+      <DependentUpon>ucHelp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\CalibNightVision\UI\ucLog.xaml.cs">
+      <DependentUpon>ucLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\CalibNightVision\UI\ucManual.xaml.cs">
+      <DependentUpon>ucManual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\CalibNightVision\UI\ucRunAll.xaml.cs">
+      <DependentUpon>ucRunAll.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\CalibNightVision\UI\ucSetting.xaml.cs">
+      <DependentUpon>ucSetting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Station\TestFunctionAsm\Function\Custom\SettingInformation.cs" />
     <Compile Include="Station\TestFunctionAsm\Function\Custom\TestingInformation.cs" />
@@ -218,7 +238,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Station\CalibNightVision\" />
     <Folder Include="Station\PrintLabelUID\" />
     <Folder Include="Station\UploadFirmwareBasic\" />
     <Folder Include="Station\UploadFirmwareBusiness\" />
@@ -269,6 +288,30 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\UI\ucTabLogUart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\CalibNightVision\UI\ucAbout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\CalibNightVision\UI\ucHelp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\CalibNightVision\UI\ucLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\CalibNightVision\UI\ucManual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\CalibNightVision\UI\ucRunAll.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\CalibNightVision\UI\ucSetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

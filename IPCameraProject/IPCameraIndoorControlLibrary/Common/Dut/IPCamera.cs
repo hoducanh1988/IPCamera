@@ -108,7 +108,7 @@ namespace IPCameraIndoorControlLibrary.Common.Dut
             catch { return null; }
         }
 
-        //get uid code -chua test
+        //get uid code
         public string getUidCode()
         {
             try
@@ -125,6 +125,15 @@ namespace IPCameraIndoorControlLibrary.Common.Dut
                 return uid_code;
             }
             catch { return null; }
+        }
+
+        //set uid code
+        public bool setUIdCode(string uid_code) {
+            try {
+                string data = camera.Query(string.Format("echo [{0}] > /usr/conf/uuid.txt", uid_code));
+                return data.Contains("~ #");
+            }
+            catch { return false; }
         }
 
         //get serial number
@@ -331,6 +340,28 @@ namespace IPCameraIndoorControlLibrary.Common.Dut
             return true;
         }
 
+        //turn ir led on
+        public bool turnIRLedOn() {
+            camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm3/request");
+            Thread.Sleep(50);
+            camera.WriteLine("echo 1000000 > /sys/devices/platform/pwm_platform/settings/pwm3/period_ns");
+            Thread.Sleep(50);
+            camera.WriteLine("echo 1000000 > /sys/devices/platform/pwm_platform/settings/pwm3/duty_ns");
+            Thread.Sleep(50);
+            camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm3/enable");
+            Thread.Sleep(50);
+            return true;
+        }
+
+        //turn ir led off
+        public bool turnIRLedOff() {
+            camera.WriteLine("echo 0 > /sys/devices/platform/pwm_platform/settings/pwm3/duty_ns");
+            Thread.Sleep(50);
+            camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm3/enable");
+            Thread.Sleep(50);
+            return true;
+        }
+
         //get light sensor adc value
         public int getLightSensorValue()
         {
@@ -404,30 +435,6 @@ namespace IPCameraIndoorControlLibrary.Common.Dut
                 Thread.Sleep(50);
             }
             catch { return false; }
-            return true;
-        }
-
-        //turn ir led on
-        public bool turnIRLedOn()
-        {
-            camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm3/request");
-            Thread.Sleep(50);
-            camera.WriteLine("echo 1000000 > /sys/devices/platform/pwm_platform/settings/pwm3/period_ns");
-            Thread.Sleep(50);
-            camera.WriteLine("echo 1000000 > /sys/devices/platform/pwm_platform/settings/pwm3/duty_ns");
-            Thread.Sleep(50);
-            camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm3/enable");
-            Thread.Sleep(50);
-            return true;
-        }
-
-        //turn ir led off
-        public bool turnIRLedOff()
-        {
-            camera.WriteLine("echo 0 > /sys/devices/platform/pwm_platform/settings/pwm3/duty_ns");
-            Thread.Sleep(50);
-            camera.WriteLine("echo 1 > /sys/devices/platform/pwm_platform/settings/pwm3/enable");
-            Thread.Sleep(50);
             return true;
         }
 

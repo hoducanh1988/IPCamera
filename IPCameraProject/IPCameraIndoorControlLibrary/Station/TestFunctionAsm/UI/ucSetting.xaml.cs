@@ -7,17 +7,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UtilityPack.IO;
 
 namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
@@ -61,7 +56,6 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
             string tag = b.Tag.ToString();
 
             switch (tag) {
-
                 //save setting
                 case "save_setting": {
                         XmlHelper<Function.Custom.SettingInformation>.ToXmlFile(Function.stationVariable.mySetting, Function.stationVariable.settingAsm); //save setting to xml file
@@ -71,6 +65,16 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
 
                 //set area test chart
                 case "set_area_test_chart": {
+
+                        if (!UtilityPack.Validation.Parse.IsIPAddress(Function.stationVariable.mySetting.cameraIP)) {
+                            MessageBox.Show("Vui lòng thiết lập địa chỉ ip của camera trước.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+                        if (!globalUtility.pingNetwork(Function.stationVariable.mySetting.cameraIP)) {
+                            MessageBox.Show("Vui lòng kết nối mạng với ip camera trước.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
                         this.grid_setarea.Visibility = Visibility.Visible;
                         this.grid_setting.Visibility = Visibility.Collapsed;
                         areaStreamInfo.imageSource = null;
@@ -116,9 +120,18 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
                         break;
                     }
 
-
                 //set sharpness standard value
                 case "set_sharpness_standard_value": {
+
+                        if (!UtilityPack.Validation.Parse.IsIPAddress(Function.stationVariable.mySetting.cameraIP)) {
+                            MessageBox.Show("Vui lòng thiết lập địa chỉ ip của camera trước.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+                        if (!globalUtility.pingNetwork(Function.stationVariable.mySetting.cameraIP)) {
+                            MessageBox.Show("Vui lòng kết nối mạng với ip camera trước.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
                         this.grid_setsharpness.Visibility = Visibility.Visible;
                         this.grid_setting.Visibility = Visibility.Collapsed;
                         sharpnessStreamInfo.imageSource = null;

@@ -12,6 +12,7 @@ using System.IO;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.CV.CvEnum;
+using System.Net.NetworkInformation;
 
 namespace IPCameraIndoorControlLibrary.Common.Base {
 
@@ -32,7 +33,6 @@ namespace IPCameraIndoorControlLibrary.Common.Base {
             return bitmapSource;
         }
 
-
         public static BitmapImage Bitmap2BitmapImage(Bitmap bitmap) {
             using (var memory = new MemoryStream()) {
                 bitmap.Save(memory, ImageFormat.Png);
@@ -48,8 +48,7 @@ namespace IPCameraIndoorControlLibrary.Common.Base {
                 return bitmapImage;
             }
         }
-
-
+      
         public static Image<Gray, byte> CropFromImage(Image<Bgr, Byte> imageInput, System.Drawing.Rectangle rect) {
             try {
                 Image<Bgr, byte> _imageRef = null;
@@ -67,7 +66,6 @@ namespace IPCameraIndoorControlLibrary.Common.Base {
                 return null;
             }
         }
-
 
         public static bool ConvertImageFromBgrToGray(Image<Bgr, byte> imageIn, ref Image<Gray, byte> imageOut) {
             if (imageIn == null) return false;
@@ -89,11 +87,9 @@ namespace IPCameraIndoorControlLibrary.Common.Base {
             }
         }
 
-
         public static byte px(Image<Gray, byte> img, int x, int y) {
             return img.Data[y, x, 0];
         }
-
 
         public static int getSharpnessValueFromImage(Image<Gray, byte> image) {
             int height = image.Height;
@@ -107,6 +103,32 @@ namespace IPCameraIndoorControlLibrary.Common.Base {
             }
 
             return sum;
+        }
+
+        public static bool pingNetwork(string ip) {
+            Ping pingSender = new Ping();
+            PingOptions options = new PingOptions();
+            // Use the default Ttl value which is 128, 
+            // but change the fragmentation behavior.
+            options.DontFragment = true;
+
+            // Create a buffer of 32 bytes of data to be transmitted. 
+            string data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+            byte[] buffer = Encoding.ASCII.GetBytes(data);
+            int timeout = 60;
+
+            try {
+                PingReply reply = pingSender.Send(ip, timeout, buffer, options);
+                if (reply.Status == IPStatus.Success) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            catch {
+                return false;
+            }
         }
 
     }

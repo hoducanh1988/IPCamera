@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -76,6 +77,17 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.UI {
 
         #region test layer 3
 
+        List<string> listTestItem_Layer3 = new List<string>() {
+            "_item_test_usb", //test usb
+            "_item_test_sdcard", //test sd card
+            "_item_test_ethernet", //test ethernet
+             "_item_test_imagesensor", //check image sensor
+             "_item_test_audio", //check audio
+             "_item_test_rgbled", //check rgb led
+             "_item_test_lightsensor", //check light sensor
+             "_item_test_button", //check button
+        };
+
         private bool _test_allitem_layer3() {
             try {
                 bool r = false;
@@ -94,61 +106,19 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.UI {
                 }
                 else _item_get_mac_ethernet(camera_indoor);
 
-                //test usb
-                r = _item_test_usb(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
+                //test all item
+                foreach (var testItem in listTestItem_Layer3) {
+                    MethodInfo method = this.GetType().GetMethod(testItem, BindingFlags.NonPublic | BindingFlags.Instance);
+                    if (method == null) { continue; }
+
+                    var func = (Func<Common.Dut.IPCamera<TestingInformation>, bool>)method.CreateDelegate(typeof(Func<Common.Dut.IPCamera<TestingInformation>, bool>), this);
+                    r = func(camera_indoor);
+                    if (!r) {
+                        ret = false;
+                        if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
+                    }
                 }
 
-                //test sd card
-                r = _item_test_sdcard(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //test ethernet
-                r = _item_test_ethernet(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //image sensor
-                r = _item_test_imagesensor(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //audio
-                r = _item_test_audio(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //test rgb led
-                r = _item_test_rgbled(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //light sensor
-                r = _item_test_lightsensor(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
-                }
-
-                //test button
-                r = _item_test_button(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    goto NG;
-                }
 
                 if (ret) goto OK;
                 else goto NG;

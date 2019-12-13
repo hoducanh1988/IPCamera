@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 using UtilityPack.IO;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer2.UI {
     /// <summary>
@@ -64,6 +66,15 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer2.UI {
 
         #region test layer 2
 
+        List<string> listTestItem_Layer2 = new List<string>() {
+            "_item_test_wifi", //check wifi
+            "_item_test_sdcard", //check sd card
+            "_item_test_ethernet", //check ethernet
+            "_item_test_rgbled", //check rgb led
+            "_item_test_button" //check button
+        };
+
+
         private bool _test_allitem_layer2() {
             try {
                 bool r = false;
@@ -82,36 +93,19 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer2.UI {
                 }
                 else _item_get_mac_wlan(camera_indoor);
 
-                //test wifi
-                r = _item_test_wifi(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG; }
+                //test all item
+                foreach (var testItem in listTestItem_Layer2) {
+                    MethodInfo method = this.GetType().GetMethod(testItem, BindingFlags.NonPublic | BindingFlags.Instance);
+                    if (method == null) { continue; }
 
-                //test sd card
-                r = _item_test_sdcard(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG; }
-
-                //test ethernet
-                r = _item_test_ethernet(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG; }
-
-                //test rgb led
-                r = _item_test_rgbled(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    if (stationVariable.mySetting.FailAndStop == "Yes") goto NG; }
-
-                //test button
-                r = _item_test_button(camera_indoor);
-                if (!r) {
-                    ret = false;
-                    goto NG;
+                    var func = (Func<Common.Dut.IPCamera<TestingInformation>, bool>)method.CreateDelegate(typeof(Func<Common.Dut.IPCamera<TestingInformation>, bool>), this);
+                    r = func(camera_indoor);
+                    if (!r) {
+                        ret = false;
+                        if (stationVariable.mySetting.FailAndStop == "Yes") goto NG;
+                    }
                 }
+
 
                 if (ret) goto OK;
                 else goto NG;

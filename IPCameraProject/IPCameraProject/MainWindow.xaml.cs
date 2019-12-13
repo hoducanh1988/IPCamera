@@ -30,7 +30,7 @@ namespace IPCameraProject {
             this.DataContext = myGlobal.myInputInfo;
 
             //set window size
-            setWindowSize(0.85, 0.995);
+            setWindowSize(0.9, 0.995);
 
             labels = new List<Label>() { lblRunAll, lblRework, lblSetting, lblLog, lblHelp, lblAbout };
 
