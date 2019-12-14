@@ -187,7 +187,7 @@
 
 
                     <!--CÀI ĐẶT CHO SẢN PHẨM IP CAMERA-->
-                    <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT CHO SẢN PHẨM IP CAMERA"/>
+                    <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT CHO SẢN PHẨM"/>
                     <Grid>
                         <Label Content="Địa chỉ IP"/>
                         <TextBox Text="{Binding Path=cameraIP, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>

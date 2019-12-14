@@ -452,6 +452,33 @@ namespace IPCameraIndoorControlLibrary.Common.Dut
             return true;
         }
 
+        //change ip without save
+        public bool changeIPWithoutSave(string ip) {
+            try {
+                camera.WriteLine(string.Format("ifconfig br0 {0} netmask 255.255.255.0", ip));
+                Thread.Sleep(100);
+            }
+            catch { return false; }
+            return true;
+        }
 
+        //calib nightvision mode dark
+        public bool calibNightVisionModeDark() {
+            camera.WriteLine("calibnv dark");
+            Thread.Sleep(3000);
+            return camera.Read().Contains("~ #");
+        }
+
+        //calib night vision mode light
+        public bool calibNightVisionModeLight() {
+            camera.WriteLine("calibnv light");
+            Thread.Sleep(3000);
+            return camera.Read().Contains("~ #");
+        }
+
+        //đọc kết quả calib nightvision
+        public string getCalibNightVisionValue() {
+            return camera.Query("cat /usr/conf/nightvision.cfg");
+        }
     }
 }

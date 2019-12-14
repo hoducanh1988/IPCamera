@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IPCameraIndoorControlLibrary.Station.CalibNightVision.UI"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="#ffffff">
+             d:DesignHeight="550" d:DesignWidth="800" Background="#ffffff">
 
 
     <Grid>
@@ -125,10 +125,14 @@
 
 
                     <!--CÀI ĐẶT CHO SẢN PHẨM IP CAMERA-->
-                    <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT CHO SẢN PHẨM IP CAMERA"/>
+                    <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT CHO SẢN PHẨM"/>
                     <Grid>
                         <Label Content="Địa chỉ IP"/>
                         <TextBox Text="{Binding Path=cameraIP, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    </Grid>
+                    <Grid>
+                        <Label Content="Địa chỉ ip bắt đầu cho calib night vision "/>
+                        <TextBox Text="{Binding Path=cameraIPCalibFrom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     </Grid>
                     <Grid>
                         <Label Content="Telnet user"/>
@@ -140,6 +144,36 @@
                     </Grid>
 
                     
+                    <!--CÀI ĐẶT TIÊU CHUẨN-->
+                    <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT TIÊU CHUẨN PHÁN ĐỊNH SẢN PHẨM"/>
+                    <Grid>
+                        <Label Content="Tiêu chuẩn ngưỡng tối night vision"/>
+                        <Border>
+                            <WrapPanel Margin="5,0,0,0">
+                                <Label BorderThickness="0" Width="100" Content="Giới hạn dưới: "/>
+                                <TextBox Width="100" BorderThickness="0,0,0,2" Margin="0" HorizontalAlignment="Left"
+                                         Text="{Binding Path=nightVisionDarkLower, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                <Label Margin="30,0,0,0" BorderThickness="0" Width="100" Content="Giới hạn trên: "/>
+                                <TextBox Width="100" BorderThickness="0,0,0,2" Margin="0" HorizontalAlignment="Left"
+                                         Text="{Binding Path=nightVisionDarkUpper, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                            </WrapPanel>
+                        </Border>
+                    </Grid>
+                    <Grid>
+                        <Label Content="Tiêu chuẩn ngưỡng sáng night vision"/>
+                        <Border>
+                            <WrapPanel Margin="5,0,0,0">
+                                <Label BorderThickness="0" Width="100" Content="Giới hạn dưới: "/>
+                                <TextBox Width="100" BorderThickness="0,0,0,2" Margin="0" HorizontalAlignment="Left"
+                                         Text="{Binding Path=nightVisionLightLower, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                <Label Margin="30,0,0,0" BorderThickness="0" Width="100" Content="Giới hạn trên: "/>
+                                <TextBox Width="100" BorderThickness="0,0,0,2" Margin="0" HorizontalAlignment="Left"
+                                         Text="{Binding Path=nightVisionLightUpper, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                            </WrapPanel>
+                        </Border>
+                    </Grid>
+
+
                     <!--CÀI ĐẶT CHẾ ĐỘ TEST-->
                     <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT CHẾ ĐỘ TEST"/>
                     <Grid>
@@ -151,6 +185,26 @@
                         <Label Content="Số lần retry"/>
                         <ComboBox x:Name="cbb_retrytime"
                               Text="{Binding Path=RetryTime, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    </Grid>
+
+
+                    <!--CÀI ĐẶT BÀI TEST-->
+                    <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT BÀI TEST"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Height="60" Grid.Column="0" Content="Lựa chọn bài test"/>
+                        <Border Grid.Column="1" Margin="0">
+                            <StackPanel>
+                                <CheckBox Margin="10,5,0,0" Content="Calib ngưỡng sáng night vision"
+                                      IsChecked="{Binding Path=IsCalibNightVisionLightMode, UpdateSourceTrigger=PropertyChanged}"/>
+                                <CheckBox Margin="10,5,0,0" Content="Calib ngưỡng tối night vision"
+                                      IsChecked="{Binding Path=IsCalibNightVisionDarkMode, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </Border>
                     </Grid>
 
                     <TextBlock Margin="0,0,0,20"/>

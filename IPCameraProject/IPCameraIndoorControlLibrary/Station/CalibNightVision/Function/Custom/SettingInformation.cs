@@ -18,12 +18,24 @@ namespace IPCameraIndoorControlLibrary.Station.CalibNightVision.Function.Custom 
         public SettingInformation() {
             //camera
             cameraIP = "192.168.1.253";
+            cameraIPCalibFrom = "192.168.1.10";
             cameraTelnetUser = "root";
             cameraTelnetPassword = "vnpt@123";
+
+            //standard
+            nightVisionDarkLower = 0;
+            nightVisionDarkUpper = 1000;
+            nightVisionLightLower = 0;
+            nightVisionLightUpper = 1000;
 
             //test mode
             FailAndStop = "Yes";
             RetryTime = "3";
+
+            //test item
+            IsCalibNightVisionLightMode = true;
+            IsCalibNightVisionDarkMode = true;
+
         }
 
         #region ip camera
@@ -52,9 +64,54 @@ namespace IPCameraIndoorControlLibrary.Station.CalibNightVision.Function.Custom 
                 OnPropertyChanged(nameof(cameraIP));
             }
         }
+        string _camera_ip_calib_from;
+        public string cameraIPCalibFrom {
+            get { return _camera_ip_calib_from; }
+            set {
+                _camera_ip_calib_from = value;
+                OnPropertyChanged(nameof(cameraIPCalibFrom));
+            }
+        }
 
         #endregion
 
+
+        #region standard
+
+        int _nightvision_dark_lower;
+        public int nightVisionDarkLower {
+            get { return _nightvision_dark_lower; }
+            set {
+                _nightvision_dark_lower = value;
+                OnPropertyChanged(nameof(nightVisionDarkLower));
+            }
+        }
+        int _nightvision_dark_upper;
+        public int nightVisionDarkUpper {
+            get { return _nightvision_dark_upper; }
+            set {
+                _nightvision_dark_upper = value;
+                OnPropertyChanged(nameof(nightVisionDarkUpper));
+            }
+        }
+        int _nightvision_light_lower;
+        public int nightVisionLightLower {
+            get { return _nightvision_light_lower; }
+            set {
+                _nightvision_light_lower = value;
+                OnPropertyChanged(nameof(nightVisionLightLower));
+            }
+        }
+        int _nightvision_light_upper;
+        public int nightVisionLightUpper {
+            get { return _nightvision_light_upper; }
+            set {
+                _nightvision_light_upper = value;
+                OnPropertyChanged(nameof(nightVisionLightUpper));
+            }
+        }
+
+        #endregion
 
         #region test mode
 
@@ -72,6 +129,29 @@ namespace IPCameraIndoorControlLibrary.Station.CalibNightVision.Function.Custom 
             set {
                 _retry_time = value;
                 OnPropertyChanged(nameof(RetryTime));
+            }
+        }
+
+        #endregion
+
+        #region test item
+
+        bool _is_calib_nightvision_light_mode;
+        public bool IsCalibNightVisionLightMode {
+            get { return _is_calib_nightvision_light_mode; }
+            set {
+                _is_calib_nightvision_light_mode = value;
+                OnPropertyChanged(nameof(IsCalibNightVisionLightMode));
+                stationVariable.myTesting.IsCalibNightVisionLightMode = value;
+            }
+        }
+        bool _is_calib_nightvision_dark_mode;
+        public bool IsCalibNightVisionDarkMode {
+            get { return _is_calib_nightvision_dark_mode; }
+            set {
+                _is_calib_nightvision_dark_mode = value;
+                OnPropertyChanged(nameof(IsCalibNightVisionDarkMode));
+                stationVariable.myTesting.IsCalibNightVisionDarkMode = value;
             }
         }
 

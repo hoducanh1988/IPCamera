@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,6 @@ namespace IPCameraIndoorControlLibrary.Station.CalibNightVision.Function {
 
         public static Custom.TestingInformation myTesting = new Custom.TestingInformation();
         public static Custom.SettingInformation mySetting = new Custom.SettingInformation();
-
+        public static ObservableCollection<Custom.CalibNightVisionItemInfo> myCalibNightVisionInfo = new ObservableCollection<Custom.CalibNightVisionItemInfo>();
     }
 }
