@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.UI"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800" Background="#ffffff">
+             d:DesignHeight="700" d:DesignWidth="800" Background="#ffffff">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -156,15 +156,25 @@
                               Text="{Binding Path=SerialPortName4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </Grid>
 
-                
+                <!--CÀI ĐẶT FIRMWARE BASIC-->
+                <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT FILE FIRMWARE BASIC"/>
+                <Grid>
+                    <Label Content="Tên và đường dẫn file firmware basic"/>
+                    <TextBox IsReadOnly="True" Text="{Binding Path=fileFirmware, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <Button Tag="select_file_firmware"  Click="Button_Click" HorizontalAlignment="Right" BorderThickness="1,0,1,1" Width="20" Content="..."/>
+                </Grid>
+
                 <!--CÀI ĐẶT TIÊU CHUẨN-->
                 <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT TIÊU CHUẨN PHÁN ĐỊNH SẢN PHẨM"/>
                 <Grid>
                     <Label Content="VNPT mac header"/>
                     <TextBox Text="{Binding Path=vnptMacHeader, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </Grid>
+                <Grid>
+                    <Label Content="VNPT uid header"/>
+                    <TextBox Text="{Binding Path=vnptUidHeader, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
 
-                
                 <!--CÀI ĐẶT CHẾ ĐỘ TEST-->
                 <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT CHẾ ĐỘ TEST"/>
                 <Grid>
@@ -187,16 +197,18 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Height="80" Grid.Column="0" Content="Lựa chọn bài test"/>
+                    <Label Height="100" Grid.Column="0" Content="Lựa chọn bài test"/>
 
                     <Border Grid.Column="1" Margin="0">
                         <StackPanel>
-                            <CheckBox Margin="10,5,0,0" Content="Ghi mac ethernet"
+                            <CheckBox IsEnabled="False" Margin="10,5,0,0" Content="Ghi mac ethernet"
                                       IsChecked="{Binding Path=IsWriteMacEthernet, UpdateSourceTrigger=PropertyChanged}"/>
-                            <CheckBox Margin="10,5,0,0" Content="Nạp firmware basic"
+                            <CheckBox IsEnabled="False" Margin="10,5,0,0" Content="Nạp firmware basic"
                                       IsChecked="{Binding Path=IsUploadFirmwareBasic, UpdateSourceTrigger=PropertyChanged}"/>
-                            <CheckBox Margin="10,5,0,0" Content="Thiết lập địa chỉ ip tĩnh"
+                            <CheckBox IsEnabled="False" Margin="10,5,0,0" Content="Thiết lập địa chỉ ip tĩnh"
                                       IsChecked="{Binding Path=IsWriteStaticIP, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox IsEnabled="False" Margin="10,5,0,0" Content="Ghi mã UID"
+                                      IsChecked="{Binding Path=IsWriteUidCode, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
                     </Border>
                 </Grid>

@@ -51,6 +51,16 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.UI {
                         MessageBox.Show("Success.", "Save Setting", MessageBoxButton.OK, MessageBoxImage.Information);
                         break;
                     }
+                case "select_file_firmware": {
+                        System.Windows.Forms.OpenFileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
+                        fileDialog.InitialDirectory = @"C:\TFTP-Root";
+                        fileDialog.Filter = "*.bin|*.bin";
+                        if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                            //get bin file
+                            stationVariable.mySetting.fileFirmware = fileDialog.FileName;
+                        }
+                        break;
+                    }
                 default: break;
             }
         }

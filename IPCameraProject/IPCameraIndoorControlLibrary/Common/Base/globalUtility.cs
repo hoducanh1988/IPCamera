@@ -7,12 +7,12 @@ using System.Windows.Media.Imaging;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Media;
-using Color = System.Drawing.Color;
 using System.IO;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.CV.CvEnum;
 using System.Net.NetworkInformation;
+using UtilityPack.Validation;
 
 namespace IPCameraIndoorControlLibrary.Common.Base {
 

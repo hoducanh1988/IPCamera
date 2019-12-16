@@ -199,9 +199,9 @@
                         <Label Height="60" Grid.Column="0" Content="Lựa chọn bài test"/>
                         <Border Grid.Column="1" Margin="0">
                             <StackPanel>
-                                <CheckBox Margin="10,5,0,0" Content="Calib ngưỡng sáng night vision"
+                                <CheckBox IsEnabled="False" Margin="10,5,0,0" Content="Calib ngưỡng sáng night vision"
                                       IsChecked="{Binding Path=IsCalibNightVisionLightMode, UpdateSourceTrigger=PropertyChanged}"/>
-                                <CheckBox Margin="10,5,0,0" Content="Calib ngưỡng tối night vision"
+                                <CheckBox IsEnabled="False" Margin="10,5,0,0" Content="Calib ngưỡng tối night vision"
                                       IsChecked="{Binding Path=IsCalibNightVisionDarkMode, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                         </Border>

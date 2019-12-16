@@ -87,8 +87,10 @@
     <Compile Include="Common\Excute\exTestSDCard.cs" />
     <Compile Include="Common\Excute\exTestUSB.cs" />
     <Compile Include="Common\Excute\exTestWiFi.cs" />
+    <Compile Include="Common\Excute\exUploadFWBasic.cs" />
     <Compile Include="Common\Excute\exWriteHardwareVersion.cs" />
     <Compile Include="Common\Excute\exWriteSerialNumber.cs" />
+    <Compile Include="Common\IO\CommandPrompt.cs" />
     <Compile Include="Common\IO\Speaker.cs" />
     <Compile Include="Common\Protocol\IProtocol.cs" />
     <Compile Include="Common\Protocol\Rs232.cs" />

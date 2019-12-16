@@ -27,8 +27,12 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.Function.Cust
             SerialPortName3 = "";
             SerialPortName4 = "";
 
+            //file firmware
+            fileFirmware = "";
+
             //standard
             vnptMacHeader = "A06518:A4F4C2:D49AA0";
+            vnptUidHeader = "VNTIPC";
 
             //test mode
             FailAndStop = "Yes";
@@ -38,6 +42,7 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.Function.Cust
             IsWriteMacEthernet = true;
             IsUploadFirmwareBasic = true;
             IsWriteStaticIP = true;
+            IsWriteUidCode = true;
         }
 
         #region camera
@@ -98,6 +103,20 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.Function.Cust
 
         #endregion
 
+        #region file firmware
+
+        string _file_firmware;
+        public string fileFirmware {
+            get { return _file_firmware; }
+            set {
+                _file_firmware = value;
+                OnPropertyChanged(nameof(fileFirmware));
+            }
+        }
+
+
+        #endregion
+
         #region standard
 
         string _vnpt_mac_header;
@@ -106,6 +125,14 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.Function.Cust
             set {
                 _vnpt_mac_header = value;
                 OnPropertyChanged(nameof(vnptMacHeader));
+            }
+        }
+        string _vnpt_uid_header;
+        public string vnptUidHeader {
+            get { return _vnpt_uid_header; }
+            set {
+                _vnpt_uid_header = value;
+                OnPropertyChanged(nameof(vnptUidHeader));
             }
         }
 
@@ -156,6 +183,14 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.Function.Cust
             set {
                 _is_write_static_ip = value;
                 OnPropertyChanged(nameof(IsWriteStaticIP));
+            }
+        }
+        bool _is_write_uid_code;
+        public bool IsWriteUidCode {
+            get { return _is_write_uid_code; }
+            set {
+                _is_write_uid_code = value;
+                OnPropertyChanged(nameof(IsWriteUidCode));
             }
         }
 

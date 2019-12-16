@@ -84,7 +84,8 @@ namespace IPCameraIndoorControlLibrary.Common.Protocol {
         public bool Write(string cmd) {
             if (!_isConnected) return false;
             try {
-                serialport.Write("\n" + cmd);
+                //serialport.Write("\n");
+                serialport.Write(cmd);
             }
             catch (Exception ex) {
                 binding_log_uart(ex.ToString());

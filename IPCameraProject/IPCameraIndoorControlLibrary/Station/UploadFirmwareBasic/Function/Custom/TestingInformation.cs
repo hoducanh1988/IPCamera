@@ -25,6 +25,7 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.Function.Cust
             macEthernet = "";
             logSystem = "";
             logUart = "";
+            totalTime = "00:00:00";
         }
 
         public void Checking() {
@@ -84,6 +85,14 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.Function.Cust
             set {
                 _log_uart = value;
                 OnPropertyChanged(nameof(logUart));
+            }
+        }
+        string _total_time;
+        public string totalTime {
+            get { return _total_time; }
+            set {
+                _total_time = value;
+                OnPropertyChanged(nameof(totalTime));
             }
         }
 
