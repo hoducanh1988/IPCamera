@@ -13,6 +13,7 @@ namespace IPCameraProject {
         };
         public static List<string> list_station = new List<string>() {
             "Upload Firmware Basic",
+            "Support calibration the image sharpness",
             "Test Function PCBA Layer2",
             "Test Function PCBA Layer3",
             "Test Function ASM",

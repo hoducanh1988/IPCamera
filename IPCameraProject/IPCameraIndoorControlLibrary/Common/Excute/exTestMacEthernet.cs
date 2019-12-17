@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilityPack.Validation;
 
 namespace IPCameraIndoorControlLibrary.Common.Excute {
 
@@ -61,7 +62,6 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             prop_macresult.SetValue(testingInfo, ret ? "Passed" : "Failed");
             return ret;
         }
-
 
     }
 }

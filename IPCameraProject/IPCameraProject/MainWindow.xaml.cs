@@ -30,7 +30,7 @@ namespace IPCameraProject {
             this.DataContext = myGlobal.myInputInfo;
 
             //set window size
-            setWindowSize(0.9, 0.995);
+            setWindowSize(0.95, 0.995);
 
             labels = new List<Label>() { lblRunAll, lblRework, lblSetting, lblLog, lblHelp, lblAbout };
 
@@ -109,9 +109,10 @@ namespace IPCameraProject {
 
         string stationNameToProjectStation(string station_name) {
             switch (station_name.ToUpper()) {
+                case "UPLOAD FIRMWARE BASIC": return "UploadFirmwareBasic";
+                case "SUPPORT CALIBRATION THE IMAGE SHARPNESS": return "CalibImageSharpness";
                 case "TEST FUNCTION PCBA LAYER2": return "TestFunctionPcbaLayer2";
                 case "TEST FUNCTION PCBA LAYER3": return "TestFunctionPcbaLayer3";
-                case "UPLOAD FIRMWARE BASIC": return "UploadFirmwareBasic";
                 case "UPLOAD FIRMWARE BUSINESS": return "UploadFirmwareBusiness";
                 case "TEST FUNCTION ASM": return "TestFunctionAsm";
                 case "IN TEM UID": return "PrintLabelUID";

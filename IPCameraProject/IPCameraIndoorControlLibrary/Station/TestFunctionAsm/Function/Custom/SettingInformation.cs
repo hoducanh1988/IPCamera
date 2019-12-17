@@ -21,7 +21,7 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
             //camera
             cameraIP = "192.168.1.253";
             cameraTelnetUser = "root";
-            cameraTelnetPassword = "";
+            cameraTelnetPassword = "vnpt@123";
 
             //wifi router
             wifiSSID2G = "IPCAM-TEST-2G";

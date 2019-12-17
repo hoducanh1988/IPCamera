@@ -56,6 +56,18 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
             } catch { return false; }
         }
 
+        //reboot camera from firmware
+        public bool rebootViaFirmware() {
+            try {
+                bool r = false;
+                string cmd = string.Format("reboot");
+                camera.WriteLine(cmd);
+                Thread.Sleep(1000);
+                return r;
+            }
+            catch { return false; }
+        }
+
         //login to camera
         public bool Login() {
             try {
@@ -191,6 +203,20 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
 
                 return r;
             } catch { return false; }
+        }
+
+        //gửi lệnh upload firmware thương mại
+        public bool uploadFirmwareBusiness(string cmd) {
+            try {
+                bool r = false;
+
+                camera.WriteLine(cmd);
+                Thread.Sleep(1000);
+                r = camera.Read().Contains("Connecting to");
+
+                return r;
+            }
+            catch { return false; }
         }
 
         //get mac wlan

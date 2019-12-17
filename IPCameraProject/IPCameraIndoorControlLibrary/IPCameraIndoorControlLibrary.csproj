@@ -73,6 +73,7 @@
     <Compile Include="Common\Base\globalUtility.cs" />
     <Compile Include="Common\Dut\IPCamera.cs" />
     <Compile Include="Common\Excute\exTestFirmwareBuildTime.cs" />
+    <Compile Include="Common\Excute\exTestFunctionBusiness.cs" />
     <Compile Include="Common\Excute\exTestMacEthernet.cs" />
     <Compile Include="Common\Excute\exTestUID.cs" />
     <Compile Include="Common\Excute\exInputMacSerialUid.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Common\Excute\exTestUSB.cs" />
     <Compile Include="Common\Excute\exTestWiFi.cs" />
     <Compile Include="Common\Excute\exUploadFWBasic.cs" />
+    <Compile Include="Common\Excute\exUploadFWBusiness.cs" />
     <Compile Include="Common\Excute\exWriteHardwareVersion.cs" />
     <Compile Include="Common\Excute\exWriteSerialNumber.cs" />
     <Compile Include="Common\IO\CommandPrompt.cs" />
@@ -250,6 +252,28 @@
     <Compile Include="Station\UploadFirmwareBasic\UI\ucSetting.xaml.cs">
       <DependentUpon>ucSetting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Station\UploadFirmwareBusiness\Function\Custom\SettingInformation.cs" />
+    <Compile Include="Station\UploadFirmwareBusiness\Function\Custom\TestingInformation.cs" />
+    <Compile Include="Station\UploadFirmwareBusiness\Function\Custom\UploadFwItemInfo.cs" />
+    <Compile Include="Station\UploadFirmwareBusiness\Function\stationVariable.cs" />
+    <Compile Include="Station\UploadFirmwareBusiness\UI\ucAbout.xaml.cs">
+      <DependentUpon>ucAbout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\UploadFirmwareBusiness\UI\ucHelp.xaml.cs">
+      <DependentUpon>ucHelp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\UploadFirmwareBusiness\UI\ucLog.xaml.cs">
+      <DependentUpon>ucLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\UploadFirmwareBusiness\UI\ucManual.xaml.cs">
+      <DependentUpon>ucManual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\UploadFirmwareBusiness\UI\ucRunAll.xaml.cs">
+      <DependentUpon>ucRunAll.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\UploadFirmwareBusiness\UI\ucSetting.xaml.cs">
+      <DependentUpon>ucSetting.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -262,8 +286,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Station\CalibImageSharpness\" />
     <Folder Include="Station\PrintLabelUID\" />
-    <Folder Include="Station\UploadFirmwareBusiness\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Common\UI\ucAudio.xaml">
@@ -431,6 +455,30 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Station\UploadFirmwareBasic\UI\ucSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\UploadFirmwareBusiness\UI\ucAbout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\UploadFirmwareBusiness\UI\ucHelp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\UploadFirmwareBusiness\UI\ucLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\UploadFirmwareBusiness\UI\ucManual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\UploadFirmwareBusiness\UI\ucRunAll.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\UploadFirmwareBusiness\UI\ucSetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
