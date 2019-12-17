@@ -1,0 +1,243 @@
+﻿<UserControl x:Class="IPCameraIndoorControlLibrary.Station.UploadFirmwareBusiness.UI.ucRunAll"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IPCameraIndoorControlLibrary.Station.UploadFirmwareBusiness.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="#ffffff">
+
+
+    <UserControl.Resources>
+
+        <!--label-->
+        <Style TargetType="Label" x:Key="label_title">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Margin" Value="0,20,0,0"/>
+        </Style>
+
+        <!--combobox-->
+        <Style TargetType="ComboBox">
+            <Setter Property="FontSize" Value="50"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderBrush" Value="#777777"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="Height" Value="100"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="Padding" Value="10,0,0,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="IsEditable" Value="False"/>
+            <EventSetter Event="PreviewMouseWheel" Handler="ComboBox_PreviewMouseWheel"/>
+        </Style>
+
+        
+    </UserControl.Resources>
+
+    <Grid Margin="10">
+
+        <!--grid main-->
+        <Grid Visibility="Visible" x:Name="grid_main">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="400"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Click="Button_Click" Tag="start_upload"  Grid.Column="0" FontSize="25" FontWeight="SemiBold" Content="{Binding Path=buttonContent, UpdateSourceTrigger=PropertyChanged}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=buttonContent}" Value="START">
+                                    <Setter Property="IsEnabled" Value="True"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=buttonContent}" Value="STOP">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <StackPanel Margin="10,0,10,0" Grid.Column="1">
+                    <Border Height="30" BorderBrush="#999999" BorderThickness="0,0,0,0.7">
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontSize="13" Width="200" Content="Số lượng sản phẩm / 1 lượt: "/>
+                            <Label FontSize="13" FontWeight="SemiBold" Content="{Binding Path=cameraQuantity, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Height="30" BorderBrush="#999999" BorderThickness="0,0,0,0.7">
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontSize="13" Width="200" Content="Thời gian thực hiện: "/>
+                            <Label FontSize="13" FontWeight="SemiBold" Content="{Binding Path=totalTime, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+
+                <StackPanel Margin="10,0,0,0" HorizontalAlignment="Left" Grid.Column="2">
+                    <Label HorizontalAlignment="Left" Content="Total result:"/>
+                    <Label HorizontalAlignment="Left" Margin="0,-15,0,0" FontSize="40" FontWeight="SemiBold" Content="{Binding Path=TotalResult, UpdateSourceTrigger=PropertyChanged}">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=TotalResult}" Value="-">
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=TotalResult}" Value="Waiting...">
+                                        <Setter Property="Foreground" Value="Orange"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=TotalResult}" Value="Passed">
+                                        <Setter Property="Foreground" Value="Lime"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=TotalResult}" Value="Failed">
+                                        <Setter Property="Foreground" Value="Red"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="0,2,0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <ProgressBar Maximum="9" Value="{Binding Path=progressIndex, UpdateSourceTrigger=PropertyChanged}" Background="White" Grid.ColumnSpan="9" >
+                    <ProgressBar.Style>
+                        <Style TargetType="ProgressBar">
+                            <Setter Property="Foreground" Value="#b2e89e"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=TotalResult}" Value="Failed">
+                                    <Setter Property="Foreground" Value="#ffcaa1"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ProgressBar.Style>
+                </ProgressBar>
+                <!--<Label Opacity="0.5" FontWeight="SemiBold" Grid.Column="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" Content="Change IP"/>
+                <Label Opacity="0.5" FontWeight="SemiBold" Grid.Column="1" VerticalAlignment="Center" HorizontalContentAlignment="Center" Content="UploadFW"/>
+                <Label Opacity="0.5" FontWeight="SemiBold" Grid.Column="2" VerticalAlignment="Center" HorizontalContentAlignment="Center" Content="Reboot"/>
+                <Label Opacity="0.5" FontWeight="SemiBold" Grid.Column="3" VerticalAlignment="Center" HorizontalContentAlignment="Center" Content="Change IP"/>
+                <Label Opacity="0.5" FontWeight="SemiBold" Grid.Column="4" VerticalAlignment="Center" HorizontalContentAlignment="Center" Content="CheckFW"/>
+                <Label Opacity="0.5" FontWeight="SemiBold" Grid.Column="5" VerticalAlignment="Center" HorizontalContentAlignment="Center" Content="CheckMAC"/>
+                <Label Opacity="0.5" FontWeight="SemiBold" Grid.Column="6" VerticalAlignment="Center" HorizontalContentAlignment="Center" Content="CheckSN"/>
+                <Label Opacity="0.5" FontWeight="SemiBold" Grid.Column="7" VerticalAlignment="Center" HorizontalContentAlignment="Center" Content="CheckUID"/>
+                <Label Opacity="0.5" FontWeight="SemiBold" Grid.Column="8" VerticalAlignment="Center" HorizontalContentAlignment="Center" Content="CheckHW"/>-->
+
+            </Grid>
+
+
+            <DataGrid Margin="0,0,0,0" Grid.Row="2" x:Name="datagrid_uploadfwbusiness" 
+                                              Background="White"
+                                              ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                                              CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" CanUserReorderColumns="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                                              GridLinesVisibility="None"
+                                              HeadersVisibility="Column"
+                                              BorderBrush="#777777"
+                                              BorderThickness="0.8"
+                                              SelectionUnit="FullRow" SelectionMode="Extended"
+                                              SelectionChanged="datagrid_uploadfwbusiness_SelectionChanged"
+                                              >
+
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Refresh" Click="MenuItem_Click" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                        <Setter Property="BorderBrush" Value="#FFB3B3B3"/>
+                        <Setter Property="FontSize" Value="15"/>
+                        <Setter Property="Height" Value="30"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    </Style>
+                </DataGrid.CellStyle>
+
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="FontSize" Value="13"/>
+                        <Setter Property="Height" Value="40"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="BorderBrush" Value="#FFB3B3B3"/>
+                        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                        <Setter Property="Padding" Value="3,0,0,0"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="White"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=totalResult}" Value="Waiting...">
+                                <Setter Property="Background" Value="#fcf8c2"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=totalResult}" Value="Failed">
+                                <Setter Property="Background" Value="#ffe0cc"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=totalResult}" Value="Passed">
+                                <Setter Property="Background" Value="White"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding macEthernet, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Header="MAC-ETHENET" Width="*" FontSize="17" FontWeight="SemiBold"/>
+                    <DataGridTextColumn Binding="{Binding ipAddress, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Header="IP-ADDRESS" Width="*"/>
+                    <DataGridTextColumn x:Name="dgtc_upload" Binding="{Binding uploadResult, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Header="UPLOAD-FW" Width="0.8*"/>
+                    <DataGridTextColumn x:Name="dgtc_reboot" Binding="{Binding rebootResult, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Header="REBOOT" Width="0.8*"/>
+                    <DataGridTextColumn x:Name="dgtc_firmware" Binding="{Binding firmwareResult, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Header="CHECK-FW" Width="0.8*"/>
+                    <DataGridTextColumn x:Name="dgtc_mac" Binding="{Binding macResult, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Header="CHECK-MAC" Width="0.8*"/>
+                    <DataGridTextColumn x:Name="dgtc_serial" Binding="{Binding serialResult, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Header="CHECK-SN" Width="0.8*"/>
+                    <DataGridTextColumn x:Name="dgtc_uid" Binding="{Binding uidResult, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Header="CHECK-UID" Width="0.8*"/>
+                    <DataGridTextColumn x:Name="dgtc_hardware" Binding="{Binding hardwareResult, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Header="CHECK-HW" Width="0.8*"/>
+                    <DataGridTextColumn Binding="{Binding totalResult, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Header="RESULT" Width="0.8*"/>
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+            <GridSplitter Background="White" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="3"/>
+
+            <Grid x:Name="grid_debug" Grid.Row="4"/>
+
+        </Grid>
+
+        <!--grid select camera quantity-->
+        <Grid Visibility="Collapsed" x:Name="grid_cameraquantity">
+
+            <StackPanel>
+                <Label Style="{StaticResource label_title}" Content="Nhập số lượng sản phẩm:"/>
+                <ComboBox x:Name="cbb_cameraquantity" Margin="0,10,0,0" Text="{Binding Path=cameraQuantity, UpdateSourceTrigger=PropertyChanged}" />
+                <Button Tag="select_camera_quantity" Margin="0,10,0,0" HorizontalAlignment="Left" Content="Tiếp tục" Height="60" FontWeight="SemiBold" FontSize="25" Width="200" Click="Button_Click"/>
+            </StackPanel>
+
+        </Grid>
+
+    </Grid>
+
+
+</UserControl>
