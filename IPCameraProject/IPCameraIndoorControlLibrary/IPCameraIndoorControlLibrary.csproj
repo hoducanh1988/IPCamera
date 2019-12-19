@@ -25,6 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +42,20 @@
     <Reference Include="Emgu.CV.World, Version=3.4.1.2976, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\EMGU.CV.3.4.1.2976\lib\net35\Emgu.CV.World.dll</HintPath>
     </Reference>
+    <Reference Include="Interop.ADODB, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>..\IPCameraProject\bin\Debug\Interop.ADODB.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.ADOX, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>..\IPCameraProject\bin\Debug\Interop.ADOX.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Access, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Access.15.0.4420.1017\lib\net20\Microsoft.Office.Interop.Access.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="NAudio, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.1.9.0\lib\net35\NAudio.dll</HintPath>
     </Reference>
@@ -50,7 +65,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -59,7 +73,7 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="UtilityPack, Version=1.0.8.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UtilityPack.1.0.8.3\lib\net45\UtilityPack.dll</HintPath>
+      <HintPath>..\packages\UtilityPack.1.0.8.6\lib\net45\UtilityPack.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -94,6 +108,7 @@
     <Compile Include="Common\Excute\exWriteHardwareVersion.cs" />
     <Compile Include="Common\Excute\exWriteSerialNumber.cs" />
     <Compile Include="Common\IO\CommandPrompt.cs" />
+    <Compile Include="Common\IO\MsAccessDatabase.cs" />
     <Compile Include="Common\IO\Speaker.cs" />
     <Compile Include="Common\Protocol\IProtocol.cs" />
     <Compile Include="Common\Protocol\Rs232.cs" />
@@ -190,7 +205,12 @@
     <Compile Include="Station\CalibNightVision\UI\ucSetting.xaml.cs">
       <DependentUpon>ucSetting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Station\PrintLabelUID\Function\AccessTable\tableDataLog.cs" />
+    <Compile Include="Station\PrintLabelUID\Function\AccessTable\tableReport.cs" />
     <Compile Include="Station\PrintLabelUID\Function\Custom\SettingInformation.cs" />
+    <Compile Include="Station\PrintLabelUID\Function\Custom\SettingParameter.cs" />
+    <Compile Include="Station\PrintLabelUID\Function\Custom\TableDataLogInfo.cs" />
+    <Compile Include="Station\PrintLabelUID\Function\Custom\TableReportInfo.cs" />
     <Compile Include="Station\PrintLabelUID\Function\Custom\TestingInformation.cs" />
     <Compile Include="Station\PrintLabelUID\Function\stationVariable.cs" />
     <Compile Include="Station\PrintLabelUID\UI\ucAbout.xaml.cs">

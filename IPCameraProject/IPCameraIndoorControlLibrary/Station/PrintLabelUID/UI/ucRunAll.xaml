@@ -75,10 +75,13 @@
                             <Label.Style>
                                 <Style TargetType="Label">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=TotalResult}" Value="PASS">
+                                        <DataTrigger Binding="{Binding Path=TotalResult}" Value="-">
+                                            <Setter Property="Foreground" Value="Black"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=TotalResult}" Value="Passed">
                                             <Setter Property="Foreground" Value="Lime"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding Path=TotalResult}" Value="FAIL">
+                                        <DataTrigger Binding="{Binding Path=TotalResult}" Value="Failed">
                                             <Setter Property="Foreground" Value="Red"/>
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Path=TotalResult}" Value="Waiting...">
