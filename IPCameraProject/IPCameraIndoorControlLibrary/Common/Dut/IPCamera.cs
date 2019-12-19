@@ -212,8 +212,8 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
 
                 camera.WriteLine(cmd);
                 Thread.Sleep(1000);
-                r = camera.Read().Contains("Connecting to");
-
+                string data = camera.Read();
+                r = data.Contains("Connecting to") && (!data.Contains("can't connect"));
                 return r;
             }
             catch { return false; }

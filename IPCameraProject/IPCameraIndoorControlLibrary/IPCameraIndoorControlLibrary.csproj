@@ -72,6 +72,7 @@
     <Compile Include="Common\Base\globalParameter.cs" />
     <Compile Include="Common\Base\globalUtility.cs" />
     <Compile Include="Common\Dut\IPCamera.cs" />
+    <Compile Include="Common\Excute\exCalibImageSharpness.cs" />
     <Compile Include="Common\Excute\exTestFirmwareBuildTime.cs" />
     <Compile Include="Common\Excute\exTestFunctionBusiness.cs" />
     <Compile Include="Common\Excute\exTestMacEthernet.cs" />
@@ -146,6 +147,27 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Station\CalibImageSharpness\Function\Custom\SettingInformation.cs" />
+    <Compile Include="Station\CalibImageSharpness\Function\Custom\TestingInformation.cs" />
+    <Compile Include="Station\CalibImageSharpness\Function\stationVariable.cs" />
+    <Compile Include="Station\CalibImageSharpness\UI\ucAbout.xaml.cs">
+      <DependentUpon>ucAbout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\CalibImageSharpness\UI\ucHelp.xaml.cs">
+      <DependentUpon>ucHelp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\CalibImageSharpness\UI\ucLog.xaml.cs">
+      <DependentUpon>ucLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\CalibImageSharpness\UI\ucManual.xaml.cs">
+      <DependentUpon>ucManual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\CalibImageSharpness\UI\ucRunAll.xaml.cs">
+      <DependentUpon>ucRunAll.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\CalibImageSharpness\UI\ucSetting.xaml.cs">
+      <DependentUpon>ucSetting.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Station\CalibNightVision\Function\Custom\CalibNightVisionItemInfo.cs" />
     <Compile Include="Station\CalibNightVision\Function\Custom\SettingInformation.cs" />
     <Compile Include="Station\CalibNightVision\Function\Custom\TestingInformation.cs" />
@@ -166,6 +188,27 @@
       <DependentUpon>ucRunAll.xaml</DependentUpon>
     </Compile>
     <Compile Include="Station\CalibNightVision\UI\ucSetting.xaml.cs">
+      <DependentUpon>ucSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\PrintLabelUID\Function\Custom\SettingInformation.cs" />
+    <Compile Include="Station\PrintLabelUID\Function\Custom\TestingInformation.cs" />
+    <Compile Include="Station\PrintLabelUID\Function\stationVariable.cs" />
+    <Compile Include="Station\PrintLabelUID\UI\ucAbout.xaml.cs">
+      <DependentUpon>ucAbout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\PrintLabelUID\UI\ucHelp.xaml.cs">
+      <DependentUpon>ucHelp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\PrintLabelUID\UI\ucLog.xaml.cs">
+      <DependentUpon>ucLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\PrintLabelUID\UI\ucManual.xaml.cs">
+      <DependentUpon>ucManual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\PrintLabelUID\UI\ucRunAll.xaml.cs">
+      <DependentUpon>ucRunAll.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Station\PrintLabelUID\UI\ucSetting.xaml.cs">
       <DependentUpon>ucSetting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Station\TestFunctionAsm\Function\Custom\SettingInformation.cs" />
@@ -285,10 +328,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Station\CalibImageSharpness\" />
-    <Folder Include="Station\PrintLabelUID\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="Common\UI\ucAudio.xaml">
       <SubType>Designer</SubType>
@@ -338,6 +378,30 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Station\CalibImageSharpness\UI\ucAbout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\CalibImageSharpness\UI\ucHelp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\CalibImageSharpness\UI\ucLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\CalibImageSharpness\UI\ucManual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\CalibImageSharpness\UI\ucRunAll.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\CalibImageSharpness\UI\ucSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Station\CalibNightVision\UI\ucAbout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -359,6 +423,30 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Station\CalibNightVision\UI\ucSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\PrintLabelUID\UI\ucAbout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\PrintLabelUID\UI\ucHelp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\PrintLabelUID\UI\ucLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\PrintLabelUID\UI\ucManual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\PrintLabelUID\UI\ucRunAll.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Station\PrintLabelUID\UI\ucSetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -210,8 +210,17 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBusiness.UI {
                 }
 
                 //get camera mac ethernet
+                count = 0;
+            RE_GETMAC:
+                count++;
                 string mac_ethernet = camera_indoor.getMacEthernet();
                 stationVariable.myTesting.logSystem += string.Format("......get mac {0} is {1}\n", stationVariable.mySetting.cameraIP, mac_ethernet);
+                ret = !( string.IsNullOrEmpty(mac_ethernet) || string.IsNullOrWhiteSpace(mac_ethernet));
+                if (!ret) {
+                    if (count < 3) { Thread.Sleep(500); goto RE_GETMAC; }
+                    else return false;
+                }
+
 
                 //check same mac or not
                 bool macExisted = false;
@@ -274,7 +283,7 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBusiness.UI {
                 }));
 
                 if (itemInfo != null && itemInfo.totalResult.Equals("Waiting...")) {
-                    if (macExisted == false) {
+                    if (macExisted == false && stationVariable.mySetting.IsUploadFirmwareBusiness == true) {
                         Thread t = new Thread(new ThreadStart(() => {
                             bool r = false;
                             var ex_upfw_tm = new exUploadFWBusiness<UploadFwItemInfo, SettingInformation>(itemInfo, stationVariable.mySetting);

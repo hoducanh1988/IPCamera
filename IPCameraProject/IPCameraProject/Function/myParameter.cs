@@ -11,15 +11,16 @@ namespace IPCameraProject {
             "IP Camera Indoor",
             "IP Camera Outdoor",
         };
+
         public static List<string> list_station = new List<string>() {
-            "Upload Firmware Basic",
-            "Support calibration the image sharpness",
             "Test Function PCBA Layer2",
+            "Upload Firmware Basic",
             "Test Function PCBA Layer3",
+            "Support calibration the image sharpness",
+            "In tem UID",
             "Test Function ASM",
             "Calib Night Vision",
             "Upload Firmware Business",
-            "In tem UID",
         };
 
     }

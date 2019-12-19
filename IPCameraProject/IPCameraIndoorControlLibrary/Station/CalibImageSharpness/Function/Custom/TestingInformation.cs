@@ -4,9 +4,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
-namespace IPCameraIndoorControlLibrary.Station.CalibNightVision.Function.Custom {
-    
+namespace IPCameraIndoorControlLibrary.Station.CalibImageSharpness.Function.Custom {
+
+
     public class TestingInformation : INotifyPropertyChanged {
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name) {
@@ -28,9 +31,10 @@ namespace IPCameraIndoorControlLibrary.Station.CalibNightVision.Function.Custom 
             TotalResult = "-";
             logSystem = "";
             logTelnet = "";
-            cameraQuantity = "4";
-            progressIndex = 0;
+            macEthernet = "-";
             totalTime = "00:00:00";
+            imageSource = null;
+            imageCrop = null;
         }
         public void Checking() {
             TotalResult = "Waiting...";
@@ -44,6 +48,9 @@ namespace IPCameraIndoorControlLibrary.Station.CalibNightVision.Function.Custom 
             TotalResult = "Failed";
             buttonContent = "START";
         }
+        public void Finish() {
+            buttonContent = "START";
+        }
 
         string _total_time;
         public string totalTime {
@@ -53,12 +60,12 @@ namespace IPCameraIndoorControlLibrary.Station.CalibNightVision.Function.Custom 
                 OnPropertyChanged(nameof(totalTime));
             }
         }
-        string _camera_quantity;
-        public string cameraQuantity {
-            get { return _camera_quantity; }
+        string _mac_ethernet;
+        public string macEthernet {
+            get { return _mac_ethernet; }
             set {
-                _camera_quantity = value;
-                OnPropertyChanged(nameof(cameraQuantity));
+                _mac_ethernet = value;
+                OnPropertyChanged(nameof(macEthernet));
             }
         }
         string _logsystem;
@@ -93,35 +100,23 @@ namespace IPCameraIndoorControlLibrary.Station.CalibNightVision.Function.Custom 
                 OnPropertyChanged(nameof(buttonContent));
             }
         }
-        int progress_index;
-        public int progressIndex {
-            get { return progress_index; }
+        ImageSource _image_source;
+        public ImageSource imageSource {
+            get { return _image_source; }
             set {
-                progress_index = value;
-                OnPropertyChanged(nameof(progressIndex));
+                _image_source = value;
+                OnPropertyChanged(nameof(imageSource));
+            }
+        }
+        BitmapImage _image_crop;
+        public BitmapImage imageCrop {
+            get { return _image_crop; }
+            set {
+                _image_crop = value;
+                OnPropertyChanged(nameof(imageCrop));
             }
         }
 
-        #region test item
-
-        bool _is_calib_nightvision_light_mode;
-        public bool IsCalibNightVisionLightMode {
-            get { return _is_calib_nightvision_light_mode; }
-            set {
-                _is_calib_nightvision_light_mode = value;
-                OnPropertyChanged(nameof(IsCalibNightVisionLightMode));
-            }
-        }
-        bool _is_calib_nightvision_dark_mode;
-        public bool IsCalibNightVisionDarkMode {
-            get { return _is_calib_nightvision_dark_mode; }
-            set {
-                _is_calib_nightvision_dark_mode = value;
-                OnPropertyChanged(nameof(IsCalibNightVisionDarkMode));
-            }
-        }
-
-        #endregion
     }
 
 }

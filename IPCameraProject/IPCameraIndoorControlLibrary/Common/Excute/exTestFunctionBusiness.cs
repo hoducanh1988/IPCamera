@@ -23,6 +23,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
         //Nap fw thuong mai qua cong telnet
         public bool excuteTelnet() {
             bool ret = false;
+            bool flag_check = false;
 
             var prop_rebootresult = uploadInfo.GetType().GetProperty("rebootResult");
             prop_rebootresult.SetValue(uploadInfo, "Passed");
@@ -52,104 +53,119 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
 
                 //check firmware build time
                 //###############################################################//
-                var prop_fwresult = uploadInfo.GetType().GetProperty("firmwareResult");
-                prop_fwresult.SetValue(uploadInfo, "Waiting...");
+                flag_check = (bool)settingInfo.GetType().GetProperty("IsCheckFirmwareBuildTime").GetValue(settingInfo);
+                if (flag_check) {
+                    var prop_fwresult = uploadInfo.GetType().GetProperty("firmwareResult");
+                    prop_fwresult.SetValue(uploadInfo, "Waiting...");
 
-                log_value += string.Format("\n-------------------------------\n");
-                log_value += string.Format("{0}, check firmware business build time\n", DateTime.Now);
-                prop_logsystem.SetValue(uploadInfo, log_value);
+                    log_value += string.Format("\n-------------------------------\n");
+                    log_value += string.Format("{0}, check firmware business build time\n", DateTime.Now);
+                    prop_logsystem.SetValue(uploadInfo, log_value);
 
-                string fw_buildtime = (string)settingInfo.GetType().GetProperty("firmwareBuildTime").GetValue(settingInfo);
-                log_value += string.Format("...tiêu chuẩn: {0}\n", fw_buildtime);
-                log_value += string.Format("...thực tế:\n");
-                prop_logsystem.SetValue(uploadInfo, log_value);
+                    string fw_buildtime = (string)settingInfo.GetType().GetProperty("firmwareBuildTime").GetValue(settingInfo);
+                    log_value += string.Format("...tiêu chuẩn: {0}\n", fw_buildtime);
+                    log_value += string.Format("...thực tế:\n");
+                    prop_logsystem.SetValue(uploadInfo, log_value);
 
-                ret = _checkFWBuildTime(camera, fw_buildtime);
-                log_value = (string)prop_logsystem.GetValue(uploadInfo);
-                log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
-                prop_logsystem.SetValue(uploadInfo, log_value);
+                    ret = _checkFWBuildTime(camera, fw_buildtime);
+                    log_value = (string)prop_logsystem.GetValue(uploadInfo);
+                    log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
+                    prop_logsystem.SetValue(uploadInfo, log_value);
 
-                prop_fwresult.SetValue(uploadInfo, ret ? "Passed" : "Failed");
-                if (!ret) goto END;
+                    prop_fwresult.SetValue(uploadInfo, ret ? "Passed" : "Failed");
+                    if (!ret) goto END;
+                }
 
                 //check mac address
                 //###############################################################//
-                var prop_macresult = uploadInfo.GetType().GetProperty("macResult");
-                prop_macresult.SetValue(uploadInfo, "Waiting...");
+                flag_check = (bool)settingInfo.GetType().GetProperty("IsCheckMacEthernet").GetValue(settingInfo);
+                if (flag_check) {
+                    var prop_macresult = uploadInfo.GetType().GetProperty("macResult");
+                    prop_macresult.SetValue(uploadInfo, "Waiting...");
 
-                log_value += string.Format("\n-------------------------------\n");
-                log_value += string.Format("{0}, check mac ethernet\n", DateTime.Now);
-                prop_logsystem.SetValue(uploadInfo, log_value);
+                    log_value += string.Format("\n-------------------------------\n");
+                    log_value += string.Format("{0}, check mac ethernet\n", DateTime.Now);
+                    prop_logsystem.SetValue(uploadInfo, log_value);
 
-                string mac_header = (string)settingInfo.GetType().GetProperty("vnptMacHeader").GetValue(settingInfo);
+                    string mac_header = (string)settingInfo.GetType().GetProperty("vnptMacHeader").GetValue(settingInfo);
 
-                ret = _checkMacEthernet(camera, mac_header);
-                log_value = (string)prop_logsystem.GetValue(uploadInfo);
-                log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
-                prop_logsystem.SetValue(uploadInfo, log_value);
+                    ret = _checkMacEthernet(camera, mac_header);
+                    log_value = (string)prop_logsystem.GetValue(uploadInfo);
+                    log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
+                    prop_logsystem.SetValue(uploadInfo, log_value);
 
-                prop_macresult.SetValue(uploadInfo, ret ? "Passed" : "Failed");
-                if (!ret) goto END;
+                    prop_macresult.SetValue(uploadInfo, ret ? "Passed" : "Failed");
+                    if (!ret) goto END;
+                }
 
                 //check serial number
                 //###############################################################//
-                var prop_serialresult = uploadInfo.GetType().GetProperty("serialResult");
-                prop_serialresult.SetValue(uploadInfo, "Waiting...");
+                flag_check = (bool)settingInfo.GetType().GetProperty("IsCheckSerialNumber").GetValue(settingInfo);
+                if (flag_check) {
+                    var prop_serialresult = uploadInfo.GetType().GetProperty("serialResult");
+                    prop_serialresult.SetValue(uploadInfo, "Waiting...");
 
-                log_value += string.Format("\n-------------------------------\n");
-                log_value += string.Format("{0}, check serial number\n", DateTime.Now);
-                prop_logsystem.SetValue(uploadInfo, log_value);
+                    log_value += string.Format("\n-------------------------------\n");
+                    log_value += string.Format("{0}, check serial number\n", DateTime.Now);
+                    prop_logsystem.SetValue(uploadInfo, log_value);
 
-                string vnpt_productnumber = (string)settingInfo.GetType().GetProperty("vnptProductNumber").GetValue(settingInfo);
+                    string vnpt_productnumber = (string)settingInfo.GetType().GetProperty("vnptProductNumber").GetValue(settingInfo);
 
-                ret = _checkSerialNumber(camera, vnpt_productnumber);
-                log_value = (string)prop_logsystem.GetValue(uploadInfo);
-                log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
-                prop_logsystem.SetValue(uploadInfo, log_value);
+                    ret = _checkSerialNumber(camera, vnpt_productnumber);
+                    log_value = (string)prop_logsystem.GetValue(uploadInfo);
+                    log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
+                    prop_logsystem.SetValue(uploadInfo, log_value);
 
-                prop_serialresult.SetValue(uploadInfo, ret ? "Passed" : "Failed");
-                if (!ret) goto END;
+                    prop_serialresult.SetValue(uploadInfo, ret ? "Passed" : "Failed");
+                    if (!ret) goto END;
+                }
 
                 //check uid
                 //###############################################################//
-                var prop_uidresult = uploadInfo.GetType().GetProperty("uidResult");
-                prop_uidresult.SetValue(uploadInfo, "Waiting...");
+                flag_check = (bool)settingInfo.GetType().GetProperty("IsCheckUID").GetValue(settingInfo);
+                if (flag_check) {
+                    var prop_uidresult = uploadInfo.GetType().GetProperty("uidResult");
+                    prop_uidresult.SetValue(uploadInfo, "Waiting...");
 
-                log_value += string.Format("\n-------------------------------\n");
-                log_value += string.Format("{0}, check uid\n", DateTime.Now);
-                prop_logsystem.SetValue(uploadInfo, log_value);
+                    log_value += string.Format("\n-------------------------------\n");
+                    log_value += string.Format("{0}, check uid\n", DateTime.Now);
+                    prop_logsystem.SetValue(uploadInfo, log_value);
 
-                string vnpt_uidheader = (string)settingInfo.GetType().GetProperty("vnptUidHeader").GetValue(settingInfo);
+                    string vnpt_uidheader = (string)settingInfo.GetType().GetProperty("vnptUidHeader").GetValue(settingInfo);
 
-                ret = _checkUIDCode(camera, vnpt_uidheader);
-                log_value = (string)prop_logsystem.GetValue(uploadInfo);
-                log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
-                prop_logsystem.SetValue(uploadInfo, log_value);
+                    ret = _checkUIDCode(camera, vnpt_uidheader);
+                    log_value = (string)prop_logsystem.GetValue(uploadInfo);
+                    log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
+                    prop_logsystem.SetValue(uploadInfo, log_value);
 
-                prop_uidresult.SetValue(uploadInfo, ret ? "Passed" : "Failed");
-                if (!ret) goto END;
+                    prop_uidresult.SetValue(uploadInfo, ret ? "Passed" : "Failed");
+                    if (!ret) goto END;
+                }
 
                 //check hardware version
                 //###############################################################//
-                var prop_hwresult = uploadInfo.GetType().GetProperty("hardwareResult");
-                prop_hwresult.SetValue(uploadInfo, "Waiting...");
+                flag_check = (bool)settingInfo.GetType().GetProperty("IsCheckHardwareVersion").GetValue(settingInfo);
+                if (flag_check) {
+                    var prop_hwresult = uploadInfo.GetType().GetProperty("hardwareResult");
+                    prop_hwresult.SetValue(uploadInfo, "Waiting...");
 
-                log_value += string.Format("\n-------------------------------\n");
-                log_value += string.Format("{0}, check hardware version\n", DateTime.Now);
-                prop_logsystem.SetValue(uploadInfo, log_value);
+                    log_value += string.Format("\n-------------------------------\n");
+                    log_value += string.Format("{0}, check hardware version\n", DateTime.Now);
+                    prop_logsystem.SetValue(uploadInfo, log_value);
 
-                string hw_version = (string)settingInfo.GetType().GetProperty("hardwareVersion").GetValue(settingInfo);
-                log_value += string.Format("...tiêu chuẩn: {0}\n", hw_version);
-                log_value += string.Format("...thực tế:\n");
-                prop_logsystem.SetValue(uploadInfo, log_value);
+                    string hw_version = (string)settingInfo.GetType().GetProperty("hardwareVersion").GetValue(settingInfo);
+                    log_value += string.Format("...tiêu chuẩn: {0}\n", hw_version);
+                    log_value += string.Format("...thực tế:\n");
+                    prop_logsystem.SetValue(uploadInfo, log_value);
 
-                ret = _checkHardwareVersion(camera, hw_version);
-                log_value = (string)prop_logsystem.GetValue(uploadInfo);
-                log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
-                prop_logsystem.SetValue(uploadInfo, log_value);
+                    ret = _checkHardwareVersion(camera, hw_version);
+                    log_value = (string)prop_logsystem.GetValue(uploadInfo);
+                    log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
+                    prop_logsystem.SetValue(uploadInfo, log_value);
 
-                prop_hwresult.SetValue(uploadInfo, ret ? "Passed" : "Failed");
-                if (!ret) goto END;
+                    prop_hwresult.SetValue(uploadInfo, ret ? "Passed" : "Failed");
+                    if (!ret) goto END;
+                }
 
             }
             catch (Exception ex) {
@@ -164,7 +180,8 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             return ret;
         }
 
-
+        #region sub-function
+        
         bool _loginToCamera(string ip, string user, string pass, ref Dut.IPCamera<U> camera) {
             bool ret = false;
             int count = 0;
@@ -346,6 +363,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             return ret;
         }
 
+        #endregion
 
 
     }

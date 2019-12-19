@@ -19,7 +19,6 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             settingInfo = _settingInfo;
         }
 
-
         //Nap fw thuong mai qua cong telnet
         public bool excuteTelnet() {
             bool ret = false;
@@ -109,7 +108,8 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             return ret;
         }
 
-
+        #region sub-function
+        
         bool _loginToCamera(string ip, string user, string pass, ref Dut.IPCamera<U> camera) {
             bool ret = false;
             int count = 0;
@@ -143,19 +143,23 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             int count = 0;
             var prop_logsystem = uploadInfo.GetType().GetProperty("logSystem");
             string log_value = (string)prop_logsystem.GetValue(uploadInfo);
+            string data = "";
 
         RE:
             count++;
-            string data = camera.captureLog();
-            log_value += data;
+            string tmpStr = camera.captureLog();
+            data += tmpStr;
+            log_value += tmpStr;
             prop_logsystem.SetValue(uploadInfo, log_value);
-            ret = string.IsNullOrEmpty(data) || string.IsNullOrWhiteSpace(data) ? false : data.Contains("updatefirmware success");
+            ret = string.IsNullOrEmpty(data) || string.IsNullOrWhiteSpace(data) ? false : data.Contains("~ #");
             if (!ret) {
                 if (count < time_out) {
                     Thread.Sleep(1000);
                     goto RE;
                 }
             }
+            if (ret) ret = data.Contains("updatefirmware success");
+
             return ret;
         }
 
@@ -174,6 +178,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             }
             return ret;
         }
-    
+
+        #endregion
     }
 }
