@@ -68,10 +68,11 @@ namespace IPCameraIndoorControlLibrary.Common.UI {
         string rtsp_link = "";
         int count = 0;
         public string imageMessage = "";
+        string mac_ethernet = "";
 
         VideoCapture capture;
 
-        public ucImageSensor(int _timeout, string _area, double _std_sharpness, double _std_tolerance, string _rtsp_link) {
+        public ucImageSensor(int _timeout, string _area, double _std_sharpness, double _std_tolerance, string _rtsp_link, string _mac) {
             InitializeComponent();
             this.DataContext = imageInfo;
 
@@ -80,6 +81,7 @@ namespace IPCameraIndoorControlLibrary.Common.UI {
             std_sharpness = _std_sharpness;
             std_tolerance = _std_tolerance;
             rtsp_link = _rtsp_link;
+            mac_ethernet = _mac;
 
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
@@ -131,6 +133,17 @@ namespace IPCameraIndoorControlLibrary.Common.UI {
 
                                 //put text scale
                                 CvInvoke.PutText(m, scale.ToString(), new System.Drawing.Point(rect_left, rect_top - 20), FontFace.HersheySimplex, 2, new MCvScalar(0, 255, 0), 2, LineType.AntiAlias);
+
+                                //put text mac
+                                string mac = string.Format("{0}:{1}:{2}:{3}:{4}:{5}",
+                                                            mac_ethernet.Substring(0, 2),
+                                                            mac_ethernet.Substring(2, 2),
+                                                            mac_ethernet.Substring(4, 2),
+                                                            mac_ethernet.Substring(6, 2),
+                                                            mac_ethernet.Substring(8, 2),
+                                                            mac_ethernet.Substring(10, 2));
+
+                                CvInvoke.PutText(m, mac, new System.Drawing.Point(10, 50), FontFace.HersheySimplex, 2, new MCvScalar(0, 0, 255), 2, LineType.AntiAlias);
 
                                 //put text result
                                 CvInvoke.PutText(m, r ? "Passed" : "Failed", new System.Drawing.Point(rect_left - 100, rect_top + rect_height + 150), FontFace.HersheySimplex, 6, r ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255), 10);

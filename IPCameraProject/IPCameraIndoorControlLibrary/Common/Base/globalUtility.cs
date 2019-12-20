@@ -142,5 +142,16 @@ namespace IPCameraIndoorControlLibrary.Common.Base {
             }
         }
 
+        public static void WriteJpeg(string fileName, int quality, BitmapSource bs) {
+
+            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            BitmapFrame outputFrame = BitmapFrame.Create(bs);
+            encoder.Frames.Add(outputFrame);
+            encoder.QualityLevel = quality;
+
+            using (FileStream file = File.OpenWrite(fileName)) {
+                encoder.Save(file);
+            }
+        }
     }
 }

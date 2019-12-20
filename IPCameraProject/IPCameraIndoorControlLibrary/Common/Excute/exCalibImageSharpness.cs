@@ -127,8 +127,6 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
                     prop_totalresult.SetValue(testingInfo, ret ? "Passed" : "Failed");
 
                     count++;
-                    //log_value += string.Format("...kết quả lần {0} là: {1}, {2}\n", count, scale, ret);
-                    //prop_logsystem.SetValue(testingInfo, log_value);
 
                     //thoi gian
                     CvInvoke.PutText(m,
@@ -169,6 +167,24 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
                                      ret ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255),
                                      2,
                                      LineType.AntiAlias);
+
+                    //mac address
+                    CvInvoke.PutText(m,
+                                     string.Format("{0}:{1}:{2}:{3}:{4}:{5}", 
+                                                    mac_ethernet.Substring(0, 2),
+                                                    mac_ethernet.Substring(2, 2),
+                                                    mac_ethernet.Substring(4, 2),
+                                                    mac_ethernet.Substring(6, 2),
+                                                    mac_ethernet.Substring(8, 2),
+                                                    mac_ethernet.Substring(10, 2)
+                                                    ),
+                                     new System.Drawing.Point(30, 650),
+                                     FontFace.HersheySimplex,
+                                     2,
+                                     new MCvScalar(0, 0, 255),
+                                     2,
+                                     LineType.AntiAlias);
+
 
                     //show image
                     var bi = globalUtility.ToBitmapSource(m.Bitmap);

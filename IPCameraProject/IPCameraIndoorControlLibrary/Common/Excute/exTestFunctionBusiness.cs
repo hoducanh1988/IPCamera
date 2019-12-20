@@ -67,12 +67,14 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
                     log_value += string.Format("...thực tế:\n");
                     prop_logsystem.SetValue(uploadInfo, log_value);
 
-                    ret = _checkFWBuildTime(camera, fw_buildtime);
+                    string act_buildtime = "";
+                    ret = _checkFWBuildTime(camera, fw_buildtime, out act_buildtime);
                     log_value = (string)prop_logsystem.GetValue(uploadInfo);
                     log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
                     prop_logsystem.SetValue(uploadInfo, log_value);
-
                     prop_fwresult.SetValue(uploadInfo, ret ? "Passed" : "Failed");
+
+                    uploadInfo.GetType().GetProperty("firmwareBuildTime").SetValue(uploadInfo, act_buildtime);
                     if (!ret) goto END;
                 }
 
@@ -111,12 +113,14 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
 
                     string vnpt_productnumber = (string)settingInfo.GetType().GetProperty("vnptProductNumber").GetValue(settingInfo);
 
-                    ret = _checkSerialNumber(camera, vnpt_productnumber);
+                    string act_serial = "";
+                    ret = _checkSerialNumber(camera, vnpt_productnumber, out act_serial);
                     log_value = (string)prop_logsystem.GetValue(uploadInfo);
                     log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
                     prop_logsystem.SetValue(uploadInfo, log_value);
-
                     prop_serialresult.SetValue(uploadInfo, ret ? "Passed" : "Failed");
+
+                    uploadInfo.GetType().GetProperty("serialNumber").SetValue(uploadInfo, act_serial);
                     if (!ret) goto END;
                 }
 
@@ -133,12 +137,14 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
 
                     string vnpt_uidheader = (string)settingInfo.GetType().GetProperty("vnptUidHeader").GetValue(settingInfo);
 
-                    ret = _checkUIDCode(camera, vnpt_uidheader);
+                    string act_uid = "";
+                    ret = _checkUIDCode(camera, vnpt_uidheader, out act_uid);
                     log_value = (string)prop_logsystem.GetValue(uploadInfo);
                     log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
                     prop_logsystem.SetValue(uploadInfo, log_value);
-
                     prop_uidresult.SetValue(uploadInfo, ret ? "Passed" : "Failed");
+
+                    uploadInfo.GetType().GetProperty("uidCode").SetValue(uploadInfo, act_uid);
                     if (!ret) goto END;
                 }
 
@@ -158,12 +164,14 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
                     log_value += string.Format("...thực tế:\n");
                     prop_logsystem.SetValue(uploadInfo, log_value);
 
-                    ret = _checkHardwareVersion(camera, hw_version);
+                    string act_hw_ver = "";
+                    ret = _checkHardwareVersion(camera, hw_version, out act_hw_ver);
                     log_value = (string)prop_logsystem.GetValue(uploadInfo);
                     log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
                     prop_logsystem.SetValue(uploadInfo, log_value);
-
                     prop_hwresult.SetValue(uploadInfo, ret ? "Passed" : "Failed");
+
+                    uploadInfo.GetType().GetProperty("hardwareVersion").SetValue(uploadInfo, act_hw_ver);
                     if (!ret) goto END;
                 }
 
@@ -196,13 +204,14 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             return ret;
         }
 
-        bool _checkFWBuildTime(Dut.IPCamera<U> camera, string std_value) {
+        bool _checkFWBuildTime(Dut.IPCamera<U> camera, string std_value, out string fw_build_time) {
 
             var prop_logsystem = uploadInfo.GetType().GetProperty("logSystem");
             string log_value = (string)prop_logsystem.GetValue(uploadInfo);
 
             bool ret = false;
             int count = 0;
+            fw_build_time = "";
         RE:
             count++;
             string data = camera.getFirmwareBuildTime();
@@ -212,6 +221,10 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             ret = data.Contains(std_value);
             if (!ret) {
                 if (count < 3) goto RE;
+            }
+
+            if (data != null && data.Length > 0) {
+                fw_build_time = data.Split('\n')[2].Replace("\n", "").Replace("\r", "").Trim();
             }
 
             return ret;
@@ -254,7 +267,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             return ret;
         }
 
-        bool _checkSerialNumber(Dut.IPCamera<U> camera, string vnpt_product_number) {
+        bool _checkSerialNumber(Dut.IPCamera<U> camera, string vnpt_product_number, out string serial_number) {
             var prop_logsystem = uploadInfo.GetType().GetProperty("logSystem");
             string log_value = (string)prop_logsystem.GetValue(uploadInfo);
 
@@ -264,7 +277,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             count++;
 
             //đọc serial number
-            string serial_number = camera.getSerialNumber();
+            serial_number = camera.getSerialNumber();
             serial_number = serial_number.Replace("[", "")
                                          .Replace("]", "")
                                          .Replace("\n", "")
@@ -298,7 +311,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             return ret;
         }
 
-        bool _checkUIDCode(Dut.IPCamera<U> camera, string vnpt_uid_header) {
+        bool _checkUIDCode(Dut.IPCamera<U> camera, string vnpt_uid_header, out string uid_code) {
             var prop_logsystem = uploadInfo.GetType().GetProperty("logSystem");
             string log_value = (string)prop_logsystem.GetValue(uploadInfo);
 
@@ -308,7 +321,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             count++;
 
             //đọc uid
-            string uid_code = camera.getUidCode();
+            uid_code = camera.getUidCode();
             uid_code = uid_code.Replace("[", "")
                                .Replace("]", "")
                                .Replace("\n", "")
@@ -343,7 +356,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             return ret;
         }
 
-        bool _checkHardwareVersion(Dut.IPCamera<U> camera, string std_value) {
+        bool _checkHardwareVersion(Dut.IPCamera<U> camera, string std_value, out string hw_version) {
             var prop_logsystem = uploadInfo.GetType().GetProperty("logSystem");
             string log_value = (string)prop_logsystem.GetValue(uploadInfo);
 
@@ -352,6 +365,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
         RE:
             count++;
             string data = camera.getHardwareVersion();
+            hw_version = data;
             log_value += data;
             prop_logsystem.SetValue(uploadInfo, log_value);
 

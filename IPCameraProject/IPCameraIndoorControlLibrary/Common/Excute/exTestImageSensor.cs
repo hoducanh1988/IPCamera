@@ -70,13 +70,14 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             double sharpness = (double)settingInfo.GetType().GetProperty("sharpnessStandard").GetValue(settingInfo);
             double tolerance = (double)settingInfo.GetType().GetProperty("toleranceSharpness").GetValue(settingInfo);
             string areatest = (string)settingInfo.GetType().GetProperty("areaTestChart").GetValue(settingInfo);
+            string mac_ethernet = (string)testingInfo.GetType().GetProperty("macFromBarcode").GetValue(testingInfo);
 
             try {
                 if (!camera.IsConnected()) goto END;
 
                 //chuyen camera sang mode BGR
                 camera.switchCameraMode(false);
-                Application.Current.Dispatcher.Invoke(new Action(() => { uc_imagesensor = new UI.ucImageSensor(13, areatest, sharpness, tolerance, rtsp_link); }));
+                Application.Current.Dispatcher.Invoke(new Action(() => { uc_imagesensor = new UI.ucImageSensor(13, areatest, sharpness, tolerance, rtsp_link, mac_ethernet); }));
                 Thread.Sleep(3000);
 
                 Application.Current.Dispatcher.Invoke(new Action(() => {

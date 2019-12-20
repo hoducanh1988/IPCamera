@@ -23,6 +23,11 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBusiness.Function.C
             logSystem = "";
             totalTime = "00:00:00";
 
+            serialNumber = "";
+            uidCode = "";
+            hardwareVersion = "";
+            firmwareBuildTime = "";
+
             uploadResult = "-";
             rebootResult = "-";
             firmwareResult = "-";
@@ -33,8 +38,45 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBusiness.Function.C
             totalResult = "-";
         }
 
+        #region info
+
+        string _serial_number;
+        public string serialNumber {
+            get { return _serial_number; }
+            set {
+                _serial_number = value;
+                OnPropertyChanged(nameof(serialNumber));
+            }
+        }
+        string _uid_code;
+        public string uidCode {
+            get { return _uid_code; }
+            set {
+                _uid_code = value;
+                OnPropertyChanged(nameof(uidCode));
+            }
+        }
+        string _fw_build_time;
+        public string firmwareBuildTime {
+            get { return _fw_build_time; }
+            set {
+                _fw_build_time = value;
+                OnPropertyChanged(nameof(firmwareBuildTime));
+            }
+        }
+        string _hw_version;
+        public string hardwareVersion {
+            get { return _hw_version; }
+            set {
+                _hw_version = value;
+                OnPropertyChanged(nameof(hardwareVersion));
+            }
+        }
+
+        #endregion
+
         #region template
-        
+
 
         string _mac_ethernet;
         public string macEthernet {

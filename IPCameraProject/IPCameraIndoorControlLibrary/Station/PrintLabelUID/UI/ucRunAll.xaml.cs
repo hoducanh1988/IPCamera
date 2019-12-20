@@ -14,16 +14,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using IPCameraIndoorControlLibrary.Station.PrintLabelUID.Function;
-using IPCameraIndoorControlLibrary.Station.PrintLabelUID.Function.Custom;
-using IPCameraIndoorControlLibrary.Station.PrintLabelUID.Function.AccessTable;
-using IPCameraIndoorControlLibrary.Common.IO;
 using Microsoft.Win32;
 using UtilityPack.IO;
 using UtilityPack.Validation;
 using UtilityPack.Converter;
 using System.Threading;
 using System.Diagnostics;
+using IPCameraIndoorControlLibrary.Station.PrintLabelUID.Function;
+using IPCameraIndoorControlLibrary.Station.PrintLabelUID.Function.Custom;
+using IPCameraIndoorControlLibrary.Station.PrintLabelUID.Function.AccessTable;
+using IPCameraIndoorControlLibrary.Common.IO;
+using IPCameraIndoorControlLibrary.Common.Log;
+using IPCameraIndoorControlLibrary.Common.Base;
+
 
 namespace IPCameraIndoorControlLibrary.Station.PrintLabelUID.UI {
     /// <summary>
@@ -124,8 +127,12 @@ namespace IPCameraIndoorControlLibrary.Station.PrintLabelUID.UI {
             Thread zzz = new Thread(new ThreadStart(() => {
                 //run check
                 var runall = new imp_RunAll();
-                if (!runall.Execute()) _jud_fail();
+                bool r = runall.Execute();
+                if (!r) _jud_fail();
                 else _jud_pass();
+
+                //save log
+                new LogSystem(globalParameter.LogStationName.UidLabel.ToString(), stationVariable.myTesting.MacAddress, stationVariable.myTesting.TotalResult).saveDataToLogFile(stationVariable.myTesting.ErrorMessage);
             }));
             zzz.IsBackground = true;
             zzz.Start();

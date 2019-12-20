@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Emgu.CV;
+using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using IPCameraIndoorControlLibrary.Common.Base;
 
@@ -54,18 +55,20 @@ namespace IPCameraIndoorControlLibrary.Common.UI {
         int diffValue = 5;
         int count = 0;
         string rtsp_link = "";
+        string mac_ethernet = "";
         public string nightMessage = "";
 
         VideoCapture capture;
 
 
-        public ucNightVision(int _timeout, int _diff_value, string _rtsp_link) {
+        public ucNightVision(int _timeout, int _diff_value, string _rtsp_link, string _mac) {
             InitializeComponent();
             this.DataContext = nightInfo;
 
             timeOut = _timeout;
             diffValue = _diff_value;
             rtsp_link = _rtsp_link;
+            mac_ethernet = _mac;
 
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
@@ -108,13 +111,23 @@ namespace IPCameraIndoorControlLibrary.Common.UI {
                                 string str3 = string.Format("Point3: R-G={0} G-B={1} B-R={2}", Math.Abs(p3.Red - p3.Green), Math.Abs(p3.Green - p3.Blue), Math.Abs(p3.Blue - p3.Red));
 
 
-                                CvInvoke.PutText(m, str1, new System.Drawing.Point(text_left, text_top), Emgu.CV.CvEnum.FontFace.HersheySimplex, 1.5, ret1 ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255), 3);
-                                CvInvoke.PutText(m, str2, new System.Drawing.Point(text_left, text_top + 70), Emgu.CV.CvEnum.FontFace.HersheySimplex, 1.5, ret2 ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255), 3);
-                                CvInvoke.PutText(m, str3, new System.Drawing.Point(text_left, text_top + 140), Emgu.CV.CvEnum.FontFace.HersheySimplex, 1.5, ret3 ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255), 3);
+                                CvInvoke.PutText(m, str1, new System.Drawing.Point(text_left, text_top), FontFace.HersheySimplex, 1.5, ret1 ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255), 2);
+                                CvInvoke.PutText(m, str2, new System.Drawing.Point(text_left, text_top + 70), FontFace.HersheySimplex, 1.5, ret2 ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255), 2);
+                                CvInvoke.PutText(m, str3, new System.Drawing.Point(text_left, text_top + 140), FontFace.HersheySimplex, 1.5, ret3 ? new MCvScalar(0, 255, 0) : new MCvScalar(0, 0, 255), 2);
+
+                                //put text mac
+                                string mac = string.Format("{0}:{1}:{2}:{3}:{4}:{5}",
+                                                            mac_ethernet.Substring(0, 2),
+                                                            mac_ethernet.Substring(2, 2),
+                                                            mac_ethernet.Substring(4, 2),
+                                                            mac_ethernet.Substring(6, 2),
+                                                            mac_ethernet.Substring(8, 2),
+                                                            mac_ethernet.Substring(10, 2));
+                                CvInvoke.PutText(m, mac, new System.Drawing.Point(10, 50), FontFace.HersheySimplex, 2, new MCvScalar(0, 0, 255), 2, LineType.AntiAlias);
 
                                 bool ret = ret1 && ret2 && ret3;
                                 string strR = string.Format("{0}", ret ? "Passed" : "Failed");
-                                CvInvoke.PutText(m, strR, new System.Drawing.Point(text_left, text_top + 500), Emgu.CV.CvEnum.FontFace.HersheySimplex, 6, ret ? new MCvScalar(0, 255, 0) : new MCvScalar(3, 182, 255), 10);
+                                CvInvoke.PutText(m, strR, new System.Drawing.Point(text_left, text_top + 500), FontFace.HersheySimplex, 6, ret ? new MCvScalar(0, 255, 0) : new MCvScalar(3, 182, 255), 10);
 
                                 nightMessage = string.Format("{0}\n{1}\n{2}\n{3}\n", str1, str2, str3, strR);
 

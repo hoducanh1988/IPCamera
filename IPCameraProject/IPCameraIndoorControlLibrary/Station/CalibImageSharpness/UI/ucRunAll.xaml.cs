@@ -18,6 +18,8 @@ using UtilityPack.IO;
 using IPCameraIndoorControlLibrary.Station.CalibImageSharpness.Function;
 using IPCameraIndoorControlLibrary.Station.CalibImageSharpness.Function.Custom;
 using IPCameraIndoorControlLibrary.Common.Excute;
+using IPCameraIndoorControlLibrary.Common.Log;
+using IPCameraIndoorControlLibrary.Common.Base;
 
 namespace IPCameraIndoorControlLibrary.Station.CalibImageSharpness.UI {
     /// <summary>
@@ -75,6 +77,8 @@ namespace IPCameraIndoorControlLibrary.Station.CalibImageSharpness.UI {
                             if (r) stationVariable.myTesting.Pass();
                             else stationVariable.myTesting.Fail();
 
+                            //save log
+                            _save_log();
 
                         }));
                         t.IsBackground = true;
@@ -104,5 +108,40 @@ namespace IPCameraIndoorControlLibrary.Station.CalibImageSharpness.UI {
                     }
             }
         }
+
+        private void _save_log() {
+            //save log telnet
+            new LogTelnet(
+                globalParameter.LogStationName.CalibSharpness.ToString(),
+                stationVariable.myTesting.macEthernet,
+                stationVariable.myTesting.TotalResult
+                )
+            .saveDataToLogFile(stationVariable.myTesting.logTelnet);
+
+            //save log system
+            new LogSystem(
+                globalParameter.LogStationName.CalibSharpness.ToString(),
+                stationVariable.myTesting.macEthernet,
+                stationVariable.myTesting.TotalResult
+                )
+            .saveDataToLogFile(stationVariable.myTesting.logSystem);
+
+            //save log total
+            new LogTotal(
+                 globalParameter.LogStationName.CalibSharpness.ToString()
+                )
+            .saveDataToLogFile(
+                "macEthernet", stationVariable.myTesting.macEthernet,
+                "TotalResult", stationVariable.myTesting.TotalResult
+                );
+
+            //save log image
+            new LogImage(
+                globalParameter.LogStationName.CalibSharpness.ToString(),
+                stationVariable.myTesting.macEthernet
+                )
+                .saveDataToLogFile(new List<string>() { "image_sharpness.png" }, new List<ImageSource>() { stationVariable.myTesting.imageSource });
+        }
+
     }
 }

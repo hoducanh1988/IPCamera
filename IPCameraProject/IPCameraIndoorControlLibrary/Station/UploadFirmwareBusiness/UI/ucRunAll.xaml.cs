@@ -19,6 +19,7 @@ using IPCameraIndoorControlLibrary.Common.Base;
 using IPCameraIndoorControlLibrary.Common.Excute;
 using IPCameraIndoorControlLibrary.Station.UploadFirmwareBusiness.Function;
 using IPCameraIndoorControlLibrary.Station.UploadFirmwareBusiness.Function.Custom;
+using IPCameraIndoorControlLibrary.Common.Log;
 using UtilityPack.IO;
 
 namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBusiness.UI {
@@ -288,8 +289,17 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBusiness.UI {
                             bool r = false;
                             var ex_upfw_tm = new exUploadFWBusiness<UploadFwItemInfo, SettingInformation>(itemInfo, stationVariable.mySetting);
                             r = ex_upfw_tm.excuteTelnet();
-                            if (!r) { itemInfo.totalResult = "Failed"; }
-                            else { if (!stationVariable.mySetting.isTestFunction()) itemInfo.totalResult = "Passed"; }
+                            if (!r) { 
+                                itemInfo.totalResult = "Failed";
+                                //save log
+                                saveLog(itemInfo);
+                            }
+                            else { if (!stationVariable.mySetting.isTestFunction()) {
+                                    itemInfo.totalResult = "Passed";
+                                    //save log
+                                    saveLog(itemInfo);
+                                }
+                            }
                         }));
                         t.IsBackground = true;
                         t.Start();
@@ -300,6 +310,8 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBusiness.UI {
                             var ex_testfunc_tm = new exTestFunctionBusiness<UploadFwItemInfo, SettingInformation>(itemInfo, stationVariable.mySetting);
                             r = ex_testfunc_tm.excuteTelnet();
                             itemInfo.totalResult = r ? "Passed" : "Failed";
+                            //save log
+                            saveLog(itemInfo);
                         }));
                         t.IsBackground = true;
                         t.Start();
@@ -331,5 +343,44 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBusiness.UI {
                     }
             }
         }
+
+        private void saveLog(UploadFwItemInfo itemInfo) {
+
+            //save log telnet
+            new LogTelnet(
+                globalParameter.LogStationName.FwBusiness.ToString(),
+                itemInfo.macEthernet,
+                itemInfo.totalResult
+                )
+            .saveDataToLogFile(itemInfo.logTelnet);
+
+            //save log system
+            new LogSystem(
+                globalParameter.LogStationName.FwBusiness.ToString(),
+                itemInfo.macEthernet,
+                itemInfo.totalResult
+                )
+            .saveDataToLogFile(itemInfo.logSystem);
+
+            //save log total
+            new LogTotal(
+                 globalParameter.LogStationName.FwBusiness.ToString()
+                )
+            .saveDataToLogFile(
+                "macEthernet", itemInfo.macEthernet,
+                "serialNumber",itemInfo.serialNumber,
+                "uidCode", itemInfo.uidCode,
+                "firmwareBuildTime", itemInfo.firmwareBuildTime,
+                "hardwareVersion", itemInfo.hardwareVersion,
+                "uploadResult", itemInfo.uploadResult,
+                "firmwareResult", itemInfo.firmwareResult,
+                "macResult", itemInfo.macResult,
+                "serialResult", itemInfo.serialResult,
+                "uidResult", itemInfo.uidResult,
+                "hardwareResult", itemInfo.hardwareResult,
+                "TotalResult", itemInfo.totalResult
+                );
+        }
+
     }
 }

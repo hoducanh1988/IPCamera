@@ -18,6 +18,7 @@ using IPCameraIndoorControlLibrary.Station.CalibNightVision.Function.Custom;
 using IPCameraIndoorControlLibrary.Common.Base;
 using UtilityPack.IO;
 using System.Windows.Threading;
+using IPCameraIndoorControlLibrary.Common.Log;
 
 namespace IPCameraIndoorControlLibrary.Station.CalibNightVision.UI {
     /// <summary>
@@ -222,6 +223,13 @@ namespace IPCameraIndoorControlLibrary.Station.CalibNightVision.UI {
                                 if (ret) stationVariable.myTesting.Pass();
                                 else stationVariable.myTesting.Fail();
 
+                            }));
+
+                            //save log
+                            Application.Current.Dispatcher.Invoke(new Action(() => {
+                                foreach (var item in stationVariable.myCalibNightVisionInfo) {
+                                    _save_log(item);
+                                }
                             }));
 
                         }));
@@ -544,6 +552,35 @@ namespace IPCameraIndoorControlLibrary.Station.CalibNightVision.UI {
             }
         }
 
+        private void _save_log(CalibNightVisionItemInfo calibItem) {
+            //save log telnet
+            new LogTelnet(
+                globalParameter.LogStationName.CalibNight.ToString(),
+                calibItem.macEthernet,
+                calibItem.Result
+                )
+            .saveDataToLogFile(stationVariable.myTesting.logTelnet);
+
+            //save log system
+            new LogSystem(
+                globalParameter.LogStationName.CalibNight.ToString(),
+                 calibItem.macEthernet,
+                calibItem.Result
+                )
+            .saveDataToLogFile(stationVariable.myTesting.logSystem);
+
+            //save log total
+            new LogTotal(
+                 globalParameter.LogStationName.CalibNight.ToString()
+                )
+            .saveDataToLogFile(
+                "macEthernet", calibItem.macEthernet,
+                "calibDarkResult", calibItem.calibDarkResult,
+                "calibLightResult", calibItem.calibLightResult,
+                "verifyResult", calibItem.verifyResult,
+                "TotalResult", calibItem.Result
+                );
+        }
 
         #endregion
 
