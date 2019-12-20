@@ -79,6 +79,9 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
 
             END:
             prop_nightvisionresult.SetValue(testingInfo, ret ? "Passed" : "Failed");
+            if (uc_nightvision.nightInfo.imageSource != null) {
+                testingInfo.GetType().GetProperty("imageNightVision").SetValue(testingInfo, uc_nightvision.nightInfo.imageSource);
+            }
             return ret;
         }
 

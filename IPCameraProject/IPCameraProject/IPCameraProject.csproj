@@ -119,7 +119,7 @@
     <Resource Include="Asset\Icon\icoCamera.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Asset\Image\camera_indoor.png" />
+    <Folder Include="Asset\Image\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

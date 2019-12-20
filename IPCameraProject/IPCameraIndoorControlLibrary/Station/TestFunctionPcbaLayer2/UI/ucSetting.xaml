@@ -128,7 +128,7 @@
                     <ComboBox x:Name="cbb_comport" 
                               Text="{Binding Path=SerialPortName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </Grid>
-                <Grid>
+                <Grid IsEnabled="False">
                     <Label Content="BaudRate"/>
                     <ComboBox x:Name="cbb_baudrate"
                               Text="{Binding Path=SerialBaudRate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>

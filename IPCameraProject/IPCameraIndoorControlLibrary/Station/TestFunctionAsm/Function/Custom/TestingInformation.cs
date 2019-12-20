@@ -31,7 +31,8 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
             macFromBarcode = "";
             serialFromBarcode = "";
             uidFromBarcode = "";
-
+            imageSharpness = null;
+            imageNightVision = null;
             macResult = "-";
             firmwareResult = "-";
             uidResult = "-";
@@ -65,7 +66,22 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom {
         #endregion
 
         #region property
-
+        ImageSource _image_sharpness;
+        public ImageSource imageSharpness {
+            get { return _image_sharpness; }
+            set {
+                _image_sharpness = value;
+                OnPropertyChanged(nameof(imageSharpness));
+            }
+        }
+        ImageSource _image_nightvision;
+        public ImageSource imageNightVision {
+            get { return _image_nightvision; }
+            set {
+                _image_nightvision = value;
+                OnPropertyChanged(nameof(imageNightVision));
+            }
+        }
         string _mac_from_barcode;
         public string macFromBarcode {
             get { return _mac_from_barcode; }

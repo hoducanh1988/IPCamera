@@ -13,11 +13,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UtilityPack.IO;
+using System.Windows.Threading;
 using IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.Function;
 using IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.Function.Custom;
 using IPCameraIndoorControlLibrary.Common.Excute;
-using UtilityPack.IO;
-using System.Windows.Threading;
+using IPCameraIndoorControlLibrary.Common.Base;
+using IPCameraIndoorControlLibrary.Common.Log;
 
 namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.UI {
     /// <summary>
@@ -107,7 +109,8 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.UI {
                                 //judgement
                                 if (r) stationVariable.myTestingCamera1.Pass();
                                 else stationVariable.myTestingCamera1.Fail();
-
+                                //save log
+                                saveLog(stationVariable.myTestingCamera1);
                                 //clear text
                                 Application.Current.Dispatcher.Invoke(new Action(() => { tb.Clear(); }));
                             }));
@@ -147,7 +150,8 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.UI {
                                 //judgement
                                 if (r) stationVariable.myTestingCamera2.Pass();
                                 else stationVariable.myTestingCamera2.Fail();
-
+                                //save log
+                                saveLog(stationVariable.myTestingCamera2);
                                 //clear text
                                 Application.Current.Dispatcher.Invoke(new Action(() => { tb.Clear(); }));
                             }));
@@ -187,7 +191,8 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.UI {
                                 //judgement
                                 if (r) stationVariable.myTestingCamera3.Pass();
                                 else stationVariable.myTestingCamera3.Fail();
-
+                                //save log
+                                saveLog(stationVariable.myTestingCamera3);
                                 //clear text
                                 Application.Current.Dispatcher.Invoke(new Action(() => { tb.Clear(); }));
                             }));
@@ -229,7 +234,8 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.UI {
                                 //judgement
                                 if (r) stationVariable.myTestingCamera4.Pass();
                                 else stationVariable.myTestingCamera4.Fail();
-
+                                //save log
+                                saveLog(stationVariable.myTestingCamera4);
                                 //clear text
                                 Application.Current.Dispatcher.Invoke(new Action(() => { tb.Clear(); }));
                             }));
@@ -255,11 +261,45 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.UI {
 
                             break;
                         }
-
                 }
             }
 
 
         }
+    
+    
+        private void saveLog(TestingInformation myTesting) {
+
+            //save log uart
+            new LogUart(
+                globalParameter.LogStationName.FwBasic.ToString(),
+                myTesting.macEthernet,
+                myTesting.TotalResult
+                )
+            .saveDataToLogFile(myTesting.logUart);
+
+            //save log system
+            new LogSystem(
+                globalParameter.LogStationName.FwBasic.ToString(),
+                myTesting.macEthernet,
+                myTesting.TotalResult
+                )
+            .saveDataToLogFile(myTesting.logSystem);
+
+            //save log total
+            new LogTotal(
+                 globalParameter.LogStationName.FwBasic.ToString()
+                )
+            .saveDataToLogFile(
+                "macEthernet", myTesting.macEthernet,
+                "uidCode", myTesting.uidCode,
+                "setMacResult", myTesting.setMacResult,
+                "uploadResult", myTesting.uploadResult,
+                "setIpResult", myTesting.setIpResult,
+                "uidResult", myTesting.uidResult,
+                "TotalResult", myTesting.TotalResult
+                );
+        }
+
     }
 }

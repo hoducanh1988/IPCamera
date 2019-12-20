@@ -48,7 +48,18 @@ namespace IPCameraIndoorControlLibrary.Common.Base {
                 return bitmapImage;
             }
         }
-      
+
+        public static Bitmap BitmapSource2Bitmap(BitmapSource bitmapsource) {
+            Bitmap bitmap;
+            using (MemoryStream outStream = new MemoryStream()) {
+                BitmapEncoder enc = new BmpBitmapEncoder();
+                enc.Frames.Add(BitmapFrame.Create(bitmapsource));
+                enc.Save(outStream);
+                bitmap = new Bitmap(outStream);
+            }
+            return bitmap;
+        }
+
         public static Image<Gray, byte> CropFromImage(Image<Bgr, Byte> imageInput, System.Drawing.Rectangle rect) {
             try {
                 Image<Bgr, byte> _imageRef = null;

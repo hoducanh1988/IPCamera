@@ -14,12 +14,34 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Stroke" Value="Yellow" />
+                    <Setter Property="Cursor" Value="Hand"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
+
     <StackPanel Margin="20">
+        <WrapPanel>
+            <Label Foreground="Blue" BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="30" FontWeight="SemiBold" Content="Xác nhận trạng thái RGB LED của sản phẩm:"/>
+            <Label x:Name="lbl_TimeOut" BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="30" FontWeight="SemiBold" Foreground="Red" Content="30"/>
+            <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="30" FontWeight="SemiBold" Foreground="Red" Content="(sec)"/>
+        </WrapPanel>
+
+        <WrapPanel Height="80" Margin="50,30,0,0">
+            <Ellipse Tag="pass" Margin="50,0,0,0" StrokeThickness="3" Height="80" Width="80" Fill="Lime"/>
+            <Ellipse Tag="fail" Margin="185,0,0,0" StrokeThickness="3" Height="80" Width="80" Fill="Gray"/>
+        </WrapPanel>
+
+        <WrapPanel Margin="30,0,0,0">
+            <Label Margin="0,0,0,0" FontSize="15" FontWeight="Bold" Foreground="Lime" Content="RGB LED đang sáng màu xanh"/>
+            <Label Margin="60,0,0,0" FontSize="15" FontWeight="Bold" Content="RGB LED đang không sáng"/>
+        </WrapPanel>
+
+        <TextBlock TextWrapping="Wrap" Margin="0,40,0,0" FontSize="17" Background="Yellow" Foreground="Red" FontWeight="Normal" Text="Click chuột vào biểu tượng tương ứng với trạng thái sáng tắt thực tế của RGB LED trên sản phẩm."/>
+
+    </StackPanel>
+    
+    <!--<StackPanel Margin="20">
         <WrapPanel>
             <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Content="Xác nhận trạng thái RGB LED của sản phẩm:"/>
             <Label x:Name="lbl_TimeOut" BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Foreground="Red" Content="30"/>
@@ -38,6 +60,6 @@
 
         <TextBlock TextWrapping="Wrap" Margin="0,40,0,0" FontSize="17" Background="Yellow" Foreground="Red" FontWeight="Normal" Text="Click chuột vào biểu tượng tương ứng với trạng thái sáng tắt thực tế của RGB LED trên sản phẩm."/>
 
-    </StackPanel>
+    </StackPanel>-->
 
 </UserControl>

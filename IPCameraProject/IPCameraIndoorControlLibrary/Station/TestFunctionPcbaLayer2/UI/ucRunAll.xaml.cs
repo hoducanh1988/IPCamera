@@ -1,6 +1,4 @@
-﻿using IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer2.Function;
-using IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer2.Function.Custom;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading;
 using System.Windows;
@@ -9,6 +7,11 @@ using UtilityPack.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Reflection;
+using IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer2.Function;
+using IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer2.Function.Custom;
+using IPCameraIndoorControlLibrary.Common.Log;
+using IPCameraIndoorControlLibrary.Common.Base;
+
 
 namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer2.UI {
     /// <summary>
@@ -55,6 +58,9 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer2.UI {
                             stationVariable.myTesting.logSystem += string.Format("...Phán định tổng: {0}\n", r ? "Passed" : "Failed");
                             stationVariable.myTesting.logSystem += string.Format("...Tổng thời gian kiểm tra: {0} ms\n", st.ElapsedMilliseconds);
                             uc_tablog.isScroll = false;
+                            //save log
+                            _save_log();
+
                         }));
                         t.IsBackground = true;
                         t.Start();
@@ -244,6 +250,39 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer2.UI {
             }));
 
             return r;
+        }
+
+        //save log
+        private void _save_log() {
+            //save log uart
+            new LogUart(
+                globalParameter.LogStationName.Layer2.ToString(),
+                stationVariable.myTesting.macWlan,
+                stationVariable.myTesting.TotalResult
+                )
+            .saveDataToLogFile(stationVariable.myTesting.logUart);
+
+            //save log system
+            new LogSystem(
+                globalParameter.LogStationName.Layer2.ToString(),
+                stationVariable.myTesting.macWlan,
+                stationVariable.myTesting.TotalResult
+                )
+            .saveDataToLogFile(stationVariable.myTesting.logSystem);
+
+            //save log total
+            new LogTotal(
+                 globalParameter.LogStationName.Layer2.ToString()
+                )
+            .saveDataToLogFile(
+                "macWlan", stationVariable.myTesting.macWlan,
+                "wifiResult", stationVariable.myTesting.wifiResult,
+                "sdCardResult", stationVariable.myTesting.sdCardResult,
+                "ethernetResult", stationVariable.myTesting.ethernetResult,
+                "rgbLedResult", stationVariable.myTesting.rgbLedResult,
+                "buttonResult", stationVariable.myTesting.buttonResult,
+                "TotalResult", stationVariable.myTesting.TotalResult
+                );
         }
 
         #endregion

@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 namespace IPCameraIndoorControlLibrary.Common.Base {
     public class globalParameter {
 
+        public enum LogStationName { Layer2, FwBasic, Layer3, CalibSharpness, UidLabel, ASM, CalibNight, FwBusiness };
+
         public static List<string> list_baudrate = null;
         public static List<string> list_comport = null;
         public static List<string> list_number = null;
         public static List<string> list_product_color = null;
+        public static List<string> list_log_type = null;
 
         static globalParameter() {
             //list baud rate
@@ -26,6 +29,9 @@ namespace IPCameraIndoorControlLibrary.Common.Base {
 
             //list product color
             list_product_color = new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F" };
+
+            //list log type
+            list_log_type = new List<string>() { "LogTotal", "LogSystem", "LogUart", "LogTelnet", "LogImage", "LogESOP" };
         }
 
     }

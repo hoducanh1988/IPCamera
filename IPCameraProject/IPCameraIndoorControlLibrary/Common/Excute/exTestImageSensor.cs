@@ -109,6 +109,9 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
 
             END:
             prop_imagesensorresult.SetValue(testingInfo, ret ? "Passed" : "Failed");
+            if (uc_imagesensor.imageInfo.imageSource != null) {
+                testingInfo.GetType().GetProperty("imageSharpness").SetValue(testingInfo, uc_imagesensor.imageInfo.imageSource);
+            }
             return ret;
         }
 

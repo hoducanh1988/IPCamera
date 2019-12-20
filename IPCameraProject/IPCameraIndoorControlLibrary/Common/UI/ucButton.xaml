@@ -8,7 +8,9 @@
              d:DesignHeight="450" d:DesignWidth="800" Background="#ffffff">
 
     <StackPanel Margin="20">
-        <Label FontSize="25" FontWeight="SemiBold" Content="Vui lòng nhấn và giữ nút nhấn trên camera:"/>
+        <WrapPanel>
+            <Label BorderBrush="#777777" BorderThickness="0,0,0,1" Foreground="Blue" FontSize="30" FontWeight="SemiBold" Content="Vui lòng nhấn và giữ nút nhấn trên camera:"/>
+        </WrapPanel>
         <Label Margin="0,30,0,0" FontSize="22" Content="Thời gian còn lại: "/>
         <WrapPanel>
             <Label x:Name="lbl_TimeOut" Foreground="Red" FontSize="40" Content="30"/>

@@ -584,6 +584,5 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
             return camera.Query("cat /usr/conf/nightvision.cfg");
         }
     
-
     }
 }

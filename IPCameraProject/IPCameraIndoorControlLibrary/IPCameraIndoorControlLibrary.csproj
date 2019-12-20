@@ -110,6 +110,12 @@
     <Compile Include="Common\IO\CommandPrompt.cs" />
     <Compile Include="Common\IO\MsAccessDatabase.cs" />
     <Compile Include="Common\IO\Speaker.cs" />
+    <Compile Include="Common\Log\LogESOP.cs" />
+    <Compile Include="Common\Log\LogImage.cs" />
+    <Compile Include="Common\Log\LogSystem.cs" />
+    <Compile Include="Common\Log\LogTelnet.cs" />
+    <Compile Include="Common\Log\LogTotal.cs" />
+    <Compile Include="Common\Log\LogUart.cs" />
     <Compile Include="Common\Protocol\IProtocol.cs" />
     <Compile Include="Common\Protocol\Rs232.cs" />
     <Compile Include="Common\Protocol\Telnet.cs" />
@@ -348,7 +354,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Page Include="Common\UI\ucAudio.xaml">
       <SubType>Designer</SubType>
@@ -593,6 +598,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="License-LGPL.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IPCameraProject\IPCameraProject.csproj">
+      <Project>{87501355-ab47-4cb3-9df6-01d0532f6081}</Project>
+      <Name>IPCameraProject</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\EMGU.CV.3.4.1.2976\build\EMGU.CV.targets" Condition="Exists('..\packages\EMGU.CV.3.4.1.2976\build\EMGU.CV.targets')" />

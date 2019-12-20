@@ -15,6 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UtilityPack.IO;
+using IPCameraIndoorControlLibrary.Common.Base;
+using IPCameraIndoorControlLibrary.Common.Log;
 
 namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer2.UI {
     /// <summary>
@@ -26,13 +28,36 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer2.UI {
             InitializeComponent();
 
             if (File.Exists(Function.stationVariable.settingLayer2)) Function.stationVariable.mySetting = XmlHelper<Function.Custom.SettingInformation>.FromXmlFile(Function.stationVariable.settingLayer2);
-            this.cbb_logtype.ItemsSource = new List<string>() { "LogTotal", "LogSingle", "LogDetail" };
+            this.cbb_logtype.ItemsSource = globalParameter.list_log_type;
         }
 
 
         private void Button_Click(object sender, RoutedEventArgs e) {
             Button b = sender as Button;
-            
+            string log_type = this.cbb_logtype.Text;
+
+            switch (log_type) {
+                case "LogTotal": {
+                        new LogTotal(globalParameter.LogStationName.Layer2.ToString()).openLogFolder();
+                        break;
+                    }
+                case "LogSystem": {
+                        new LogSystem(globalParameter.LogStationName.Layer2.ToString(),"","").openLogFolder();
+                        break;
+                    }
+                case "LogUart": {
+                        new LogUart(globalParameter.LogStationName.Layer2.ToString(), "", "").openLogFolder();
+                        break;
+                    }
+                case "LogTelnet":
+                case "LogImage":
+                case "LogESOP":
+                default : {
+                        MessageBox.Show("Trạm test PCBA-Layer2 không có loại log này.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    }
+            }
+
         }
     }
 }

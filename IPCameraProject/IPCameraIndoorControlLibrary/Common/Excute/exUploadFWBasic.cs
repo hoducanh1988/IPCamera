@@ -58,10 +58,12 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
                 if (!ret) goto END;
 
                 //set mac ethernet
+                
                 ret = _setMacEthernet(mac_ethernet);
                 log_value = (string)prop_logsystem.GetValue(testingInfo);
                 log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
                 prop_logsystem.SetValue(testingInfo, log_value);
+                testingInfo.GetType().GetProperty("setMacResult").SetValue(testingInfo, ret ? "Passed" : "Failed");
                 if (!ret) goto END;
 
                 //upload firmware basic
@@ -71,6 +73,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
                 log_value = (string)prop_logsystem.GetValue(testingInfo);
                 log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
                 prop_logsystem.SetValue(testingInfo, log_value);
+                testingInfo.GetType().GetProperty("uploadResult").SetValue(testingInfo, ret ? "Passed" : "Failed");
                 if (!ret) goto END;
 
                 //reboot camera and wait camera reboot complete
@@ -93,15 +96,17 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
                 log_value = (string)prop_logsystem.GetValue(testingInfo);
                 log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
                 prop_logsystem.SetValue(testingInfo, log_value);
+                testingInfo.GetType().GetProperty("setIpResult").SetValue(testingInfo, ret ? "Passed" : "Failed");
                 if (!ret) goto END;
 
                 //write uid
                 string uid_header = (string)settingInfo.GetType().GetProperty("vnptUidHeader").GetValue(settingInfo);
-                ret = _setUidCode(uid_header, mac_ethernet);
+                string uid_code = ""; ;
+                ret = _setUidCode(uid_header, mac_ethernet, out uid_code);
                 log_value = (string)prop_logsystem.GetValue(testingInfo);
                 log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
                 prop_logsystem.SetValue(testingInfo, log_value);
-
+                testingInfo.GetType().GetProperty("uidCode").SetValue(testingInfo, uid_code);
                 goto END;
 
             }
@@ -393,7 +398,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             return ret;
         }
 
-        bool _setUidCode(string uid_header, string mac) {
+        bool _setUidCode(string uid_header, string mac, out string uid_code) {
             bool ret = false;
             int count = 0;
 
@@ -402,6 +407,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             string log_value = (string)prop_logsystem.GetValue(testingInfo);
 
             string uid = string.Format("{0}{1}", uid_header, UtilityPack.Converter.myConverter.stringToMD5(mac));
+            uid_code = uid;
 
             //set uid code
             log_value += string.Format("\n-------------------------------\n");

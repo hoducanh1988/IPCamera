@@ -1,6 +1,4 @@
-﻿using IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.Function;
-using IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.Function.Custom;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -19,6 +17,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UtilityPack.IO;
+using IPCameraIndoorControlLibrary.Common.Base;
+using IPCameraIndoorControlLibrary.Common.Log;
+using IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.Function;
+using IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.Function.Custom;
 
 namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.UI {
     /// <summary>
@@ -65,6 +67,8 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.UI {
                             stationVariable.myTesting.logSystem += string.Format("...Phán định tổng: {0}\n", r ? "Passed" : "Failed");
                             stationVariable.myTesting.logSystem += string.Format("...Tổng thời gian kiểm tra: {0} ms\n", st.ElapsedMilliseconds);
                             uc_tablog.isScroll = false;
+                            //save log
+                            _save_log();
                         }));
                         t.IsBackground = true;
                         t.Start();
@@ -320,6 +324,42 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.UI {
             }));
 
             return r;
+        }
+
+        //save log
+        private void _save_log() {
+            //save log uart
+            new LogUart(
+                globalParameter.LogStationName.Layer3.ToString(),
+                stationVariable.myTesting.macEthernet,
+                stationVariable.myTesting.TotalResult
+                )
+            .saveDataToLogFile(stationVariable.myTesting.logUart);
+
+            //save log system
+            new LogSystem(
+                globalParameter.LogStationName.Layer3.ToString(),
+                stationVariable.myTesting.macEthernet,
+                stationVariable.myTesting.TotalResult
+                )
+            .saveDataToLogFile(stationVariable.myTesting.logSystem);
+
+            //save log total
+            new LogTotal(
+                 globalParameter.LogStationName.Layer3.ToString()
+                )
+            .saveDataToLogFile(
+                "macEthernet", stationVariable.myTesting.macEthernet,
+                "UsbResult", stationVariable.myTesting.UsbResult,
+                "sdCardResult", stationVariable.myTesting.sdCardResult,
+                "ethernetResult", stationVariable.myTesting.ethernetResult,
+                "imageSensorResult", stationVariable.myTesting.imageSensorResult,
+                "audioResult", stationVariable.myTesting.audioResult,
+                "rgbLedResult", stationVariable.myTesting.rgbLedResult,
+                "lightSensorResult", stationVariable.myTesting.lightSensorResult,
+                "buttonResult", stationVariable.myTesting.buttonResult,
+                "TotalResult", stationVariable.myTesting.TotalResult
+                );
         }
 
         #endregion

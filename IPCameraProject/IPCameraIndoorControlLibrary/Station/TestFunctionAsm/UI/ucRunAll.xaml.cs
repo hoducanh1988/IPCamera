@@ -1,6 +1,4 @@
-﻿using IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function;
-using IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -19,6 +17,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UtilityPack.IO;
+using IPCameraIndoorControlLibrary.Common.Base;
+using IPCameraIndoorControlLibrary.Common.Log;
+using IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function;
+using IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom;
 
 namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
     /// <summary>
@@ -65,6 +67,8 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
                             stationVariable.myTesting.logSystem += string.Format("...Phán định tổng: {0}\n", r ? "Passed" : "Failed");
                             stationVariable.myTesting.logSystem += string.Format("...Tổng thời gian kiểm tra: {0} ms\n", st.ElapsedMilliseconds);
                             uc_tablog.isScroll = false;
+                            //save log
+                            _save_log();
                         }));
                         t.IsBackground = true;
                         t.Start();
@@ -441,6 +445,56 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
             }));
 
             return r;
+        }
+
+        //save log
+        private void _save_log() {
+            //save log telnet
+            new LogTelnet(
+                globalParameter.LogStationName.ASM.ToString(),
+                stationVariable.myTesting.macFromBarcode,
+                stationVariable.myTesting.TotalResult
+                )
+            .saveDataToLogFile(stationVariable.myTesting.logTelnet);
+
+            //save log system
+            new LogSystem(
+                globalParameter.LogStationName.ASM.ToString(),
+                stationVariable.myTesting.macFromBarcode,
+                stationVariable.myTesting.TotalResult
+                )
+            .saveDataToLogFile(stationVariable.myTesting.logSystem);
+
+            //save log total
+            new LogTotal(
+                 globalParameter.LogStationName.ASM.ToString()
+                )
+            .saveDataToLogFile(
+                "macEthernet", stationVariable.myTesting.macFromBarcode,
+                "serialNumber", stationVariable.myTesting.serialFromBarcode,
+                "uidCode", stationVariable.myTesting.uidFromBarcode,
+                "macResult", stationVariable.myTesting.macResult,
+                "firmwareResult", stationVariable.myTesting.firmwareResult,
+                "uidResult", stationVariable.myTesting.uidResult,
+                "hardwareResult", stationVariable.myTesting.hardwareResult,
+                "serialResult", stationVariable.myTesting.serialResult,
+                "wifiResult", stationVariable.myTesting.wifiResult,
+                "sdCardResult", stationVariable.myTesting.sdCardResult,
+                "imageSensorResult", stationVariable.myTesting.imageSensorResult,
+                "nightVisionResult", stationVariable.myTesting.nightVisionResult,
+                "rgbLedResult", stationVariable.myTesting.rgbLedResult,
+                "irLedResult", stationVariable.myTesting.irLedResult,
+                "audioResult", stationVariable.myTesting.audioResult,
+                "buttonResult", stationVariable.myTesting.buttonResult,
+                "TotalResult", stationVariable.myTesting.TotalResult
+                );
+
+            //save log image
+            new LogImage(
+                globalParameter.LogStationName.ASM.ToString(),
+                stationVariable.myTesting.macFromBarcode
+                )
+                .saveDataToLogFile(new List<string>() { "image_sharpness.png", "image_nightvision.png" }, new List<ImageSource>() { stationVariable.myTesting.imageSharpness, stationVariable.myTesting.imageNightVision });
         }
 
         #endregion

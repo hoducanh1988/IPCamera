@@ -23,8 +23,13 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.Function.Cust
         public void Ready() {
             TotalResult = "-";
             macEthernet = "";
+            uidCode = "";
             logSystem = "";
             logUart = "";
+            setMacResult = "";
+            uploadResult = "";
+            setIpResult = "";
+            uidResult = "";
             totalTime = "00:00:00";
         }
 
@@ -47,12 +52,52 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBasic.Function.Cust
                 OnPropertyChanged(nameof(macEthernet));
             }
         }
+        string _uid_code;
+        public string uidCode {
+            get { return _uid_code; }
+            set {
+                _uid_code = value;
+                OnPropertyChanged(nameof(uidCode));
+            }
+        }
         string _ip_address;
         public string ipAddress {
             get { return _ip_address; }
             set {
                 _ip_address = value;
                 OnPropertyChanged(nameof(ipAddress));
+            }
+        }
+        string _set_mac_result;
+        public string setMacResult {
+            get { return _set_mac_result; }
+            set {
+                _set_mac_result = value;
+                OnPropertyChanged(nameof(setMacResult));
+            }
+        }
+        string _upload_result;
+        public string uploadResult {
+            get { return _upload_result; }
+            set {
+                _upload_result = value;
+                OnPropertyChanged(nameof(uploadResult));
+            }
+        }
+        string _set_ip_result;
+        public string setIpResult {
+            get { return _set_ip_result; }
+            set {
+                _set_ip_result = value;
+                OnPropertyChanged(nameof(setIpResult));
+            }
+        }
+        string _uid_result;
+        public string uidResult {
+            get { return _uid_result; }
+            set {
+                _uid_result = value;
+                OnPropertyChanged(nameof(uidResult));
             }
         }
         string _serial_port_name;

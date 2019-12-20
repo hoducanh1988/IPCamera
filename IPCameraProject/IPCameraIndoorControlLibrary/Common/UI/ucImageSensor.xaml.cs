@@ -152,6 +152,7 @@ namespace IPCameraIndoorControlLibrary.Common.UI {
 
                             if (count >= 30) {
                                 imageResult = 0;
+
                                 break;
                             }
                         }
