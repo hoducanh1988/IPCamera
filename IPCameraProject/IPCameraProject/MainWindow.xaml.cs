@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -30,7 +31,10 @@ namespace IPCameraProject {
             this.DataContext = myGlobal.myInputInfo;
 
             //set window size
-            setWindowSize(0.9, 0.9);
+            string[] buffer = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + "IWindowScale.dll");
+            double scaleX = double.Parse(buffer[0].Split('=')[1]);
+            double scaleY = double.Parse(buffer[1].Split('=')[1]);
+            setWindowSize(scaleX, scaleY);
 
             labels = new List<Label>() { lblRunAll, lblRework, lblSetting, lblLog, lblHelp, lblAbout };
 

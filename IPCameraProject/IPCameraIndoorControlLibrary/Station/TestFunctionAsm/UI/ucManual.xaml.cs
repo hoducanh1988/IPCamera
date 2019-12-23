@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function;
+using IPCameraIndoorControlLibrary.Station.TestFunctionAsm.Function.Custom;
+using UtilityPack.IO;
 
 namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI
 {
@@ -22,7 +26,16 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI
     {
         public ucManual()
         {
+            //init control
             InitializeComponent();
+
+            //load setting from file
+            if (File.Exists(stationVariable.settingAsm)) stationVariable.mySetting = XmlHelper<SettingInformation>.FromXmlFile(stationVariable.settingAsm);
+
+            //binding data
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e) {
         }
     }
 }

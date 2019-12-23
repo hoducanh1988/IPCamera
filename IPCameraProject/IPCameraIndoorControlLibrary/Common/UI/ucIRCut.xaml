@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="IPCameraIndoorControlLibrary.Common.UI.ucIRCut"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IPCameraIndoorControlLibrary.Common.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="#ffffff">
+
+    <UserControl.Resources>
+        <Style TargetType="RadioButton">
+            <Setter Property="Margin" Value="0,10,0,0"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <EventSetter  Event="Checked" Handler="RadioButton_Checked"/>
+            <EventSetter Event="Unchecked" Handler="RadioButton_Unchecked"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <StackPanel Margin="20">
+        <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Content="Xác nhận trạng thái LED giả lập IR Cut trên jig:"/>
+
+        <StackPanel Margin="30,20,0,0">
+            <RadioButton x:Name="rb_pass" Content="LED giả lập IR Cut nhấp nháy sáng 3 lần."/>
+            <RadioButton x:Name="rb_fail_1" Content="LED giả lập IR Cut nhấp nháy sáng khác 3 lần."/>
+            <RadioButton x:Name="rb_fail_2" Content="LED giả lập IR Cut không nhấp nháy sáng."/>
+        </StackPanel>
+
+        <WrapPanel Margin="30,20,0,0" >
+            <Button Tag="confirm" FontSize="18" Width="120" Height="45" FontWeight="SemiBold" HorizontalAlignment="Left" Content="Xác Nhận"
+                Click="Button_Click"/>
+            <Button Tag="playagain" Opacity="0.75" Margin="30,0,0,0" FontSize="18" Width="120" Height="45" FontWeight="SemiBold" HorizontalAlignment="Left" Content="Thử lại"
+                Click="Button_Click"/>
+        </WrapPanel>
+
+
+    </StackPanel>
+    
+</UserControl>

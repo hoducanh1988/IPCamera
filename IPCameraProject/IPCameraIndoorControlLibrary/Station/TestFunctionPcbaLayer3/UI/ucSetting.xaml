@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.UI"
              mc:Ignorable="d" 
-             d:DesignHeight="570" d:DesignWidth="800" Background="#ffffff">
+             d:DesignHeight="650" d:DesignWidth="800" Background="#ffffff">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -127,7 +127,7 @@
                     <ComboBox x:Name="cbb_comport" 
                               Text="{Binding Path=SerialPortName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </Grid>
-                <Grid>
+                <Grid IsEnabled="False">
                     <Label Content="BaudRate"/>
                     <ComboBox x:Name="cbb_baudrate"
                               Text="{Binding Path=SerialBaudRate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
@@ -137,7 +137,7 @@
                 <!--CÀI ĐẶT TIÊU CHUẨN-->
                 <Label Style="{StaticResource label_style}" Content="# CÀI ĐẶT TIÊU CHUẨN PHÁN ĐỊNH SẢN PHẨM"/>
                 <Grid>
-                    <Label Content="Giá trị ADC cảm biến ánh sáng khi tối"/>
+                    <Label Content="Giá trị ADC cảm biến ánh sáng khi bị che"/>
                     <Border>
                         <WrapPanel Margin="5,0,0,0">
                             <Label BorderThickness="0" Width="100" Content="Giới hạn dưới: "/>
@@ -150,7 +150,7 @@
                     </Border>
                 </Grid>
                 <Grid>
-                    <Label Content="Giá trị ADC cảm biến ánh sáng khi sáng"/>
+                    <Label Content="Giá trị ADC cảm biến ánh sáng không che"/>
                     <Border>
                         <WrapPanel Margin="5,0,0,0">
                             <Label BorderThickness="0" Width="100" Content="Giới hạn dưới: "/>
@@ -186,7 +186,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Height="180" Grid.Column="0" Content="Lựa chọn bài test"/>
+                    <Label Height="230" Grid.Column="0" Content="Lựa chọn bài test"/>
 
                     <Border Grid.Column="1" Margin="0">
                         <StackPanel>
@@ -200,6 +200,10 @@
                                       IsChecked="{Binding Path=IsCheckImageSensor, UpdateSourceTrigger=PropertyChanged}"/>
                             <CheckBox Margin="10,5,0,0" Content="Kiểm tra khối audio"
                                       IsChecked="{Binding Path=IsCheckAudio, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="10,5,0,0" Content="Kiểm tra khối IR Cut"
+                                      IsChecked="{Binding Path=IsCheckIrCut, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Margin="10,5,0,0" Content="Kiểm tra IR LED"
+                                      IsChecked="{Binding Path=IsCheckIrLed, UpdateSourceTrigger=PropertyChanged}"/>
                             <CheckBox Margin="10,5,0,0" Content="Kiểm tra RGB LED"
                                       IsChecked="{Binding Path=IsCheckRgbLed, UpdateSourceTrigger=PropertyChanged}"/>
                             <CheckBox Margin="10,5,0,0" Content="Kiểm tra cảm biến ánh sáng"

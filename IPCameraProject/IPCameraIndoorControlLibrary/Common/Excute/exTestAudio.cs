@@ -71,6 +71,8 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
                 }));
 
                 RE:
+                if (uc_audio.isPlayBack) { camera.playBackAudio(); uc_audio.isPlayBack = false; }
+
                 ret = uc_audio.audioResult != -1;
                 if (!ret) { Thread.Sleep(100); goto RE; }
                 if (uc_audio.audioResult != 0) ret = false;

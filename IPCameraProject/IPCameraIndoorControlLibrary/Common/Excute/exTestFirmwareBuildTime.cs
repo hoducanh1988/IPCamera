@@ -47,6 +47,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute
                 log_value += data;
                 prop_logsystem.SetValue(testingInfo, log_value);
 
+                if (string.IsNullOrEmpty(std_value) || string.IsNullOrWhiteSpace(std_value)) goto END;
                 if (data != null) ret = data.ToUpper().Contains(std_value.ToUpper());
                 if (!ret) {
                     if (count < retry_time) goto RE;

@@ -89,6 +89,7 @@
     <Compile Include="Common\Excute\exCalibImageSharpness.cs" />
     <Compile Include="Common\Excute\exTestFirmwareBuildTime.cs" />
     <Compile Include="Common\Excute\exTestFunctionBusiness.cs" />
+    <Compile Include="Common\Excute\exTestIRCut.cs" />
     <Compile Include="Common\Excute\exTestMacEthernet.cs" />
     <Compile Include="Common\Excute\exTestUID.cs" />
     <Compile Include="Common\Excute\exInputMacSerialUid.cs" />
@@ -130,6 +131,9 @@
     </Compile>
     <Compile Include="Common\UI\ucInputMacSerialUid.xaml.cs">
       <DependentUpon>ucInputMacSerialUid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\UI\ucIRCut.xaml.cs">
+      <DependentUpon>ucIRCut.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\UI\ucIRLed.xaml.cs">
       <DependentUpon>ucIRLed.xaml</DependentUpon>
@@ -368,6 +372,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\UI\ucInputMacSerialUid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UI\ucIRCut.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,7 +6,99 @@
              xmlns:local="clr-namespace:IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.UI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="#ffffff">
-    <Grid>
-        <Label Content="manual"/>
-    </Grid>
+
+
+
+    <UserControl.Resources>
+
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Background" Value="#cbd6d5"/>
+            <EventSetter Event="Click" Handler="Button_Click"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="5,0,0,0"/>
+            <Setter Property="Margin" Value="5,0,0,0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Background" Value="White"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="#e1f2b8"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+
+
+    </UserControl.Resources>
+
+    <Border BorderBrush="#777777" BorderThickness="1,1,1,1">
+        <TabControl Margin="5" TabStripPlacement="Left">
+
+            <!--test usb-->
+            <TabItem>
+                <TabItem.Header>
+                    <Label Content="Test USB" FontWeight="SemiBold" FontSize="13"/>
+                </TabItem.Header>
+            </TabItem>
+            <!--test sd card-->
+            <TabItem>
+                <TabItem.Header>
+                    <Label Content="Test SD Card" FontWeight="SemiBold" FontSize="13"/>
+                </TabItem.Header>
+            </TabItem>
+            <!--test ethernet-->
+            <TabItem>
+                <TabItem.Header>
+                    <Label Content="Test Ethernet" FontWeight="SemiBold" FontSize="13"/>
+                </TabItem.Header>
+            </TabItem>
+            <!--test image sensor-->
+            <TabItem>
+                <TabItem.Header>
+                    <Label Content="Test Image Sensor" FontWeight="SemiBold" FontSize="13"/>
+                </TabItem.Header>
+            </TabItem>
+            <!--test audio-->
+            <TabItem>
+                <TabItem.Header>
+                    <Label Content="Test Audio" FontWeight="SemiBold" FontSize="13"/>
+                </TabItem.Header>
+            </TabItem>
+            <!--test RGB LED-->
+            <TabItem>
+                <TabItem.Header>
+                    <Label Content="Test RGB LED" FontWeight="SemiBold" FontSize="13"/>
+                </TabItem.Header>
+            </TabItem>
+            <!--test Light Sensor-->
+            <TabItem>
+                <TabItem.Header>
+                    <Label Content="Test Light Sensor" FontWeight="SemiBold" FontSize="13"/>
+                </TabItem.Header>
+            </TabItem>
+            <!--test nut nhan-->
+            <TabItem>
+                <TabItem.Header>
+                    <Label Content="Test Nút Nhấn" FontWeight="SemiBold" FontSize="13"/>
+                </TabItem.Header>
+            </TabItem>
+
+        </TabControl>
+    </Border>
+
+    
 </UserControl>

@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.Function;
+using IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.Function.Custom;
+using UtilityPack.IO;
 
 namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.UI {
     /// <summary>
@@ -19,7 +23,17 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.UI {
     /// </summary>
     public partial class ucManual : UserControl {
         public ucManual() {
+            //init control
             InitializeComponent();
+
+            //load setting from file
+            if (File.Exists(stationVariable.settingLayer3)) stationVariable.mySetting = XmlHelper<SettingInformation>.FromXmlFile(stationVariable.settingLayer3);
+
+            //binding data
+        }
+
+
+        private void Button_Click(object sender, RoutedEventArgs e) {
         }
     }
 }

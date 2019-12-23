@@ -87,6 +87,8 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.UI {
             "_item_test_ethernet", //test ethernet
              "_item_test_imagesensor", //check image sensor
              "_item_test_audio", //check audio
+             "_item_test_ircut", //check ir cut
+             "_item_test_irled", //check ir led
              "_item_test_rgbled", //check rgb led
              "_item_test_lightsensor", //check light sensor
              "_item_test_button", //check button
@@ -242,6 +244,53 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.UI {
             stationVariable.myTesting.logSystem += string.Format("...Thực tế:\n");
             stationVariable.myTesting.logSystem += string.Format("...\n");
             r = ex_test_audio.excuteUart(grid_debug);
+            stationVariable.myTesting.logSystem += string.Format("\n...\n");
+            stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", r ? "Passed" : "Failed");
+
+            //add tab log
+            Dispatcher.Invoke(new Action(() => {
+                this.grid_debug.Children.Clear();
+                this.grid_debug.Children.Add(uc_tablog);
+            }));
+
+            return r;
+        }
+
+        //test ir cut
+        private bool _item_test_ircut(Common.Dut.IPCamera<TestingInformation> camera_indoor) {
+            if (!stationVariable.myTesting.IsCheckIrCut) return true;
+            bool r = false;
+            stationVariable.myTesting.logSystem += "\n+++++++++++++++++++++++++++++++++++++++\n";
+            stationVariable.myTesting.logSystem += "KIỂM TRA KHỐI IR CUT\n";
+            var ex_test_ircut = new Common.Excute.exTestIRCut<TestingInformation>(camera_indoor, stationVariable.myTesting);
+            stationVariable.myTesting.logSystem += string.Format("...Tiêu chuẩn: \"{0}\"\n", ex_test_ircut.std_value);
+            stationVariable.myTesting.logSystem += string.Format("...Thực tế:\n");
+            stationVariable.myTesting.logSystem += string.Format("...\n");
+            r = ex_test_ircut.excuteUart(grid_debug);
+            stationVariable.myTesting.logSystem += string.Format("\n...\n");
+            stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", r ? "Passed" : "Failed");
+
+            //add tab log
+            Dispatcher.Invoke(new Action(() => {
+                this.grid_debug.Children.Clear();
+                this.grid_debug.Children.Add(uc_tablog);
+            }));
+
+            return r;
+        }
+
+        //test ir led
+        private bool _item_test_irled(Common.Dut.IPCamera<TestingInformation> camera_indoor) {
+            if (!stationVariable.myTesting.IsCheckIrLed) return true;
+            bool r = false;
+
+            stationVariable.myTesting.logSystem += "\n+++++++++++++++++++++++++++++++++++++++\n";
+            stationVariable.myTesting.logSystem += "KIỂM TRA IR LED\n";
+            var ex_test_irled = new Common.Excute.exTestIRLed<TestingInformation>(camera_indoor, stationVariable.myTesting);
+            stationVariable.myTesting.logSystem += string.Format("...Tiêu chuẩn: \"{0}\"\n", ex_test_irled.std_value);
+            stationVariable.myTesting.logSystem += string.Format("...Thực tế:\n");
+            stationVariable.myTesting.logSystem += string.Format("...\n");
+            r = ex_test_irled.excuteUart(grid_debug);
             stationVariable.myTesting.logSystem += string.Format("\n...\n");
             stationVariable.myTesting.logSystem += string.Format("...Kết quả: {0}\n", r ? "Passed" : "Failed");
 

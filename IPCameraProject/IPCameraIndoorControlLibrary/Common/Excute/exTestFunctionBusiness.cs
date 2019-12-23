@@ -189,7 +189,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
         }
 
         #region sub-function
-        
+
         bool _loginToCamera(string ip, string user, string pass, ref Dut.IPCamera<U> camera) {
             bool ret = false;
             int count = 0;
@@ -205,19 +205,20 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
         }
 
         bool _checkFWBuildTime(Dut.IPCamera<U> camera, string std_value, out string fw_build_time) {
-
             var prop_logsystem = uploadInfo.GetType().GetProperty("logSystem");
             string log_value = (string)prop_logsystem.GetValue(uploadInfo);
 
             bool ret = false;
             int count = 0;
             fw_build_time = "";
-        RE:
+
+            RE:
             count++;
             string data = camera.getFirmwareBuildTime();
             log_value += data;
             prop_logsystem.SetValue(uploadInfo, log_value);
 
+            if (string.IsNullOrEmpty(std_value) || string.IsNullOrWhiteSpace(std_value)) return false;
             ret = data.Contains(std_value);
             if (!ret) {
                 if (count < 3) goto RE;
@@ -362,13 +363,15 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
 
             bool ret = false;
             int count = 0;
-        RE:
+
+            RE:
             count++;
             string data = camera.getHardwareVersion();
             hw_version = data;
             log_value += data;
             prop_logsystem.SetValue(uploadInfo, log_value);
 
+            if (string.IsNullOrEmpty(std_value) || string.IsNullOrWhiteSpace(std_value)) return false;
             ret = data.Contains(std_value);
             if (!ret) {
                 if (count < 3) goto RE;

@@ -213,7 +213,7 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
                 camera.WriteLine(cmd);
                 Thread.Sleep(1000);
                 string data = camera.Read();
-                r = data.Contains("Connecting to") && (!data.Contains("can't connect"));
+                r = data.Contains("Connecting to") && (!data.Contains("can't connect")) && (!data.Contains("error"));
                 return r;
             }
             catch { return false; }
@@ -584,5 +584,22 @@ namespace IPCameraIndoorControlLibrary.Common.Dut {
             return camera.Query("cat /usr/conf/nightvision.cfg");
         }
     
+        //giả lập chế độ IR CUT
+        public bool virtualIRCut() {
+            camera.WriteLine("nightvision off");
+            Thread.Sleep(100);
+            camera.WriteLine("nightvision on");
+            Thread.Sleep(100);
+            camera.WriteLine("nightvision off");
+            Thread.Sleep(100);
+            camera.WriteLine("nightvision on");
+            Thread.Sleep(100);
+            camera.WriteLine("nightvision off");
+            Thread.Sleep(100);
+            camera.WriteLine("nightvision on");
+            Thread.Sleep(100);
+            return true;
+        }
+
     }
 }

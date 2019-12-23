@@ -22,8 +22,8 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
         }
 
         //kiem tra ir led qua cong UART
-        public bool excuteUart() {
-            return false;
+        public bool excuteUart(Grid grid_container) {
+            return excuteTelnet(grid_container);
         }
 
         //Kiem tra ir led qua cong telnet
@@ -75,4 +75,4 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
         }
 
     }
-}
+} 

@@ -35,6 +35,8 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.Function.C
             ethernetResult = "-";
             imageSensorResult = "-";
             audioResult = "-";
+            irCutResult = "-";
+            irLedResult = "-";
             rgbLedResult = "-";
             lightSensorResult = "-";
             buttonResult = "-";
@@ -112,6 +114,22 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.Function.C
             set {
                 _audio_result = value;
                 OnPropertyChanged(nameof(audioResult));
+            }
+        }
+        string _ir_cut_result;
+        public string irCutResult {
+            get { return _ir_cut_result; }
+            set {
+                _ir_cut_result = value;
+                OnPropertyChanged(nameof(irCutResult));
+            }
+        }
+        string _ir_led_result;
+        public string irLedResult {
+            get { return _ir_led_result; }
+            set {
+                _ir_led_result = value;
+                OnPropertyChanged(nameof(irLedResult));
             }
         }
         string _rgb_led_result;
@@ -205,6 +223,22 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.Function.C
             set {
                 _is_check_audio = value;
                 OnPropertyChanged(nameof(IsCheckAudio));
+            }
+        }
+        bool _is_check_ir_cut; //check ir cut
+        public bool IsCheckIrCut {
+            get { return _is_check_ir_cut; }
+            set {
+                _is_check_ir_cut = value;
+                OnPropertyChanged(nameof(IsCheckIrCut));
+            }
+        }
+        bool _is_check_ir_led; //check ir led
+        public bool IsCheckIrLed {
+            get { return _is_check_ir_led; }
+            set {
+                _is_check_ir_led = value;
+                OnPropertyChanged(nameof(IsCheckIrLed));
             }
         }
         bool _is_check_rgb_led; //check rgb led

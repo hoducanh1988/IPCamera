@@ -31,6 +31,8 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.Function.C
             IsCheckImageSensor = true;
             IsCheckAudio = true;
             IsCheckLightSensor = true;
+            IsCheckIrCut = true;
+            IsCheckIrLed = true;
             IsCheckRgbLed = true;
             IsCheckButton = true;
         }
@@ -145,6 +147,24 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionPcbaLayer3.Function.C
                 _is_check_audio = value;
                 OnPropertyChanged(nameof(IsCheckAudio));
                 stationVariable.myTesting.IsCheckAudio = value;
+            }
+        }
+        bool _is_check_ir_cut; //check ir cut
+        public bool IsCheckIrCut {
+            get { return _is_check_ir_cut; }
+            set {
+                _is_check_ir_cut = value;
+                OnPropertyChanged(nameof(IsCheckIrCut));
+                stationVariable.myTesting.IsCheckIrCut = value;
+            }
+        }
+        bool _is_check_ir_led; //check ir led
+        public bool IsCheckIrLed {
+            get { return _is_check_ir_led; }
+            set {
+                _is_check_ir_led = value;
+                OnPropertyChanged(nameof(IsCheckIrLed));
+                stationVariable.myTesting.IsCheckIrLed = value;
             }
         }
         bool _is_check_rgb_led; //check rgb led
