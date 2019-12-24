@@ -23,7 +23,7 @@
     </UserControl.Resources>
 
     <StackPanel Margin="20">
-        <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Content="Xác nhận trạng thái LED giả lập IR Cut trên jig:"/>
+        <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="30" Foreground="Blue" FontWeight="SemiBold" Content="Xác nhận trạng thái LED giả lập IR Cut trên jig:"/>
 
         <StackPanel Margin="30,20,0,0">
             <RadioButton x:Name="rb_pass" Content="LED giả lập IR Cut nhấp nháy sáng 3 lần."/>

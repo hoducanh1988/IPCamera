@@ -174,6 +174,10 @@ namespace IPCameraIndoorControlLibrary.Station.TestFunctionAsm.UI {
                         break;
                     }
 
+                case "change_mac_code": {
+                        rtb_maccode.IsEnabled = true;
+                        break;
+                    }
                 default: break;
             }
         }

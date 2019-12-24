@@ -226,12 +226,12 @@ namespace IPCameraIndoorControlLibrary.Station.PrintLabelUID.UI {
                     }
 
                     //generate serial number
-                    stationVariable.myTesting.SerialNumber = myConverter.FromMACToSerialNumber(
+                    stationVariable.myTesting.SerialNumber = myConverter.FromMACToSerialNumberNewFormat(
                         stationVariable.myTesting.MacAddress,
                         stationVariable.mySetting.vnptProductNumber,
                         stationVariable.mySetting.hardwareVersion,
-                        stationVariable.mySetting.productColor,
-                        stationVariable.mySetting.productionFactory );
+                        stationVariable.mySetting.productMacCode,
+                        stationVariable.mySetting.productionFactory);
 
                     r = Parse.IsVnptProductSerialNumber(stationVariable.myTesting.SerialNumber);
                     if (!r) {

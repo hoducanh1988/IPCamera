@@ -23,7 +23,7 @@
     </UserControl.Resources>
 
     <StackPanel Margin="20">
-        <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Content="Xác nhận trạng thái khối audio của sản phẩm:"/>
+        <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="30" Foreground="Blue" FontWeight="SemiBold" Content="Xác nhận trạng thái khối audio của sản phẩm:"/>
 
         <StackPanel Margin="30,20,0,0">
             <RadioButton x:Name="rb_pass" Content="Camera phát ra tiếng bíp to và rõ ràng."/>
@@ -37,7 +37,6 @@
             <Button Tag="playback" Opacity="0.75" Margin="30,0,0,0" FontSize="18" Width="120" Height="45" FontWeight="SemiBold" HorizontalAlignment="Left" Content="Phát Lại"
                 Click="Button_Click"/>
         </WrapPanel>
-        
 
     </StackPanel>
     

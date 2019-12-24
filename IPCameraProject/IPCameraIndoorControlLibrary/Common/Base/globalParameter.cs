@@ -18,7 +18,7 @@ namespace IPCameraIndoorControlLibrary.Common.Base {
         static globalParameter() {
             //list baud rate
             list_baudrate = new List<string>() { "2400", "4800", "9600", "14400", "19200", "38400", "57600", "115200" };
-            
+
             //list comport
             list_comport = new List<string>();
             for (int i = 1; i < 100; i++) { list_comport.Add("COM" + i.ToString()); }
@@ -28,7 +28,9 @@ namespace IPCameraIndoorControlLibrary.Common.Base {
             for (int i = 0; i < 100; i++) { list_number.Add(i.ToString()); }
 
             //list product color
-            list_product_color = new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F" };
+            list_product_color = new List<string>() { "G", "H", "I", "J", "K", "L", "M", "N", "O", "P",
+                                                      "Q", "R","S", "T", "U", "V", "W", "X", "Y", "Z"
+            };
 
             //list log type
             list_log_type = new List<string>() { "LogTotal", "LogSystem", "LogUart", "LogTelnet", "LogImage", "LogESOP" };

@@ -34,6 +34,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
 
             try {
                 if (!camera.IsConnected()) goto END;
+                Thread.Sleep(500);
 
                 Application.Current.Dispatcher.Invoke(new Action(() => {
                     uc_button = new UI.ucButton(30);

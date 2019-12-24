@@ -12,11 +12,17 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <WrapPanel Grid.Row="0">
+        <WrapPanel>
+            <Label Foreground="Blue" BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="30" FontWeight="SemiBold" Content="Xác nhận trạng thái night vision của sản phẩm:"/>
+            <Label x:Name="lbl_TimeOut" BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="30" FontWeight="SemiBold" Foreground="Red" Content="10"/>
+            <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="30" FontWeight="SemiBold" Foreground="Red" Content="(sec)"/>
+        </WrapPanel>
+        
+        <!--<WrapPanel Grid.Row="0">
             <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Content="Xác nhận trạng thái night vision của sản phẩm:"/>
             <Label x:Name="lbl_TimeOut" BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Foreground="Red" Content="10"/>
             <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Foreground="Red" Content="(sec)"/>
-        </WrapPanel>
+        </WrapPanel>-->
 
         <Grid Grid.Row="1">
             <Image Source="{Binding imageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill" />

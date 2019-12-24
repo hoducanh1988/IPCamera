@@ -27,6 +27,7 @@ namespace IPCameraIndoorControlLibrary.Station.PrintLabelUID.Function.Custom {
             productionYear = "";
             productionWeek = "";
             hardwareVersion = "1";
+            productMacCode = "A06518=G,A4F4C2=H,D49AA0=I";
 
             //uid
             vnptUidHeader = "VNTIPC";
@@ -95,12 +96,12 @@ namespace IPCameraIndoorControlLibrary.Station.PrintLabelUID.Function.Custom {
                 OnPropertyChanged(nameof(hardwareVersion));
             }
         }
-        string _product_color;
-        public string productColor {
-            get { return _product_color; }
+        string _product_mac_code;
+        public string productMacCode {
+            get { return _product_mac_code; }
             set {
-                _product_color = value;
-                OnPropertyChanged(nameof(productColor));
+                _product_mac_code = value;
+                OnPropertyChanged(nameof(productMacCode));
             }
         }
 

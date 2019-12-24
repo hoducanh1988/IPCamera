@@ -24,13 +24,15 @@ namespace IPCameraIndoorControlLibrary.Common.UI {
         string product_number = "";
         string uid_header = "";
         string mac_header = "";
+        string mac_code = "";
 
-        public ucInputMacSerialUid(string _mac_header, string pd_number, string _uid_header) {
+        public ucInputMacSerialUid(string _mac_header, string _mac_code, string pd_number, string _uid_header) {
             InitializeComponent();
 
             product_number = pd_number;
             uid_header = _uid_header;
             mac_header = _mac_header;
+            mac_code = _mac_code;
 
             if (sp_mac.Visibility == Visibility.Visible) tb_mac.IsEnabled = false;
             if (sp_serial.Visibility == Visibility.Visible) tb_serial.IsEnabled = false;
@@ -121,7 +123,19 @@ namespace IPCameraIndoorControlLibrary.Common.UI {
                             tb_mac.Focus();
                             return;
                         }
-                        
+
+                        //check mac code
+                        r = Parse.IsMatchingMacCode(tbox.Text, tb_mac.Text, mac_code);
+                        if (!r) {
+                            tb_message.Text = string.Format("Số serial \"{0}\" không trùng với header địa chỉ mac \"{1}\".\nVui lòng nhập lại.", tbox.Text, tb_mac.Text);
+                            tbox.Clear();
+                            tb_mac.Clear();
+                            tb_mac.IsEnabled = true;
+                            tb_mac.Focus();
+                            return;
+                        }
+
+
                         if (sp_uid.Visibility == Visibility.Visible) { tb_uid.IsEnabled = true; tb_uid.Focus(); }
                         else inputResult = 0;
 

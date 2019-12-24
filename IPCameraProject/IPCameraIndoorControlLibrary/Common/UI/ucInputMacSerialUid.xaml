@@ -38,7 +38,7 @@
     </UserControl.Resources>
 
     <StackPanel Margin="20,0,20,20">
-        <Label BorderBrush="#777777" BorderThickness="0,0,0,0" FontSize="25" FontWeight="SemiBold" Content="Nhập thông tin trên tem của sản phẩm:"/>
+        <Label BorderBrush="#777777" BorderThickness="0,0,0,0" FontSize="30" Foreground="Blue" FontWeight="SemiBold" Content="Nhập thông tin trên tem của sản phẩm:"/>
 
         <StackPanel Margin="30,10,0,0">
             <StackPanel x:Name="sp_mac">

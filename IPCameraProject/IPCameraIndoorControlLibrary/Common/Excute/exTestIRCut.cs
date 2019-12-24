@@ -35,6 +35,8 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             try {
                 if (!camera.IsConnected()) goto END;
 
+                Thread.Sleep(500);
+
                 //show form confirm
                 log_value += "...hiển thị giao diện xác nhận trạng thái khối ir cut.\n";
                 prop_logsystem.SetValue(testingInfo, log_value);

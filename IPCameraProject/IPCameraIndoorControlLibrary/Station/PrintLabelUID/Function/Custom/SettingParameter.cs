@@ -51,14 +51,14 @@ namespace IPCameraIndoorControlLibrary.Station.PrintLabelUID.Function.Custom {
             bool r1 = Parse.IsVnptProductNumber(stationVariable.mySetting.vnptProductNumber);
             bool r2 = Parse.IsVnptFactory(stationVariable.mySetting.productionFactory);
             bool r3 = Parse.IsVnptProductVersion(stationVariable.mySetting.hardwareVersion);
-            bool r4 = Parse.IsVnptProductColor(stationVariable.mySetting.productColor);
+            bool r4 = !(string.IsNullOrEmpty(stationVariable.mySetting.productMacCode) || string.IsNullOrWhiteSpace(stationVariable.mySetting.productMacCode));
 
             bool r = r1 && r2 && r3 && r4;
 
             errorMessage += r1 ? "" : "VNPT Product Number chưa được cài đặt hoặc cài đặt sai giá trị.";
             errorMessage += r2 ? "" : "Nhà máy sản xuất chưa được cài đặt hoặc cài đặt sai giá trị.";
             errorMessage += r3 ? "" : "Hardware Version chưa được cài đặt hoặc cài đặt sai giá trị.";
-            errorMessage += r4 ? "" : "Mã màu sản phẩm chưa được cài đặt hoặc cài đặt sai giá trị.";
+            errorMessage += r4 ? "" : "Mã phân biệt dải mac chưa được cài đặt.";
 
             return r;
         }

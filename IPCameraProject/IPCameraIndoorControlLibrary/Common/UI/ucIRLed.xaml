@@ -21,10 +21,15 @@
 
     <StackPanel Margin="20">
         <WrapPanel>
+            <Label Foreground="Blue" BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="30" FontWeight="SemiBold" Content="Xác nhận trạng thái IR LED của sản phẩm:"/>
+            <Label x:Name="lbl_TimeOut" BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="30" FontWeight="SemiBold" Foreground="Red" Content="30"/>
+            <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="30" FontWeight="SemiBold" Foreground="Red" Content="(sec)"/>
+        </WrapPanel>
+        <!--<WrapPanel>
             <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Content="Xác nhận trạng thái IR LED của sản phẩm:"/>
             <Label x:Name="lbl_TimeOut" BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Foreground="Red" Content="30"/>
             <Label BorderBrush="#777777" BorderThickness="0,0,0,1" FontSize="25" FontWeight="SemiBold" Foreground="Red" Content="(sec)"/>
-        </WrapPanel>
+        </WrapPanel>-->
 
         <WrapPanel Height="80" Margin="50,30,0,0">
             <Ellipse Tag="pass" Margin="50,0,0,0" StrokeThickness="3"  Height="80" Width="80" Fill="Red"/>

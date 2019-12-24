@@ -34,7 +34,6 @@ namespace IPCameraIndoorControlLibrary.Station.PrintLabelUID.UI {
             cbb_factory.ItemsSource = globalParameter.list_number;
             cbb_hardware.ItemsSource = globalParameter.list_number;
             cbb_retrytime.ItemsSource = globalParameter.list_number;
-            cbb_productcolor.ItemsSource = globalParameter.list_product_color;
             cbb_failandstop.ItemsSource = new List<string>() { "Yes", "No" };
         }
 
@@ -64,9 +63,12 @@ namespace IPCameraIndoorControlLibrary.Station.PrintLabelUID.UI {
                         }
                         break;
                     }
+                case "change_mac_code": {
+                        rtb_maccode.IsEnabled = true;
+                        break;
+                    }
             }
         }
-
 
     }
 }

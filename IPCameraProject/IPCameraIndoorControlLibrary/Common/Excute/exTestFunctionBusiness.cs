@@ -112,9 +112,10 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
                     prop_logsystem.SetValue(uploadInfo, log_value);
 
                     string vnpt_productnumber = (string)settingInfo.GetType().GetProperty("vnptProductNumber").GetValue(settingInfo);
+                    string vnpt_maccode = (string)settingInfo.GetType().GetProperty("productMacCode").GetValue(settingInfo);
 
                     string act_serial = "";
-                    ret = _checkSerialNumber(camera, vnpt_productnumber, out act_serial);
+                    ret = _checkSerialNumber(camera, vnpt_productnumber, vnpt_maccode, out act_serial);
                     log_value = (string)prop_logsystem.GetValue(uploadInfo);
                     log_value += string.Format("...kết quả {0}\n", ret ? "Passed" : "Failed");
                     prop_logsystem.SetValue(uploadInfo, log_value);
@@ -268,7 +269,7 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             return ret;
         }
 
-        bool _checkSerialNumber(Dut.IPCamera<U> camera, string vnpt_product_number, out string serial_number) {
+        bool _checkSerialNumber(Dut.IPCamera<U> camera, string vnpt_product_number, string vnpt_mac_code, out string serial_number) {
             var prop_logsystem = uploadInfo.GetType().GetProperty("logSystem");
             string log_value = (string)prop_logsystem.GetValue(uploadInfo);
 
@@ -302,6 +303,15 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             string mac = camera.getMacEthernet();
             ret = mac.ToLower().Substring(6, 6).Equals(serial_number.ToLower().Substring(9, 6));
             log_value += string.Format("...check trùng khớp với mac {0}: {1}\n", mac, ret);
+            prop_logsystem.SetValue(uploadInfo, log_value);
+            if (!ret) {
+                if (count < 3) goto RE;
+                else goto END;
+            }
+
+            //check mac code
+            ret = Parse.IsMatchingMacCode(serial_number, mac, vnpt_mac_code);
+            log_value += string.Format("...check trùng khớp với mac header {0}: {1}\n", mac, ret);
             prop_logsystem.SetValue(uploadInfo, log_value);
             if (!ret) {
                 if (count < 3) goto RE;

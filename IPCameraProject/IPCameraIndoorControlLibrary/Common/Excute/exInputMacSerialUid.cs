@@ -38,10 +38,11 @@ namespace IPCameraIndoorControlLibrary.Common.Excute {
             string macheader = (string)settingInfo.GetType().GetProperty("vnptMacHeader").GetValue(settingInfo);
             string pdnumber = (string) settingInfo.GetType().GetProperty("vnptProductNumber").GetValue(settingInfo);
             string uidheader = (string) settingInfo.GetType().GetProperty("vnptUidHeader").GetValue(settingInfo);
-            
+            string macCode = (string)settingInfo.GetType().GetProperty("productMacCode").GetValue(settingInfo);
+
             try {
                 Application.Current.Dispatcher.Invoke(new Action(() => {
-                    uc_inputmac = new UI.ucInputMacSerialUid(macheader, pdnumber, uidheader);
+                    uc_inputmac = new UI.ucInputMacSerialUid(macheader, macCode, pdnumber, uidheader);
                     uc_inputmac.DataContext = testingInfo;
                     grid_container.Children.Clear();
                     grid_container.Children.Add(uc_inputmac);

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IPCameraIndoorControlLibrary.Station.PrintLabelUID.UI"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="800" Background="#ffffff">
+             d:DesignHeight="700" d:DesignWidth="800" Background="#ffffff">
 
 
     <Grid>
@@ -145,9 +145,15 @@
                               Text="{Binding Path=hardwareVersion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </Grid>
                 <Grid>
-                    <Label Content="Mã màu sản phẩm"/>
-                    <ComboBox x:Name="cbb_productcolor"
-                              Text="{Binding Path=productColor, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <Label Height="55" Content="Mã phân biệt dải mac"/>
+                    <RichTextBox BorderBrush="#777777" x:Name="rtb_maccode" IsEnabled="False" Height="55" TextBlock.LineHeight="1" BorderThickness="0,0,1,1" FontWeight="SemiBold" Margin="250,0,0,0" Padding="5,5,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <FlowDocument>
+                            <Paragraph>
+                                <Run Foreground="Blue" Text="{Binding Path=productMacCode, UpdateSourceTrigger=PropertyChanged}"/>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                    <Button Click="Button_Click" Tag="change_mac_code" Margin="5,25,0,0" Width="60" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left"  Content="Sửa"/>
                 </Grid>
 
 
