@@ -27,7 +27,7 @@ namespace IPCameraIndoorControlLibrary.Station.PrintLabelUID.Function.Custom {
             productionYear = "";
             productionWeek = "";
             hardwareVersion = "1";
-            productMacCode = "A06518=G,A4F4C2=H,D49AA0=I";
+            productMacCode = "D49AA0=G";
 
             //uid
             vnptUidHeader = "VNTIPC";

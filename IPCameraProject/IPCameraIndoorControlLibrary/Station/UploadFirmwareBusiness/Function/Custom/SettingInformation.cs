@@ -31,7 +31,7 @@ namespace IPCameraIndoorControlLibrary.Station.UploadFirmwareBusiness.Function.C
             firmwareBuildTime = "";
             hardwareVersion = "1";
             vnptMacHeader = "A06518:A4F4C2:D49AA0";
-            productMacCode = "A06518=G,A4F4C2=H,D49AA0=I";
+            productMacCode = "D49AA0=G";
             vnptUidHeader = "VNTIPC";
             vnptProductNumber = "120";
 

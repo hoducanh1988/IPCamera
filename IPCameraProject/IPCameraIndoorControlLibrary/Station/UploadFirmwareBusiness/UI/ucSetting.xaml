@@ -164,7 +164,7 @@
                     <TextBox Text="{Binding Path=vnptMacHeader, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </Grid>
                 <Grid>
-                    <Label Height="55" Content="Mã phân biệt dải mac"/>
+                    <Label Height="55" Content="Mã phân biệt dải mac (G-Z)"/>
                     <RichTextBox x:Name="rtb_maccode" BorderBrush="#777777" IsEnabled="False" Height="55" TextBlock.LineHeight="1" BorderThickness="0,0,1,1" FontWeight="SemiBold" Margin="250,0,0,0" Padding="5,5,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                         <FlowDocument>
                             <Paragraph>
